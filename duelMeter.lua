@@ -1,3 +1,5 @@
+-- This files contains the GUI for the duels
+
 INFAMY_METER_WIDTH = 256
 INFAMY_METER_HEIGHT = 128
 INFAMY_METER_KEYBOARD_BAR_OFFSET_X = 14
@@ -27,6 +29,7 @@ local RED_EYE_ICON = "EsoUI/Art/HUD/trespassing_eye-red.dds"
 local EYE_ICON_CUTOUT = "EsoUI/Art/HUD/trespassing_eye-cutout.dds"
 
 local HUDInfamyMeter = ZO_Object:Subclass()
+
 
 function HUDInfamyMeter:New(...)
     local object = ZO_Object.New(self)
@@ -81,12 +84,10 @@ function HUDInfamyMeter:Initialize(control)
     self.bountyBar.endPercent = 1
 
     control:RegisterForEvent(EVENT_PLAYER_ACTIVATED, function()
-
-
         self.control:SetHidden(false)
-
     end)
 end
+
 
 function HUDInfamyMeter:ShouldProcessUpdateEvent()
     local infamy = GetInfamy()
@@ -97,6 +98,7 @@ function HUDInfamyMeter:ShouldProcessUpdateEvent()
            and ((infamy ~= 0 and infamy ~= self.infamyMeterState["infamy"]) or isTrespassing ~= self.infamyMeterState["isTrespassing"])
 end
 
+
 function HUDInfamyMeter:Update(time)
     if self.nextUpdateTime <= time and not self.hiddenExternalRequest and IsInJusticeEnabledZone() then
         self.nextUpdateTime = time + INFAMY_METER_UPDATE_DELAY_SECONDS
@@ -104,16 +106,17 @@ function HUDInfamyMeter:Update(time)
     end
 end
 
+
 function HUDInfamyMeter:OnInfamyUpdated(updateType)
     --local oldInfamy, oldBounty, wasKOS, wasTrespassing = self:GetOldInfamyMeterState()
     --self:UpdateInfamyMeterState()
 
     --local gamepadModeSwitchUpdate = IsInGamepadPreferredMode() ~= self.isInGamepadMode
 
-
   self:UpdateBar(self.infamyBar, 0, 1)
   self:UpdateBar(self.bountyBar, 0, 0.5)
 end
+
 
 function HUDInfamyMeter:UpdateBar(bar, start, endd)
     if not bar.easeAnimation:IsPlaying() or updateType == UPDATE_TYPE_EVENT then
@@ -128,6 +131,7 @@ function HUDInfamyMeter:UpdateBar(bar, start, endd)
     end
 end
 
+
 function HUDInfamyMeter:AnimateMeter(progress)
     local infamyFillPercentage = zo_min((progress * (self.infamyBar.endPercent - self.infamyBar.startPercent)) + self.infamyBar.startPercent, 1)
     local bountyFillPercentage = zo_min((progress * (self.bountyBar.endPercent - self.bountyBar.startPercent)) + self.bountyBar.startPercent, 1)
@@ -137,9 +141,11 @@ function HUDInfamyMeter:AnimateMeter(progress)
     self:SetBarValue(self.bountyBar, zo_max(bountyFillPercentage, bountyMinPercentage))
 end
 
+
 function HUDInfamyMeter:SetBarValue(bar, percentFilled)
     bar:StartFixedCooldown(percentFilled, CD_TYPE_RADIAL, CD_TIME_TYPE_TIME_REMAINING, NO_LEADING_EDGE) -- CD_TIME_TYPE_TIME_REMAINING causes clockwise scroll
 end
+
 
 function HUDInfamyMeter:changeColor(endd)
   if(endd > 0.49) then
@@ -162,6 +168,7 @@ function HUDInfamyMeter:changeColor(endd)
     Perc:SetAnchor(BOTTOMRIGHT,self.background,BOTTOMLEFT,92,-50) -- -103
   end
 end
+
 
 function HUDInfamyMeter:updateHisto(hist1, hist2, hist3, hist4, hist5)
 
@@ -236,14 +243,13 @@ function HUDInfamyMeter:updateHisto(hist1, hist2, hist3, hist4, hist5)
     end
   end
 
-
-
-
 end
+
 
 function HUDInfamyMeter_Initialize(control)
     HUD_DUEL_METER = HUDInfamyMeter:New(control)
 end
+
 
 function HUDInfamyMeter_Update(start ,endd , hist1, hist2, hist3, hist4, hist5)
   if HUD_DUEL_METER then
@@ -255,11 +261,13 @@ function HUDInfamyMeter_Update(start ,endd , hist1, hist2, hist3, hist4, hist5)
   end
 end
 
+
 function HUDInfamyMeter_AnimateMeter(progress)
     if HUD_DUEL_METER then
         HUD_DUEL_METER:AnimateMeter(progress)
     end
 end
+
 
 function HUDInfamyMeter_show()
   if HUD_DUEL_METER then
@@ -271,41 +279,35 @@ function HUDInfamyMeter_show()
     HUD_DUEL_METER.meterFrame:SetHidden(false)
     HUD_DUEL_METER.infamyBar:SetHidden(false)
     HUD_DUEL_METER.bountyBar:SetHidden(false)
+    -- REVIEW Is this used and or needed?
     histo1:SetHidden(false)
     histo2:SetHidden(false)
     histo3:SetHidden(false)
     histo4:SetHidden(false)
     histo5:SetHidden(false)
-
-
   end
 end
+
 
 function HUDInfamyMeter_hide()
   if HUD_DUEL_METER then
     HUD_DUEL_METER.control:SetHidden(true)
     LabelP:SetHidden(true)
     Perc:SetHidden(true)
-
     HUD_DUEL_METER.meterFrame:SetHidden(true)
     HUD_DUEL_METER.infamyBar:SetHidden(true)
     HUD_DUEL_METER.bountyBar:SetHidden(true)
-    --histo1:SetText("")
-    --histo2:SetText("")
-    --histo3:SetText("")
-    --histo4:SetText("")
-    --histo5:SetText("")
-
   end
 end
 
-function HUDInfamyMeter_restore(top,left)
 
+function HUDInfamyMeter_restore(top,left)
   if HUD_DUEL_METER then
     HUD_DUEL_METER.control:ClearAnchors()
     HUD_DUEL_METER.control:SetAnchor(TOPLEFT, GuiRoot,TOPLEFT, left, top)
   end
 end
+
 
 function HUDInfamyMeter_getLeft()
 
@@ -314,10 +316,10 @@ function HUDInfamyMeter_getLeft()
   end
 end
 
+
 function HUDInfamyMeter_getTop()
 
   if HUD_DUEL_METER then
     return HUD_DUEL_METER.control:GetTop()
   end
 end
-

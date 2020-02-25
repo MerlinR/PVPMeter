@@ -1,3 +1,5 @@
+-- This files contains common GUI for BG's and Duels
+
 MENU_METER_WIDTH = 256
 MENU_METER_HEIGHT = 128
 MENU_METER_KEYBOARD_BAR_OFFSET_X = 14
@@ -84,7 +86,6 @@ function HUDMenuMeter:Initialize(control)
   control:RegisterForEvent(EVENT_PLAYER_ACTIVATED, function()
     self.control:SetHidden(false)
   end)
-
 end
 
 
@@ -120,7 +121,7 @@ end
 function HUDMenuMeter:UpdateBar(bar, start, endd)
     if not bar.easeAnimation:IsPlaying() or updateType == UPDATE_TYPE_EVENT then
       -- Update Values
-        bar.startPercent = start
+      bar.startPercent = start
       bar.endPercent = endd
 
       self:SetBarValue(bar, bar.startPercent)
@@ -168,7 +169,7 @@ function HUDMenuMeter:changeColor(endd)
   end
 end
 
-
+-- FIXME Doesnt appear to be used copied from duelmeter, remove? 
 function HUDMenuMeter:updateHisto(hist1, hist2, hist3, hist4, hist5)
   if(hist1 == 2) then histo1:SetHidden(true)
   else
@@ -232,9 +233,11 @@ function HUDMenuMeter:updateHisto(hist1, hist2, hist3, hist4, hist5)
 
 end
 
+
 function HUDMenuMeter_Initialize(control)
     HUD_MENU_METER = HUDMenuMeter:New(control)
 end
+
 
 function HUDMenuMeter_Update(start ,endd)
   if HUD_MENU_METER then
@@ -245,11 +248,13 @@ function HUDMenuMeter_Update(start ,endd)
   end
 end
 
+
 function HUDMenuMeter_AnimateMeter(progress)
     if HUD_MENU_METER then
         HUD_MENU_METER:AnimateMeter(progress)
     end
 end
+
 
 function HUDMenuMeter_show()
   if HUD_MENU_METER then
@@ -297,4 +302,3 @@ function HUDMenuMeter_getTop()
     return HUD_MENU_METER.control:GetTop()
   end
 end
-

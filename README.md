@@ -36,6 +36,9 @@ https://www.esoui.com/downloads/info1760-PvpMeter.html
 ### Bugs
  - [ ] Duel Screen, Scroll wheel in scrolllistBG.lua and MouseEnter Error
 
+### Wishlist
+ - [ ] Remove storage of all medals in local data, store medal + count gather on load
+
 ## Resources
  - https://wiki.esoui.com/API
  - https://wiki.esoui.com/Events#Battlegrounds

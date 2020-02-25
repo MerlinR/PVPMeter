@@ -442,4 +442,3 @@ function BGPvpMeter.hide()
     ScrollListBG:SetHidden(true)
   end
 end
-

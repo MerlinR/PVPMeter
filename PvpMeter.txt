@@ -23,8 +23,6 @@ ScrollListBG.lua
 
 PvpMeter.xml
 
-
-
 PvpMeterMenu.lua
 PvpMeterBGMenu.lua
 PvpMeterDuelMenu.lua
@@ -32,7 +30,4 @@ PvpMeterDuelMenu.lua
 PvpMeter.lua
 PvpMeterSettings.lua
 
-
 Bindings.xml
-
-

@@ -1,3 +1,6 @@
+-- This file contains all the addon information and settings options
+-- It uses the LibAddonMenu library to handle the GUI.
+
 local panelDuel = {
   type = "panel",
   name = "PvP Meter Resurrection",
@@ -5,7 +8,6 @@ local panelDuel = {
   author = "marig63, HoboNavity & Thalothean",
   version = "2.39",
   registerForDefaults = true,
-      --version = ADDON_VERSION,
   slashCommand = "/pvpmeter",
   }
 
@@ -22,13 +24,6 @@ local optionsDuel = {
     default = true,
     getFunc = function() return PvpMeter.savedVariables.showBeautifulMeter end,
     setFunc = function(val) PvpMeter.savedVariables.showBeautifulMeter = val
-
-      -- REVIEW Whats it doing
-      if(val)then
-        --HUDTelvarMeter_show()
-      else
-        --HUDTelvarMeter_hide()
-      end
     end,
   },
 
@@ -188,7 +183,6 @@ local optionsDuel = {
 
 function PvpMeter.initSettings()
   local LAM = LibStub:GetLibrary("LibAddonMenu-2.0")
-  LAM:RegisterAddonPanel("IHateYou", panelDuel)
-  LAM:RegisterOptionControls("IHateYou", optionsDuel)
+  LAM:RegisterAddonPanel("PVPMeterRes", panelDuel)
+  LAM:RegisterOptionControls("PVPMeterRes", optionsDuel)
 end
-

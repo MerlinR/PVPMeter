@@ -1,3 +1,5 @@
+-- This files contains the GUI information for BGS
+
 TELVAR_METER_WIDTH = 256
 TELVAR_METER_HEIGHT = 128
 TELVAR_METER_KEYBOARD_BAR_OFFSET_X = 14
@@ -87,7 +89,6 @@ function HUDTelvarMeter:Initialize(control)
     else
       self:SetHiddenForReason("disabledInZone", false)
       --self:UpdateMeterBar()
-      --self:UpdateMultiplier()
     end
   end)
 
@@ -125,13 +126,6 @@ function HUDTelvarMeter:UpdateMeterBar()
   -- Start the bar animation
   self.meterBarControl.easeAnimation:PlayFromStart()
 end
-
-
--- REVIEW Whats it doing
-function HUDTelvarMeter:UpdateMultiplier()
-
-end
-
 
 function HUDTelvarMeter:AnimateMeter(progress)
   local fillPercentage = zo_min((progress * (self.meterBarControl.endPercent - self.meterBarControl.startPercent)) + self.meterBarControl.startPercent, 1)

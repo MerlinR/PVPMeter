@@ -1,3 +1,8 @@
+-- This file contains all events, calulcations and storage.
+-- this is the primary file and loaded first by ESO 
+-- the function PvpMeter:Initialize is ran first
+
+-- Inital defination of Addon
 PvpMeter = {}
 PvpMeter.name = "PvpMeter"
 
@@ -5,23 +10,24 @@ PvpMeter.name = "PvpMeter"
 
 function PvpMeter:Initialize(PvpMeterLabelKill)
 
-  PvpMeter.savedVariables = ZO_SavedVars:New("PvpMeterSavedVariables", 1, nil,{})
-  PvpMeter.savedVariablesAw = ZO_SavedVars:NewAccountWide("PvpMeterSavedVariables", 1, nil,{})
-  --
-  --IHateYou()
-  PvpMeter.initSettings()
+  -- Loads and stores Addon data
+  self.savedVariables = ZO_SavedVars:New("PvpMeterSavedVariables", 1, nil,{})
 
-  --LabelP:SetHidden(true)
-  --Perc:SetHidden(true)
-  
+  -- Currently no Account wide settings, could be re-introduced for account wide settings
+  -- self.savedVariablesAw = ZO_SavedVars:NewAccountWide("PvpMeterSavedVariables", 1, nil,{})
+
+  self.initSettings()
+
+  -- TODO Change these, functions should handle nil variables rather then
+  -- checking them everytime and resettig them
   if(self.savedVariables.hideMenu == nil)then
     self.savedVariables.hideMenu = true
   end
-  
+
   if(self.savedVariables.rotation == nil)then
     self.savedVariables.rotation = 1
   end
-  
+
   if(self.savedVariables.quickButton == nil)then
     self.savedVariables.quickButton = true
   end
@@ -29,66 +35,63 @@ function PvpMeter:Initialize(PvpMeterLabelKill)
   if(self.savedVariables.autoqueue == nil)then
     self.savedVariables.autoqueue = false
   end
-               
-  
+
   if(self.savedVariables.duelMeter == nil)then
     self.savedVariables.duelMeter = false
   end
-  
+
   if(self.savedVariables.playSound == nil)then
     self.savedVariables.playSound = true
   end
-  
+
   if(self.savedVariables.alertBorder == nil)then
     self.savedVariables.alertBorder = true
   end
-  
+
   if(self.savedVariables.nbrSound == nil)then
     self.savedVariables.nbrSound = 0
   end
-  
+
   if(self.savedVariables.v3 == nil)then
     self.savedVariables.v3 = true
     self.savedVariables.nbrCyro = 2
   end
-  
+
   if(self.savedVariables.nbrCyro == nil)then
     self.savedVariables.nbrCyro = 2
   end
-  
+
   if(self.savedVariables.showBeautifulMeter == nil)then
     self.savedVariables.showBeautifulMeter = true
   end
-  
-  
+
   if(self.savedVariables.BGAssist == nil)then
     self.savedVariables.BGAssist = false
   end
-  
+
   if(self.savedVariables.top == nil)then
     self.savedVariables.top = 952
   end
-  
+
   if(self.savedVariables.left == nil)then
     self.savedVariables.left = 1664
   end
-  
+
   if(self.savedVariables.cyroKill == nil)then
-  self.savedVariables.cyroKill = 0
-  end
-  
-  if(self.savedVariables.cyroDeath == nil)then
-  self.savedVariables.cyroDeath = 0
-  end
-  
-  if(self.savedVariables.bgKill == nil)then
-  self.savedVariables.bgKill = 0
-  end
-  
-  if(self.savedVariables.bgDeath == nil)then
-  self.savedVariables.bgDeath = 0
+    self.savedVariables.cyroKill = 0
   end
 
+  if(self.savedVariables.cyroDeath == nil)then
+    self.savedVariables.cyroDeath = 0
+  end
+
+  if(self.savedVariables.bgKill == nil)then
+    self.savedVariables.bgKill = 0
+  end
+
+  if(self.savedVariables.bgDeath == nil)then
+    self.savedVariables.bgDeath = 0
+  end
 
   if(self.savedVariables.verbg == nil)then
     self.savedVariables.BGlist = {}
@@ -98,7 +101,7 @@ function PvpMeter:Initialize(PvpMeterLabelKill)
     self.savedVariables.BGPlayed = 0
     self.savedVariables.verbg = true
   end
-  
+
   if(self.savedVariables.verduel == nil)then
     self.savedVariables.duellist = {}
     self.savedVariables.duelMeter = false
@@ -106,22 +109,22 @@ function PvpMeter:Initialize(PvpMeterLabelKill)
     self.savedVariables.duelPlayed = 0
     self.savedVariables.verduel = true
   end
-  
+
   if(self.savedVariables.currAP == nil)then
     self.savedVariables.currAP = false
   end
-  
-  
+
+  self.PvpMeterLabelKill = PvpMeterLabelKill
+
   self.statLoaded = false
-  
+
   self.nbrDeath = 0
   self.nbrTaken = 0
   self.nbrHeal = 0
   self.nbrKill = 0
   self.nbrAssist = 0
   self.nbrDone = 0
-  
-  
+
   self.nbrDM = 0
   self.nbrCTR = 0
   self.nbrDOM = 0
@@ -133,18 +136,18 @@ function PvpMeter:Initialize(PvpMeterLabelKill)
   self.nbrDOMWin = 0
   self.nbrMURWin = 0
   self.nbrCRZWin = 0
-  
+
   self.DnbrTaken = 0
   self.DnbrShield = 0
   self.DnbrBlock = 0
   self.DnbrDodge = 0
   self.DnbrHeal = 0
   self.DnbrDone = 0
-  
+
   self.medalR = 0
   self.killR = 0
   self.deathR = 0
-  
+
   self.inCombat = IsUnitInCombat("player")
   self.inAvA = IsPlayerInAvAWorld()
   self.inIC = IsInImperialCity()
@@ -166,76 +169,75 @@ function PvpMeter:Initialize(PvpMeterLabelKill)
   self.allianceScore = 0
   self.displayBGList = 1
   self.displayDuelList = 1
-  
+
   self.switch = 0
   self.dye =  false
-  
-  self.PvpMeterLabelKill = PvpMeterLabelKill
-  
+
   self.iBG = 1
   self.page = 1
-  
+
   self.pageD = 1
-  
+
   self.BGPlayed = 0
   self.BGWin = 0
   self.BGlist = {}
-  
+
   self.duelRunning = false
-  
+
   self.totalDone = 0
   self.totalTaken = 0
   self.totalHeal = 0
   self.totalBlock = 0
   self.totalShield = 0
   self.totalDodge = 0
-  
+
   self.duelPlayed = 0
   self.duelWin = 0
   self.duelList = {}
 
   CreateControl("ControlName",LabelKill,CT_LABEL)
-  
-  if(PvpMeter.savedVariables.hideMenu) then 
+
+  if(self.savedVariables.hideMenu) then
     MenuPvpMeter:Initialize()
     BGPvpMeter:Initialize()
-    DuelPvpMeter:Initialize() 
+    DuelPvpMeter:Initialize()
     MenuPvpMeter:Finalize()
   end
 
-  EVENT_MANAGER:UnregisterForEvent(PvpMeter.name, EVENT_ADD_ON_LOADED)
+  -- Creates the event variables used to run actions on game changes
+
+  EVENT_MANAGER:UnregisterForEvent(self.name, EVENT_ADD_ON_LOADED)
 
   --EVENT_MANAGER:RegisterForEvent(self.name, EVENT_GAME_FOCUS_CHANGED, self.focus)
-  EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_ALLIANCE_POINT_UPDATE, self.OnAPUpdate)
-  EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_COMBAT_EVENT, self.OnKill)
-  EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_PLAYER_DEAD, self.OnDeath)
-  EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_GAME_CAMERA_UI_MODE_CHANGED   , self.UIswitch)
-  EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_PLAYER_ACTIVATED ,self.zoneChange)
-  EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_GAMEPAD_PREFERRED_MODE_CHANGED   , self.gamepad)
-  EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_OPEN_BANK, self.openBank)
-  EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_OPEN_STORE, self.openBank)
-  EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_OPEN_TRADING_HOUSE, self.openBank)
-  EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_OPEN_GUILD_BANK, self.openBank)
-  EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_CHATTER_BEGIN, self.openBank)
+  EVENT_MANAGER:RegisterForEvent(self.name, EVENT_ALLIANCE_POINT_UPDATE, self.OnAPUpdate)
+  EVENT_MANAGER:RegisterForEvent(self.name, EVENT_COMBAT_EVENT, self.OnKill)
+  EVENT_MANAGER:RegisterForEvent(self.name, EVENT_PLAYER_DEAD, self.OnDeath)
+  EVENT_MANAGER:RegisterForEvent(self.name, EVENT_GAME_CAMERA_UI_MODE_CHANGED   , self.UIswitch)
+  EVENT_MANAGER:RegisterForEvent(self.name, EVENT_PLAYER_ACTIVATED ,self.zoneChange)
+  EVENT_MANAGER:RegisterForEvent(self.name, EVENT_GAMEPAD_PREFERRED_MODE_CHANGED   , self.gamepad)
+  EVENT_MANAGER:RegisterForEvent(self.name, EVENT_OPEN_BANK, self.openBank)
+  EVENT_MANAGER:RegisterForEvent(self.name, EVENT_OPEN_STORE, self.openBank)
+  EVENT_MANAGER:RegisterForEvent(self.name, EVENT_OPEN_TRADING_HOUSE, self.openBank)
+  EVENT_MANAGER:RegisterForEvent(self.name, EVENT_OPEN_GUILD_BANK, self.openBank)
+  EVENT_MANAGER:RegisterForEvent(self.name, EVENT_CHATTER_BEGIN, self.openBank)
 
-  
-  EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_MEDAL_AWARDED, self.onPointUpdate)
-  EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_BATTLEGROUND_SCOREBOARD_UPDATED , self.onScoreUpdate)
-  EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_DYEING_STATION_INTERACT_START, self.onDyeStart)
-  EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_DYEING_STATION_INTERACT_END, self.onDyeEnd)
-  EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_DUEL_FINISHED , self.onDuelFinish)
-  EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_DUEL_STARTED , self.onDuelStart)
-  
-  EVENT_MANAGER:RegisterForEvent(PvpMeter.name,EVENT_GAME_CAMERA_CHARACTER_FRAMING_STARTED ,self.UIchange)
-  EVENT_MANAGER:RegisterForEvent(PvpMeter.name,EVENT_KEEP_ALLIANCE_OWNER_CHANGED,self.updateMeter)
-  EVENT_MANAGER:RegisterForEvent(PvpMeter.name,EVENT_BATTLEGROUND_KILL ,self.bgkill)
-  
-  EVENT_MANAGER:RegisterForEvent(PvpMeter.name,EVENT_CAMPAIGN_QUEUE_JOINED ,self.queue_joined)
-  EVENT_MANAGER:RegisterForEvent(PvpMeter.name,EVENT_CAMPAIGN_QUEUE_LEFT  ,self.queue_left)
-  EVENT_MANAGER:RegisterForEvent(PvpMeter.name,EVENT_CAMPAIGN_QUEUE_POSITION_CHANGED  ,self.queue_position)
-  EVENT_MANAGER:RegisterForEvent(PvpMeter.name,EVENT_CAMPAIGN_QUEUE_STATE_CHANGED ,self.queue_state)
-  EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_ACTIVITY_FINDER_STATUS_UPDATE, self.onActivityFinderStatusUpdate)
-  
+
+  EVENT_MANAGER:RegisterForEvent(self.name, EVENT_MEDAL_AWARDED, self.onPointUpdate)
+  EVENT_MANAGER:RegisterForEvent(self.name, EVENT_BATTLEGROUND_SCOREBOARD_UPDATED , self.onScoreUpdate)
+  EVENT_MANAGER:RegisterForEvent(self.name, EVENT_DYEING_STATION_INTERACT_START, self.onDyeStart)
+  EVENT_MANAGER:RegisterForEvent(self.name, EVENT_DYEING_STATION_INTERACT_END, self.onDyeEnd)
+  EVENT_MANAGER:RegisterForEvent(self.name, EVENT_DUEL_FINISHED , self.onDuelFinish)
+  EVENT_MANAGER:RegisterForEvent(self.name, EVENT_DUEL_STARTED , self.onDuelStart)
+
+  EVENT_MANAGER:RegisterForEvent(self.name,EVENT_GAME_CAMERA_CHARACTER_FRAMING_STARTED ,self.UIchange)
+  EVENT_MANAGER:RegisterForEvent(self.name,EVENT_KEEP_ALLIANCE_OWNER_CHANGED,self.updateMeter)
+  EVENT_MANAGER:RegisterForEvent(self.name,EVENT_BATTLEGROUND_KILL ,self.bgkill)
+
+  EVENT_MANAGER:RegisterForEvent(self.name,EVENT_CAMPAIGN_QUEUE_JOINED ,self.queue_joined)
+  EVENT_MANAGER:RegisterForEvent(self.name,EVENT_CAMPAIGN_QUEUE_LEFT  ,self.queue_left)
+  EVENT_MANAGER:RegisterForEvent(self.name,EVENT_CAMPAIGN_QUEUE_POSITION_CHANGED  ,self.queue_position)
+  EVENT_MANAGER:RegisterForEvent(self.name,EVENT_CAMPAIGN_QUEUE_STATE_CHANGED ,self.queue_state)
+  EVENT_MANAGER:RegisterForEvent(self.name, EVENT_ACTIVITY_FINDER_STATUS_UPDATE, self.onActivityFinderStatusUpdate)
 end
 
 
@@ -275,6 +277,7 @@ function PvpMeter.gamepad(event, opt)
 
 end
 
+-- NOTE Main function which runs on addon load. Location unknown, LUA function declartion issue?
 function PvpMeter.OnAddOnLoaded(event, addonName)
   if addonName == PvpMeter.name then
 
@@ -294,13 +297,10 @@ function PvpMeter.OnAddOnLoaded(event, addonName)
     --SLEDUEL.Init()
     SLE.Init()
 
-    --if(PvpMeter.inAvA) then
-    --  PvpMeter.showCyro()
-    --end
-
   end
 end
 
+-- NOTE Why not in the init function? 
 EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_ADD_ON_LOADED, PvpMeter.OnAddOnLoaded)
 
 function PvpMeter.hideCyro()
@@ -395,8 +395,6 @@ function PvpMeter.UIchange(eventCode)
   end
 
   HUDTelvarMeter_hide()
-  --d("chzange")
-  MenuPvpMeter.SwitchageAffichage()
 end
 
 function PvpMeter.UIswitch(eventCode)
@@ -434,12 +432,7 @@ function PvpMeter.UIswitch(eventCode)
     end
 
     HUDTelvarMeter_show()
-
   end
-
-  --d("switch  ")
-
-  MenuPvpMeter.SwitchageAffichage()
 
 end
 
@@ -458,20 +451,7 @@ function PvpMeter.zoneChange(eventCode,zoneName,subZoneName,newSubzone, zoneId,u
     PvpMeter.hideCyro()
   end
 
-  -- FIXME WHAT
-  if(PvpMeter.inIC) then
-    --PvpMeter.putSec()
-  else
-    if(PvpMeter.inAvA)then
-      --PvpMeter.putFirst() --First
-    end
-  end
-
-
-  --d(PvpMeter.inAvA)
-
   if(PvpMeter.inBG) then
-    PvpMeter.putFirst()
     PvpMeter.alliance = GetUnitBattlegroundAlliance("player")
     --d(GetBattlegroundAllianceName(GetUnitBattlegroundAlliance("player")))
     PvpMeter.changeColor()
@@ -1038,67 +1018,9 @@ function PvpMeter.changeColor()
   end
 end
 
-
--- REVIEW Whats this used for
-function PvpMeter.putFirst()
-  --[[PvpMeterIndicator:SetAnchor(BOTTOM,GuiRoot,BOTTOMRIGHT,-132,0) -- -90
-  PvpMeterIndicr:SetAnchor(BOTTOM,GuiRoot,BOTTOMRIGHT,-120,-22) -- -112
-  myAtor:SetAnchor(BOTTOM,GuiRoot,BOTTOMRIGHT,-106,-13) -- -103
-  PvpMeterInd:SetAnchor(BOTTOM,GuiRoot,BOTTOMRIGHT,-51,18) -- -72
-
-  frameBG:SetAnchor(BOTTOM,GuiRoot,BOTTOMRIGHT,-132,0) -- -90
-  medailBG:SetAnchor(BOTTOM,GuiRoot,BOTTOMRIGHT,-120,-22) -- -112
-  iconBG:SetAnchor(BOTTOM,GuiRoot,BOTTOMRIGHT,-106,-13) -- -103
-  killBG:SetAnchor(BOTTOM,GuiRoot,BOTTOMRIGHT,-51,18) -- -72
-
-  HUDTelvarMeter_first()]]
-end
-
--- REVIEW Whats this used for
-function PvpMeter.putSec(event , focus)
-
-
-end
-
-
 function PvpMeter.updateMeter()
   local start = 0.0
   local endd = 0.0
-
-  --[[if(PvpMeter.inAvA) then
-
-    if(PvpMeter.kills == 0) then
-      start = 0.0
-      endd = 0.0
-    else
-      if(PvpMeter.kills%5 == 0) then
-        start = 0.0
-        endd = 1.0
-      else
-        endd = (PvpMeter.kills%5)/5
-        start = endd - 0.2
-      end
-    end
-
-  end]]
-
-  --[[if(PvpMeter.inAvA) then
-
-    local Aaa ,Bbb ,rankStartsAt,nextRankAt = GetAvARankProgress(GetUnitAvARankPoints("player"))
-    local need  = nextRankAt-rankStartsAt
-    local did = GetUnitAvARankPoints("player")-rankStartsAt
-
-    endd = did/need
-
-    if(PvpMeter.lastAP == 0)then
-      start = 0.0
-    else
-      start = PvpMeter.lastAP
-    end
-
-    PvpMeter.lastAP = endd
-
-  end]]
 
   if(PvpMeter.inAvA) then
 
@@ -1241,37 +1163,30 @@ function PvpMeter.restore()
 
   HUDTelvarMeter_restore(top,left)
 
-
   PvpMeter.BGPlayed = PvpMeter.savedVariables.BGPlayed
   PvpMeter.BGWin = PvpMeter.savedVariables.BGWin
   PvpMeter.BGlist = PvpMeter.savedVariables.BGlist
-
 
   PvpMeter.duelPlayed = PvpMeter.savedVariables.duelPlayed
   PvpMeter.duelWin = PvpMeter.savedVariables.duelWin
   PvpMeter.duelList = PvpMeter.savedVariables.duelList
   HUDInfamyMeter_restore(top,left)
-
-
 end
 
 
 function PvpMeter.OnMeterMoveStop()
-
   PvpMeter.savedVariables.left = HUDTelvarMeter_getLeft()
   PvpMeter.savedVariables.top = HUDTelvarMeter_getTop()
 end
 
 
 function PvpMeter.OnDuelMoveStop()
-
   PvpMeter.savedVariables.left = HUDInfamyMeter_getLeft()
   PvpMeter.savedVariables.top = HUDInfamyMeter_getTop()
 end
 
 
 function PvpMeter.rotateMeter(param)
-
   if(param == 1)then
     Glow:SetTextureCoords(0,1,0,1)
     Gl:SetTextureCoords(0,1,0,1)
@@ -1637,11 +1552,9 @@ function PvpMeter.queue_state(eventCode, campaignId, isGroup, state)
   --d(state)
   if(state == 2)then
 
-    --
     if(PvpMeter.savedVariables.autoqueue)then
       ConfirmCampaignEntry(campaignId, isGroup, true)
     end
-    --
 
     if(campaignId==GetAssignedCampaignId())then
       PvpMeter.label_home:SetText("...")
@@ -1654,18 +1567,10 @@ function PvpMeter.queue_state(eventCode, campaignId, isGroup, state)
 end
 
 
--- REVIEW whats the purpose
-function PvpMeter.toggleChat()
-  d("dsfsd")
-end
-
-
 function PvpMeter.onActivityFinderStatusUpdate(eventCode, status)
-
   if status == ACTIVITY_FINDER_STATUS_READY_CHECK then
-    if(PvpMeter.savedVariables.autoqueue)then
+    if(PvpMeter.savedVariables.autoqueue) then
       AcceptLFGReadyCheckNotification()
     end
   end
-
 end

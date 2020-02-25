@@ -52,7 +52,6 @@ end
 -- display the menu
 function MenuPvpMeter:Show(viaButton)
   if not self.sceneGroup:IsShowing() then
-
     LMM:ToggleCategory(self.BASE_MENU, viaButton)
   end
 end
@@ -68,26 +67,5 @@ function MenuPvpMeter:Toggle(viaButton)
   if not viaButton then
     -- when opening the menu via the keybind, we have to reset the main menu buttons
     ZO_MenuBar_ClearSelection(MAIN_MENU_KEYBOARD.categoryBar)
-  end
-end
-
--- REVIEW Whats it doing
-function MenuPvpMeter.SwitchageAffichage()
-  if(SCENE_MANAGER:IsShowing("PvpmeterduelScene"))then
-
-
-    --DuelPvpMeter.show()
-    --set button
-    --LMM:ToggleCategory(MenuPvpMeter.BASE_MENU, true)
-  else
-    --DuelPvpMeter.hide()
-  end
-  if(SCENE_MANAGER:IsShowing("PvpmeterBGScene"))then
-
-    --BGPvpMeter.show2()
-    --set button
-    --LMM:ToggleCategory(MenuPvpMeter.BASE_MENU, true)
-  else
-    --BGPvpMeter.hide()
   end
 end
