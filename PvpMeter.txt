@@ -2,7 +2,7 @@
 ## Version: 2.39
 ## SavedVariables: PvpMeterSavedVariables
 ## APIVersion: 100027
-## Author: marig63, Navity
+## Author: marig63, HoboNavity & Thalothean
 ## OptionalDependsOn: LibAddonMenu-2.0 LibMainMenu
 
 libs\LibAddonMenu-2.0\LibStub\LibStub.lua

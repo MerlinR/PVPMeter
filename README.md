@@ -35,8 +35,8 @@ https://www.esoui.com/downloads/info1760-PvpMeter.html
 ### Bugs
  - [ ] Duel Screen, Scroll wheel in scrolllistBG.lua and MouseEnter Error
 
- ## Resources
- https://wiki.esoui.com/API
- https://wiki.esoui.com/Events#Battlegrounds
- https://wiki.esoui.com/GetCurrentBattlegroundScore
- https://wiki.esoui.com/Circonians_Saved_Variables_Tutorial
+## Resources
+ - https://wiki.esoui.com/API
+ - https://wiki.esoui.com/Events#Battlegrounds
+ - https://wiki.esoui.com/GetCurrentBattlegroundScore
+ - https://wiki.esoui.com/Circonians_Saved_Variables_Tutorial
