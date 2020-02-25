@@ -20,11 +20,11 @@ local CENTER_ICON_STATE_DAGGER_GREY = 1
 local CENTER_ICON_STATE_DAGGER_RED = 2
 local CENTER_ICON_STATE_EYE = 3
 
-local GREY_DAGGER_ICON = "EsoUI/Art/HUD/infamy_dagger-grey.dds" 
-local RED_DAGGER_ICON = "EsoUI/Art/HUD/infamy_dagger-red.dds" 
-local DAGGER_ICON_CUTOUT = "EsoUI/Art/HUD/infamy_dagger-cutout.dds" 
-local RED_EYE_ICON = "EsoUI/Art/HUD/trespassing_eye-red.dds" 
-local EYE_ICON_CUTOUT = "EsoUI/Art/HUD/trespassing_eye-cutout.dds" 
+local GREY_DAGGER_ICON = "EsoUI/Art/HUD/infamy_dagger-grey.dds"
+local RED_DAGGER_ICON = "EsoUI/Art/HUD/infamy_dagger-red.dds"
+local DAGGER_ICON_CUTOUT = "EsoUI/Art/HUD/infamy_dagger-cutout.dds"
+local RED_EYE_ICON = "EsoUI/Art/HUD/trespassing_eye-red.dds"
+local EYE_ICON_CUTOUT = "EsoUI/Art/HUD/trespassing_eye-cutout.dds"
 
 local HUDInfamyMeter = ZO_Object:Subclass()
 
@@ -35,8 +35,7 @@ function HUDInfamyMeter:New(...)
 end
 
 
-
-function HUDInfamyMeter:Initialize(control) 
+function HUDInfamyMeter:Initialize(control)
     -- Initialize state
     self.nextUpdateTime = 0
     self.hiddenExternalRequest = false
@@ -44,10 +43,10 @@ function HUDInfamyMeter:Initialize(control)
 
     self.infamyMeterState = {}
     --self:UpdateInfamyMeterState(0, 0, false, false)
-	
+
     self.isInGamepadMode = IsInGamepadPreferredMode()
 
-    self.currencyOptions = 
+    self.currencyOptions =
     {
         showTooltips = true,
         customTooltip = SI_STATS_BOUNTY_LABEL,
@@ -55,12 +54,12 @@ function HUDInfamyMeter:Initialize(control)
         overrideTexture = self.isInGamepadMode and "EsoUI/Art/currency/gamepad/gp_gold.dds" or nil,
         iconSide = RIGHT,
         isGamepad = self.isInGamepadMode
-    }   
+    }
 
     -- Set up controls
     ApplyTemplateToControl(control, self.isInGamepadMode and "HUDInfamyMeter_GamepadTemplate" or "HUDInfamyMeter_KeyboardTemplate")
     self.control = control
-	self.background = control:GetNamedChild("Background")
+    self.background = control:GetNamedChild("Background")
     self.meterFrame = control:GetNamedChild("Frame")
     self.infamyBar = control:GetNamedChild("InfamyBar")
     self.bountyBar = control:GetNamedChild("BountyBar")
@@ -81,11 +80,11 @@ function HUDInfamyMeter:Initialize(control)
     self.bountyBar.startPercent = 0
     self.bountyBar.endPercent = 1
 
-    control:RegisterForEvent(EVENT_PLAYER_ACTIVATED, function() 
+    control:RegisterForEvent(EVENT_PLAYER_ACTIVATED, function()
 
 
         self.control:SetHidden(false)
-        
+
     end)
 end
 
@@ -93,8 +92,8 @@ function HUDInfamyMeter:ShouldProcessUpdateEvent()
     local infamy = GetInfamy()
     local isKOS = IsKillOnSight()
     local isTrespassing = IsTrespassing()
-    return IsInJusticeEnabledZone() 
-           and not self.hiddenExternalRequest 
+    return IsInJusticeEnabledZone()
+           and not self.hiddenExternalRequest
            and ((infamy ~= 0 and infamy ~= self.infamyMeterState["infamy"]) or isTrespassing ~= self.infamyMeterState["isTrespassing"])
 end
 
@@ -111,14 +110,13 @@ function HUDInfamyMeter:OnInfamyUpdated(updateType)
 
     --local gamepadModeSwitchUpdate = IsInGamepadPreferredMode() ~= self.isInGamepadMode
 
-        
-	self:UpdateBar(self.infamyBar, 0, 1)
-    self:UpdateBar(self.bountyBar, 0, 0.5)
 
+  self:UpdateBar(self.infamyBar, 0, 1)
+  self:UpdateBar(self.bountyBar, 0, 0.5)
 end
 
 function HUDInfamyMeter:UpdateBar(bar, start, endd)
-    if not bar.easeAnimation:IsPlaying() or updateType == UPDATE_TYPE_EVENT then 
+    if not bar.easeAnimation:IsPlaying() or updateType == UPDATE_TYPE_EVENT then
         -- Update Values
         bar.startPercent = start
         bar.endPercent = endd
@@ -126,7 +124,7 @@ function HUDInfamyMeter:UpdateBar(bar, start, endd)
        self:SetBarValue(bar, bar.startPercent)
 
         -- Start the animation
-        bar.easeAnimation:PlayFromStart() 
+        bar.easeAnimation:PlayFromStart()
     end
 end
 
@@ -144,99 +142,99 @@ function HUDInfamyMeter:SetBarValue(bar, percentFilled)
 end
 
 function HUDInfamyMeter:changeColor(endd)
-	if(endd > 0.49) then
-		LabelP:SetColor(0.2,0.7,0)
-		Perc:SetColor(0.2,0.7,0)
-	end
-	if(endd <= 0.49) then
-		LabelP:SetColor(0.7,0,0)
-		Perc:SetColor(0.7,0,0)
-	end
-	
-	local txt = math.floor(endd*100)
-	LabelP:SetText(txt)
-	Perc:SetText("%")
-	
-	
-	if(txt<100) then
-		Perc:SetAnchor(BOTTOMRIGHT,self.background,BOTTOMLEFT,87,-50) -- -103
-	else
-		Perc:SetAnchor(BOTTOMRIGHT,self.background,BOTTOMLEFT,92,-50) -- -103
-	end
+  if(endd > 0.49) then
+    LabelP:SetColor(0.2,0.7,0)
+    Perc:SetColor(0.2,0.7,0)
+  end
+  if(endd <= 0.49) then
+    LabelP:SetColor(0.7,0,0)
+    Perc:SetColor(0.7,0,0)
+  end
+
+  local txt = math.floor(endd*100)
+  LabelP:SetText(txt)
+  Perc:SetText("%")
+
+
+  if(txt<100) then
+    Perc:SetAnchor(BOTTOMRIGHT,self.background,BOTTOMLEFT,87,-50) -- -103
+  else
+    Perc:SetAnchor(BOTTOMRIGHT,self.background,BOTTOMLEFT,92,-50) -- -103
+  end
 end
 
 function HUDInfamyMeter:updateHisto(hist1, hist2, hist3, hist4, hist5)
 
-	if(PvpMeter.savedVariables.duelMeter == false)then
-	
-		histo1:SetText("")
-		histo2:SetText("")
-		histo3:SetText("")
-		histo4:SetText("")
-		histo5:SetText("")
-		
-		return
-	end
+  if(PvpMeter.savedVariables.duelMeter == false)then
 
-	if(hist1 == 2) then histo1:SetHidden(true) 
-	else 
-		histo1:SetHidden(false)
-		if(hist1 == 1)then 
-			histo1:SetColor(0.7,0,0) 
-			histo1:SetText("D")
-		else
-			histo1:SetColor(0.2,0.7,0) 
-			histo1:SetText("V")
-		end
-	end
-	
-	if(hist2 == 2) then histo2:SetHidden(true) 
-	else 
-		histo2:SetHidden(false)
-		if(hist2 == 1)then 
-			histo2:SetColor(0.7,0,0)
-			histo2:SetText("D")
-		else 
-			histo2:SetColor(0.2,0.7,0) 
-			histo2:SetText("V")
-		end
-	end
-	
-	if(hist3 == 2) then histo3:SetHidden(true) 
-	else 
-		histo3:SetHidden(false)
-		if(hist3 == 1)then 
-			histo3:SetColor(0.7,0,0)
-			histo3:SetText("D")
-		else 
-			histo3:SetColor(0.2,0.7,0) 
-			histo3:SetText("V")
-		end
-	end
-	
-	if(hist4 == 2) then histo4:SetHidden(true) 
-	else 
-		histo4:SetHidden(false)
-		if(hist4 == 1)then 
-			histo4:SetColor(0.7,0,0) 
-			histo4:SetText("D")
-		else 
-			histo4:SetColor(0.2,0.7,0) 
-			histo4:SetText("V")
-		end
-	end
-	
-	if(hist5 == 2) then histo5:SetHidden(true) 
-	else 
-		histo5:SetHidden(false)
-		if(hist5 == 1)then 
-			histo5:SetColor(0.7,0,0) 
-			histo5:SetText("D")
-		else 
-			histo5:SetColor(0.2,0.7,0) 
-			histo5:SetText("V")
-		end
-	end
+    histo1:SetText("")
+    histo2:SetText("")
+    histo3:SetText("")
+    histo4:SetText("")
+    histo5:SetText("")
+
+    return
+  end
+
+  if(hist1 == 2) then histo1:SetHidden(true)
+  else
+    histo1:SetHidden(false)
+    if(hist1 == 1)then
+      histo1:SetColor(0.7,0,0)
+      histo1:SetText("D")
+    else
+      histo1:SetColor(0.2,0.7,0)
+      histo1:SetText("V")
+    end
+  end
+
+  if(hist2 == 2) then histo2:SetHidden(true)
+  else
+    histo2:SetHidden(false)
+    if(hist2 == 1)then
+      histo2:SetColor(0.7,0,0)
+      histo2:SetText("D")
+    else
+      histo2:SetColor(0.2,0.7,0)
+      histo2:SetText("V")
+    end
+  end
+
+  if(hist3 == 2) then histo3:SetHidden(true)
+  else
+    histo3:SetHidden(false)
+    if(hist3 == 1)then
+      histo3:SetColor(0.7,0,0)
+      histo3:SetText("D")
+    else
+      histo3:SetColor(0.2,0.7,0)
+      histo3:SetText("V")
+    end
+  end
+
+  if(hist4 == 2) then histo4:SetHidden(true)
+  else
+    histo4:SetHidden(false)
+    if(hist4 == 1)then
+      histo4:SetColor(0.7,0,0)
+      histo4:SetText("D")
+    else
+      histo4:SetColor(0.2,0.7,0)
+      histo4:SetText("V")
+    end
+  end
+
+  if(hist5 == 2) then histo5:SetHidden(true)
+  else
+    histo5:SetHidden(false)
+    if(hist5 == 1)then
+      histo5:SetColor(0.7,0,0)
+      histo5:SetText("D")
+    else
+      histo5:SetColor(0.2,0.7,0)
+      histo5:SetText("V")
+    end
+  end
 
 
 
@@ -248,78 +246,78 @@ function HUDInfamyMeter_Initialize(control)
 end
 
 function HUDInfamyMeter_Update(start ,endd , hist1, hist2, hist3, hist4, hist5)
-	if HUD_DUEL_METER then
-		if(endd<0.01)then endd = 0 end
-		HUD_DUEL_METER:UpdateBar(HUD_DUEL_METER.infamyBar, 0, 1)
-		HUD_DUEL_METER:UpdateBar(HUD_DUEL_METER.bountyBar, start, endd)
-		HUD_DUEL_METER:changeColor(endd)
-		HUD_DUEL_METER:updateHisto(hist1, hist2, hist3, hist4, hist5)
-	end
+  if HUD_DUEL_METER then
+    if(endd<0.01)then endd = 0 end
+    HUD_DUEL_METER:UpdateBar(HUD_DUEL_METER.infamyBar, 0, 1)
+    HUD_DUEL_METER:UpdateBar(HUD_DUEL_METER.bountyBar, start, endd)
+    HUD_DUEL_METER:changeColor(endd)
+    HUD_DUEL_METER:updateHisto(hist1, hist2, hist3, hist4, hist5)
+  end
 end
 
 function HUDInfamyMeter_AnimateMeter(progress)
-    if HUD_DUEL_METER then 
+    if HUD_DUEL_METER then
         HUD_DUEL_METER:AnimateMeter(progress)
     end
 end
 
 function HUDInfamyMeter_show()
-	if HUD_DUEL_METER then
-		HUD_DUEL_METER.control:SetHidden(false)
-		HUD_DUEL_METER.background:SetHidden(true)
-		LabelP:SetHidden(false)
-		Perc:SetHidden(false)
-		
-		HUD_DUEL_METER.meterFrame:SetHidden(false)
-		HUD_DUEL_METER.infamyBar:SetHidden(false)
-		HUD_DUEL_METER.bountyBar:SetHidden(false)
-		histo1:SetHidden(false)
-		histo2:SetHidden(false)
-		histo3:SetHidden(false)
-		histo4:SetHidden(false)
-		histo5:SetHidden(false)
-		
-		
-	end
+  if HUD_DUEL_METER then
+    HUD_DUEL_METER.control:SetHidden(false)
+    HUD_DUEL_METER.background:SetHidden(true)
+    LabelP:SetHidden(false)
+    Perc:SetHidden(false)
+
+    HUD_DUEL_METER.meterFrame:SetHidden(false)
+    HUD_DUEL_METER.infamyBar:SetHidden(false)
+    HUD_DUEL_METER.bountyBar:SetHidden(false)
+    histo1:SetHidden(false)
+    histo2:SetHidden(false)
+    histo3:SetHidden(false)
+    histo4:SetHidden(false)
+    histo5:SetHidden(false)
+
+
+  end
 end
 
 function HUDInfamyMeter_hide()
-	if HUD_DUEL_METER then
-		HUD_DUEL_METER.control:SetHidden(true)
-		LabelP:SetHidden(true)
-		Perc:SetHidden(true)
-		
-		HUD_DUEL_METER.meterFrame:SetHidden(true)
-		HUD_DUEL_METER.infamyBar:SetHidden(true)
-		HUD_DUEL_METER.bountyBar:SetHidden(true)
-		--histo1:SetText("")
-		--histo2:SetText("")
-		--histo3:SetText("")
-		--histo4:SetText("")
-		--histo5:SetText("")
-		
-	end
+  if HUD_DUEL_METER then
+    HUD_DUEL_METER.control:SetHidden(true)
+    LabelP:SetHidden(true)
+    Perc:SetHidden(true)
+
+    HUD_DUEL_METER.meterFrame:SetHidden(true)
+    HUD_DUEL_METER.infamyBar:SetHidden(true)
+    HUD_DUEL_METER.bountyBar:SetHidden(true)
+    --histo1:SetText("")
+    --histo2:SetText("")
+    --histo3:SetText("")
+    --histo4:SetText("")
+    --histo5:SetText("")
+
+  end
 end
 
 function HUDInfamyMeter_restore(top,left)
 
-	if HUD_DUEL_METER then
-		HUD_DUEL_METER.control:ClearAnchors()
-		HUD_DUEL_METER.control:SetAnchor(TOPLEFT, GuiRoot,TOPLEFT, left, top)
-	end
+  if HUD_DUEL_METER then
+    HUD_DUEL_METER.control:ClearAnchors()
+    HUD_DUEL_METER.control:SetAnchor(TOPLEFT, GuiRoot,TOPLEFT, left, top)
+  end
 end
 
 function HUDInfamyMeter_getLeft()
 
-	if HUD_DUEL_METER then
-		return HUD_DUEL_METER.control:GetLeft()
-	end
+  if HUD_DUEL_METER then
+    return HUD_DUEL_METER.control:GetLeft()
+  end
 end
 
 function HUDInfamyMeter_getTop()
-	
-	if HUD_DUEL_METER then
-		return HUD_DUEL_METER.control:GetTop()
-	end
+
+  if HUD_DUEL_METER then
+    return HUD_DUEL_METER.control:GetTop()
+  end
 end
 

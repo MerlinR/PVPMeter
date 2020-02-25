@@ -1,4 +1,4 @@
-## Title: PvP Meter
+## Title: PvP Meter Resurrection
 ## Version: 2.39
 ## SavedVariables: PvpMeterSavedVariables
 ## APIVersion: 100027
