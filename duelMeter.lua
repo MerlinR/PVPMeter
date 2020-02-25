@@ -10,24 +10,7 @@ local INFAMY_METER_UPDATE_DELAY_SECONDS = 1
 
  -- Forces the bar to be at least 3% full, in order to make it visible even at one or two bounty
 local MIN_BAR_PERCENTAGE = 0.03
-
-local UPDATE_TYPE_TICK = 0
 local UPDATE_TYPE_EVENT = 1
-
-local INFAMY_METER_SLOW_FADE_TIME = 1400 -- in milliseconds
-local INFAMY_METER_SLOW_FADE_DELAY = 600 -- in milliseconds
-local INFAMY_METER_FADE_TIME = 200 -- in milliseconds
-
-local CENTER_ICON_STATE_DAGGER_GREY = 1
-local CENTER_ICON_STATE_DAGGER_RED = 2
-local CENTER_ICON_STATE_EYE = 3
-
-local GREY_DAGGER_ICON = "EsoUI/Art/HUD/infamy_dagger-grey.dds"
-local RED_DAGGER_ICON = "EsoUI/Art/HUD/infamy_dagger-red.dds"
-local DAGGER_ICON_CUTOUT = "EsoUI/Art/HUD/infamy_dagger-cutout.dds"
-local RED_EYE_ICON = "EsoUI/Art/HUD/trespassing_eye-red.dds"
-local EYE_ICON_CUTOUT = "EsoUI/Art/HUD/trespassing_eye-cutout.dds"
-
 local HUDInfamyMeter = ZO_Object:Subclass()
 
 
@@ -89,34 +72,11 @@ function HUDInfamyMeter:Initialize(control)
 end
 
 
-function HUDInfamyMeter:ShouldProcessUpdateEvent()
-    local infamy = GetInfamy()
-    local isKOS = IsKillOnSight()
-    local isTrespassing = IsTrespassing()
-    return IsInJusticeEnabledZone()
-           and not self.hiddenExternalRequest
-           and ((infamy ~= 0 and infamy ~= self.infamyMeterState["infamy"]) or isTrespassing ~= self.infamyMeterState["isTrespassing"])
-end
-
-
 function HUDInfamyMeter:Update(time)
     if self.nextUpdateTime <= time and not self.hiddenExternalRequest and IsInJusticeEnabledZone() then
         self.nextUpdateTime = time + INFAMY_METER_UPDATE_DELAY_SECONDS
-        --self:OnInfamyUpdated(UPDATE_TYPE_TICK)
     end
 end
-
-
-function HUDInfamyMeter:OnInfamyUpdated(updateType)
-    --local oldInfamy, oldBounty, wasKOS, wasTrespassing = self:GetOldInfamyMeterState()
-    --self:UpdateInfamyMeterState()
-
-    --local gamepadModeSwitchUpdate = IsInGamepadPreferredMode() ~= self.isInGamepadMode
-
-  self:UpdateBar(self.infamyBar, 0, 1)
-  self:UpdateBar(self.bountyBar, 0, 0.5)
-end
-
 
 function HUDInfamyMeter:UpdateBar(bar, start, endd)
     if not bar.easeAnimation:IsPlaying() or updateType == UPDATE_TYPE_EVENT then
@@ -310,7 +270,6 @@ end
 
 
 function HUDInfamyMeter_getLeft()
-
   if HUD_DUEL_METER then
     return HUD_DUEL_METER.control:GetLeft()
   end
@@ -318,7 +277,6 @@ end
 
 
 function HUDInfamyMeter_getTop()
-
   if HUD_DUEL_METER then
     return HUD_DUEL_METER.control:GetTop()
   end

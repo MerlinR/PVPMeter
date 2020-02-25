@@ -1,7 +1,7 @@
 DuelPvpMeter = {}
 
 function DuelPvpMeter:Initialize()
-  ZO_CreateStringId("SI_PVPMETER_INRANGE_MENU_TITLE", "Duel")
+  ZO_CreateStringId("SI_PVPMETER_INRANGE_MENU_TITLE", "Duels")
 
   self.iconData = {
     categoryName = SI_PVPMETER_INRANGE_MENU_TITLE,

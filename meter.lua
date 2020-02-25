@@ -1,4 +1,4 @@
--- This files contains the GUI information for BGS
+-- This files contains the GUI for Cryo and BG
 
 TELVAR_METER_WIDTH = 256
 TELVAR_METER_HEIGHT = 128

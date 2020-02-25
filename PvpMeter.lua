@@ -366,7 +366,6 @@ function PvpMeter.showBG()
     medailBG:SetHidden(false)
     iconBG:SetHidden(false)
     killBG:SetHidden(false)
-    --PvpMeterInd:SetHidden(false)
 
     Gl:SetHidden(false)
     LabelMedal:SetHidden(false)
@@ -387,11 +386,11 @@ function PvpMeter.UIchange(eventCode)
   PvpMeter.inAvA = IsPlayerInAvAWorld()
   HUDInfamyMeter_hide()
   if( PvpMeter.inAvA) then
-     PvpMeter.hideCyro()
+    PvpMeter.hideCyro()
   end
 
   if(PvpMeter.inBG) then
-   PvpMeter.hideBG()
+    PvpMeter.hideBG()
   end
 
   HUDTelvarMeter_hide()
@@ -701,8 +700,6 @@ end
 
 function PvpMeter.updateBGstats()
     local Medallist= {}
-
-    --d(GetScoreboardEntryInfo(GetScoreboardPlayerEntryIndex()))
 
     -- Loop through medals
     for indice=1,80 do

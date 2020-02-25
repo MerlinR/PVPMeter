@@ -102,15 +102,10 @@ function BGPvpMeter.init()
 
 
       PvpMeter.nbrKill = PvpMeter.nbrKill + PvpMeter.BGlist[zo_strformat("<<1>>", i)].kill
-
       PvpMeter.nbrDeath = PvpMeter.nbrDeath + PvpMeter.BGlist[zo_strformat("<<1>>", i)].death
-
       PvpMeter.nbrAssist = PvpMeter.nbrAssist + PvpMeter.BGlist[zo_strformat("<<1>>", i)].assist
-
       PvpMeter.nbrDone = PvpMeter.nbrDone + math.floor(PvpMeter.BGlist[zo_strformat("<<1>>", i)].damageDone/1000)
-
       PvpMeter.nbrHeal = PvpMeter.nbrHeal + math.floor(PvpMeter.BGlist[zo_strformat("<<1>>", i)].healDone/1000)
-
       PvpMeter.nbrTaken = PvpMeter.nbrTaken + math.floor(PvpMeter.BGlist[zo_strformat("<<1>>", i)].damageTaken/1000)
 
     end
@@ -169,15 +164,10 @@ function BGPvpMeter.updateStat()
 
 
       PvpMeter.nbrKill = PvpMeter.nbrKill + PvpMeter.BGlist[zo_strformat("<<1>>", i)].kill
-
       PvpMeter.nbrDeath = PvpMeter.nbrDeath + PvpMeter.BGlist[zo_strformat("<<1>>", i)].death
-
       PvpMeter.nbrAssist = PvpMeter.nbrAssist + PvpMeter.BGlist[zo_strformat("<<1>>", i)].assist
-
       PvpMeter.nbrDone = PvpMeter.nbrDone + math.floor(PvpMeter.BGlist[zo_strformat("<<1>>", i)].damageDone/1000)
-
       PvpMeter.nbrHeal = PvpMeter.nbrHeal + math.floor(PvpMeter.BGlist[zo_strformat("<<1>>", i)].healDone/1000)
-
       PvpMeter.nbrTaken = PvpMeter.nbrTaken + math.floor(PvpMeter.BGlist[zo_strformat("<<1>>", i)].damageTaken/1000)
 
     end
