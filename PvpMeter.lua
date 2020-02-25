@@ -1,23 +1,27 @@
 PvpMeter = {}
 PvpMeter.name = "PvpMeter"
+
 -- NOTE Loads of If end IF instead of elseif
+
 function PvpMeter:Initialize(PvpMeterLabelKill)
 
   PvpMeter.savedVariables = ZO_SavedVars:New("PvpMeterSavedVariables", 1, nil,{})
   PvpMeter.savedVariablesAw = ZO_SavedVars:NewAccountWide("PvpMeterSavedVariables", 1, nil,{})
-
+  --
+  --IHateYou()
   PvpMeter.initSettings()
+
   --LabelP:SetHidden(true)
   --Perc:SetHidden(true)
-
+  
   if(self.savedVariables.hideMenu == nil)then
     self.savedVariables.hideMenu = true
   end
-
+  
   if(self.savedVariables.rotation == nil)then
     self.savedVariables.rotation = 1
   end
-
+  
   if(self.savedVariables.quickButton == nil)then
     self.savedVariables.quickButton = true
   end
@@ -25,133 +29,65 @@ function PvpMeter:Initialize(PvpMeterLabelKill)
   if(self.savedVariables.autoqueue == nil)then
     self.savedVariables.autoqueue = false
   end
-
-
+               
+  
   if(self.savedVariables.duelMeter == nil)then
     self.savedVariables.duelMeter = false
   end
-
+  
   if(self.savedVariables.playSound == nil)then
     self.savedVariables.playSound = true
   end
-
+  
   if(self.savedVariables.alertBorder == nil)then
     self.savedVariables.alertBorder = true
   end
-
+  
   if(self.savedVariables.nbrSound == nil)then
     self.savedVariables.nbrSound = 0
   end
-
+  
   if(self.savedVariables.v3 == nil)then
     self.savedVariables.v3 = true
     self.savedVariables.nbrCyro = 2
   end
-
+  
   if(self.savedVariables.nbrCyro == nil)then
     self.savedVariables.nbrCyro = 2
   end
-
+  
   if(self.savedVariables.showBeautifulMeter == nil)then
     self.savedVariables.showBeautifulMeter = true
   end
-
-
+  
+  
   if(self.savedVariables.BGAssist == nil)then
     self.savedVariables.BGAssist = false
   end
-
+  
   if(self.savedVariables.top == nil)then
     self.savedVariables.top = 952
   end
-
+  
   if(self.savedVariables.left == nil)then
     self.savedVariables.left = 1664
   end
-
-
-
-
+  
   if(self.savedVariables.cyroKill == nil)then
-    self.savedVariables.cyroKill = 0
+  self.savedVariables.cyroKill = 0
   end
-
-  if(self.savedVariables.cyroDeatfunction PvpMeter:Initialize(PvpMeterLabelKill)
-
-  PvpMeter.savedVariables = ZO_SavedVars:New("PvpMeterSavedVariables", 1, nil,{})
-  PvpMeter.savedVariablesAw = ZO_SavedVars:NewAccountWide("PvpMeterSavedVariables", 1, nil,{})
-
-  PvpMeter.initSettings()
-  --LabelP:SetHidden(true)
-  --Perc:SetHidden(true)
-
-  if(self.savedVariables.hideMenu == nil)then
-    self.savedVariables.hideMenu = true
+  
+  if(self.savedVariables.cyroDeath == nil)then
+  self.savedVariables.cyroDeath = 0
   end
-
-  if(self.savedVariables.rotation == nil)then
-    self.savedVariables.rotation = 1
-  end
-
-  if(self.savedVariables.quickButton == nil)then
-    self.savedVariables.quickButton = true
-  end
-
-  if(self.savedVariables.autoqueue == nil)then
-    self.savedVariables.autoqueue = false
-  end
-
-
-  if(self.savedVariables.duelMeter == nil)then
-    self.savedVariables.duelMeter = false
-  end
-
-  if(self.savedVariables.playSound == nil)then
-    self.savedVariables.playSound = true
-  end
-
-  if(self.savedVariables.alertBorder == nil)then
-    self.savedVariables.alertBorder = true
-  end
-
-  if(self.savedVariables.nbrSound == nil)then
-    self.savedVariables.nbrSound = 0
-  end
-
-  if(self.savedVariables.v3 == nil)then
-    self.savedVariables.v3 = true
-    self.savedVariables.nbrCyro = 2
-  end
-
-  if(self.savedVariables.nbrCyro == nil)then
-    self.savedVariables.nbrCyro = 2
-  end
-
-  if(self.savedVariables.showBeautifulMeter == nil)then
-    self.savedVariables.showBeautifulMeter = true
-  end
-
-
-  if(self.savedVariables.BGAssist == nil)then
-    self.savedVariables.BGAssist = false
-  end
-
-  if(self.savedVariables.top == nil)then
-    self.savedVariables.top = 952
-  end
-
-  if(self.savedVariables.left == nil)then
-    self.savedVariables.left = 1664
-  end
-
+  
   if(self.savedVariables.bgKill == nil)then
-    self.savedVariables.bgKill = 0
+  self.savedVariables.bgKill = 0
   end
-
+  
   if(self.savedVariables.bgDeath == nil)then
-    self.savedVariables.bgDeath = 0
+  self.savedVariables.bgDeath = 0
   end
-
 
 
   if(self.savedVariables.verbg == nil)then
@@ -162,7 +98,7 @@ function PvpMeter:Initialize(PvpMeterLabelKill)
     self.savedVariables.BGPlayed = 0
     self.savedVariables.verbg = true
   end
-
+  
   if(self.savedVariables.verduel == nil)then
     self.savedVariables.duellist = {}
     self.savedVariables.duelMeter = false
@@ -170,22 +106,22 @@ function PvpMeter:Initialize(PvpMeterLabelKill)
     self.savedVariables.duelPlayed = 0
     self.savedVariables.verduel = true
   end
-
+  
   if(self.savedVariables.currAP == nil)then
     self.savedVariables.currAP = false
   end
-
-
+  
+  
   self.statLoaded = false
-
+  
   self.nbrDeath = 0
   self.nbrTaken = 0
   self.nbrHeal = 0
   self.nbrKill = 0
   self.nbrAssist = 0
   self.nbrDone = 0
-
-
+  
+  
   self.nbrDM = 0
   self.nbrCTR = 0
   self.nbrDOM = 0
@@ -197,23 +133,18 @@ function PvpMeter:Initialize(PvpMeterLabelKill)
   self.nbrDOMWin = 0
   self.nbrMURWin = 0
   self.nbrCRZWin = 0
-
-
+  
   self.DnbrTaken = 0
   self.DnbrShield = 0
   self.DnbrBlock = 0
   self.DnbrDodge = 0
   self.DnbrHeal = 0
   self.DnbrDone = 0
-
-
-
-
+  
   self.medalR = 0
   self.killR = 0
   self.deathR = 0
-
-
+  
   self.inCombat = IsUnitInCombat("player")
   self.inAvA = IsPlayerInAvAWorld()
   self.inIC = IsInImperialCity()
@@ -235,54 +166,42 @@ function PvpMeter:Initialize(PvpMeterLabelKill)
   self.allianceScore = 0
   self.displayBGList = 1
   self.displayDuelList = 1
-
+  
   self.switch = 0
   self.dye =  false
-
+  
   self.PvpMeterLabelKill = PvpMeterLabelKill
-
-
+  
   self.iBG = 1
   self.page = 1
-
+  
   self.pageD = 1
-
-
+  
   self.BGPlayed = 0
   self.BGWin = 0
   self.BGlist = {}
-
-
-
+  
   self.duelRunning = false
-
+  
   self.totalDone = 0
   self.totalTaken = 0
   self.totalHeal = 0
   self.totalBlock = 0
   self.totalShield = 0
   self.totalDodge = 0
-
-
-
+  
   self.duelPlayed = 0
   self.duelWin = 0
   self.duelList = {}
 
-
-
   CreateControl("ControlName",LabelKill,CT_LABEL)
-
-
-
-  if(PvpMeter.savedVariables.hideMenu) then
+  
+  if(PvpMeter.savedVariables.hideMenu) then 
     MenuPvpMeter:Initialize()
     BGPvpMeter:Initialize()
-    DuelPvpMeter:Initialize()
+    DuelPvpMeter:Initialize() 
     MenuPvpMeter:Finalize()
   end
-
-  -- Event triggers
 
   EVENT_MANAGER:UnregisterForEvent(PvpMeter.name, EVENT_ADD_ON_LOADED)
 
@@ -299,26 +218,25 @@ function PvpMeter:Initialize(PvpMeterLabelKill)
   EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_OPEN_GUILD_BANK, self.openBank)
   EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_CHATTER_BEGIN, self.openBank)
 
-
+  
   EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_MEDAL_AWARDED, self.onPointUpdate)
   EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_BATTLEGROUND_SCOREBOARD_UPDATED , self.onScoreUpdate)
   EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_DYEING_STATION_INTERACT_START, self.onDyeStart)
   EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_DYEING_STATION_INTERACT_END, self.onDyeEnd)
   EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_DUEL_FINISHED , self.onDuelFinish)
   EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_DUEL_STARTED , self.onDuelStart)
-
+  
   EVENT_MANAGER:RegisterForEvent(PvpMeter.name,EVENT_GAME_CAMERA_CHARACTER_FRAMING_STARTED ,self.UIchange)
   EVENT_MANAGER:RegisterForEvent(PvpMeter.name,EVENT_KEEP_ALLIANCE_OWNER_CHANGED,self.updateMeter)
   EVENT_MANAGER:RegisterForEvent(PvpMeter.name,EVENT_BATTLEGROUND_KILL ,self.bgkill)
-
-   EVENT_MANAGER:RegisterForEvent(PvpMeter.name,EVENT_CAMPAIGN_QUEUE_JOINED ,self.queue_joined)
-   EVENT_MANAGER:RegisterForEvent(PvpMeter.name,EVENT_CAMPAIGN_QUEUE_LEFT  ,self.queue_left)
-   EVENT_MANAGER:RegisterForEvent(PvpMeter.name,EVENT_CAMPAIGN_QUEUE_POSITION_CHANGED  ,self.queue_position)
-   EVENT_MANAGER:RegisterForEvent(PvpMeter.name,EVENT_CAMPAIGN_QUEUE_STATE_CHANGED ,self.queue_state)
-   EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_ACTIVITY_FINDER_STATUS_UPDATE, self.onActivityFinderStatusUpdate)
-
+  
+  EVENT_MANAGER:RegisterForEvent(PvpMeter.name,EVENT_CAMPAIGN_QUEUE_JOINED ,self.queue_joined)
+  EVENT_MANAGER:RegisterForEvent(PvpMeter.name,EVENT_CAMPAIGN_QUEUE_LEFT  ,self.queue_left)
+  EVENT_MANAGER:RegisterForEvent(PvpMeter.name,EVENT_CAMPAIGN_QUEUE_POSITION_CHANGED  ,self.queue_position)
+  EVENT_MANAGER:RegisterForEvent(PvpMeter.name,EVENT_CAMPAIGN_QUEUE_STATE_CHANGED ,self.queue_state)
+  EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_ACTIVITY_FINDER_STATUS_UPDATE, self.onActivityFinderStatusUpdate)
+  
 end
-
 
 
 function PvpMeter.resetDataBG()

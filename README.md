@@ -31,6 +31,7 @@ https://www.esoui.com/downloads/info1760-PvpMeter.html
  - [ ] Type -> Mode
  - [ ] BAL -> CB
  - [ ] CRZ -> CK
+ - [ ] Update default label values for new players, currently auto 1212
 
 ### Bugs
  - [ ] Duel Screen, Scroll wheel in scrolllistBG.lua and MouseEnter Error
