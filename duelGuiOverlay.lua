@@ -1,4 +1,4 @@
--- This files contains the GUI for the duels
+-- This files contains the GUI Overlay for the duels
 
 INFAMY_METER_WIDTH = 256
 INFAMY_METER_HEIGHT = 128

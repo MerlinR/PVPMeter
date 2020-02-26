@@ -1,13 +1,5 @@
---[[
-Title: ScrollListExample
-Description: Example of ScrollList implementation
-Author: pills
-Date: 2014-06-06
-
-@NOTES
->>> Taken From MailR which took it from Librarian
-  ]]
-
+-- This file contains the scrollable window portion of duels, which lives inside the
+-- PvpMeterDuelmenu.lua
 UnitListDuel = ZO_SortFilterList:Subclass()
 UnitListDuel.defaults = {}
 SLEDUEL = {}

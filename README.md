@@ -7,19 +7,13 @@ Original Download location
 https://www.esoui.com/downloads/info1760-PvpMeter.html
 
 ## Change Notes
-
-
-
-
-## ToDo List
-### Overhual
+### Version 3.9
+#### Overhaul
  - [ ] Refactor code (make readable)
- - [ ] Update storage for BG's win/lose -> 1st, 2nd ,3rd
- - [ ] Convert win/lose into 1st, 2nd and 3rd
+ - [ ] Update storage method
+ - [ ] Convert old data into new format storage
 
-
-
-### GUI
+#### GUI
  - [ ] Update BG to display pos in table
  - [ ] Add stat to display KDA raio (Total and Per game)
  - [ ] Update display from win/lose -> 1st,2nd,3rd
@@ -33,14 +27,20 @@ https://www.esoui.com/downloads/info1760-PvpMeter.html
  - [ ] CRZ -> CK
  - [ ] Update default label values for new players, currently auto 1212
 
-### Bugs
+#### Bugs
  - [ ] Duel Screen, Scroll wheel in scrolllistBG.lua and MouseEnter Error
 
-### Wishlist
- - [ ] Remove storage of all medals in local data, store medal + count gather on load
+#### Wishlist
+ - [ ] Add GUI tab and store metrics for Cyrodiil campaigns
+   - [ ] Captures, Kills, Deaths per campaign
+   - [ ] Game sessions, starts when enter, ends when leave
 
 ## Resources
+ - https://wiki.esoui.com/Writing_your_first_addon
+ - https://wiki.esoui.com/Addon_Structure
+ - https://wiki.esoui.com/Circonians_Saved_Variables_Tutorial
  - https://wiki.esoui.com/API
+ - https://wiki.esoui.com/Controls
  - https://wiki.esoui.com/Events#Battlegrounds
  - https://wiki.esoui.com/GetCurrentBattlegroundScore
- - https://wiki.esoui.com/Circonians_Saved_Variables_Tutorial
+

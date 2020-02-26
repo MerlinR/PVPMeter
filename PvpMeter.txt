@@ -15,19 +15,18 @@ libs\LibAddonMenu-2.0\LibAddonMenu-2.0\controls\description.lua
 libs\LibAddonMenu-2.0\LibAddonMenu-2.0\controls\dropdown.lua
 libs\LibMainMenu\LibMainMenu.lua
 
-meter.lua
-menuMeter.lua
-duelMeter.lua
-
-ScrollListBG.lua
-
 PvpMeter.xml
+PvpMeter.lua
+
+PvpMeterSettings.lua
+Bindings.xml
+
+commonGuiOverlay.lua
+bgAndCryoGuiOverlay.lua
+duelGuiOverlay.lua
 
 PvpMeterMenu.lua
 PvpMeterBGMenu.lua
 PvpMeterDuelMenu.lua
-
-PvpMeter.lua
-PvpMeterSettings.lua
-
-Bindings.xml
+ScrollListBG.lua
+ScrollListDuel.lua

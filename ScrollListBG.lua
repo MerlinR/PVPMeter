@@ -1,3 +1,5 @@
+-- This file contains the scrollable window portion of BGs, which lives inside the
+-- PvpMeterBGmenu.lua
 UnitList = ZO_SortFilterList:Subclass()
 UnitList.defaults = {}
 SLE = {}

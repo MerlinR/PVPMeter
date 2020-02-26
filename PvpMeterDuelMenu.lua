@@ -1,3 +1,4 @@
+-- This files contains the GUI for BGs
 DuelPvpMeter = {}
 
 function DuelPvpMeter:Initialize()

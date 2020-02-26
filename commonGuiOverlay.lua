@@ -1,4 +1,4 @@
--- This files contains GUI for common usage between duels and Meter?
+-- This files contains GUI Overlay for common usage between duels and Meter?
 
 MENU_METER_WIDTH = 256
 MENU_METER_HEIGHT = 128

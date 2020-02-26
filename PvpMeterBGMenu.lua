@@ -1,3 +1,5 @@
+-- This files contains the GUI for BGs
+
 BGPvpMeter = {}
 
 function BGPvpMeter:Initialize()
