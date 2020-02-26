@@ -238,7 +238,6 @@ function PvpMeter:Initialize(PvpMeterLabelKill)
   EVENT_MANAGER:RegisterForEvent(self.name, EVENT_ACTIVITY_FINDER_STATUS_UPDATE, self.onActivityFinderStatusUpdate)
 end
 
-EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_ADD_ON_LOADED, PvpMeter.OnAddOnLoaded)
 
 -- ANCHOR Main function which runs on addon load
 function PvpMeter.OnAddOnLoaded(event, addonName)
@@ -262,6 +261,8 @@ function PvpMeter.OnAddOnLoaded(event, addonName)
 
   end
 end
+
+EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_ADD_ON_LOADED, PvpMeter.OnAddOnLoaded)
 
 -- ANCHOR Reset Functions
 
