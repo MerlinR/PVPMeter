@@ -15,7 +15,7 @@ https://www.esoui.com/downloads/info1760-PvpMeter.html
 ### Overhual
  - [ ] Refactor code (make readable)
  - [ ] Update storage for BG's win/lose -> 1st, 2nd ,3rd
- - [ ] Convert win/lose into 1st and 3rd
+ - [ ] Convert win/lose into 1st, 2nd and 3rd
 
 
 
