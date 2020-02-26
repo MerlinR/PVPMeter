@@ -1,22 +1,22 @@
 -- This files contains the GUI Overlay for Cryo and BG
 
-TELVAR_METER_WIDTH = 256
-TELVAR_METER_HEIGHT = 128
-TELVAR_METER_KEYBOARD_BAR_OFFSET_X = 14
-TELVAR_METER_KEYBOARD_BAR_OFFSET_Y = 18
-TELVAR_METER_GAMEPAD_BAR_OFFSET_X = -9
-TELVAR_METER_GAMEPAD_BAR_OFFSET_Y = 15
+BG_AVA_OVERLAY_WIDTH = 256
+BG_AVA_OVERLAY_HEIGHT = 128
+BG_AVA_OVERLAY_KEYBOARD_BAR_OFFSET_X = 14
+BG_AVA_OVERLAY_KEYBOARD_BAR_OFFSET_Y = 18
+BG_AVA_OVERLAY_GAMEPAD_BAR_OFFSET_X = -9
+BG_AVA_OVERLAY_GAMEPAD_BAR_OFFSET_Y = 15
 
-local HUDTelvarMeter = ZO_Object:Subclass()
+local BGandAvAOverlay = ZO_Object:Subclass()
 
-function HUDTelvarMeter:New(...)
+function BGandAvAOverlay:New(...)
   local object = ZO_Object.New(self)
   object:Initialize(...)
   return object
 end
 
 
-function HUDTelvarMeter:Initialize(control)
+function BGandAvAOverlay:Initialize(control)
   -- Initialize state
   self.hiddenReasons = ZO_HiddenReasons:New()
   self.telvarStoneThreshold = GetTelvarStoneMultiplierThresholdIndex()
@@ -39,7 +39,7 @@ function HUDTelvarMeter:Initialize(control)
   -- Set up platform styles
   self.keyboardStyle =
   {
-    template = "HUDTelvarMeter_KeyboardTemplate" ,
+    template = "BGandAvAOverlay_KeyboardTemplate" ,
     currencyOptions =
     {
       showTooltips = true,
@@ -51,7 +51,7 @@ function HUDTelvarMeter:Initialize(control)
   }
   self.gamepadStyle =
   {
-    template = "HUDTelvarMeter_KeyboardTemplate",
+    template = "BGandAvAOverlay_KeyboardTemplate",
     currencyOptions =
     {
       showTooltips = true,
@@ -67,13 +67,13 @@ function HUDTelvarMeter:Initialize(control)
   self.alertBorder.pulseAnimation = ANIMATION_MANAGER:CreateTimelineFromVirtual("HUDTelvarAlertBorderAnimation", self.alertBorder)
 
   -- Initialize overlay animation
-  self.meterOverlayControl.fadeAnimation = ANIMATION_MANAGER:CreateTimelineFromVirtual("HUDTelvarMeterOverlayFade", self.meterOverlayControl)
+  self.meterOverlayControl.fadeAnimation = ANIMATION_MANAGER:CreateTimelineFromVirtual("BGandAvAOverlayOverlayFade", self.meterOverlayControl)
 
   -- Initialize label animation
-  self.multiplierContainer.bounceAnimation = ANIMATION_MANAGER:CreateTimelineFromVirtual("HUDTelvarMeterMultiplierBounce", self.multiplierContainer)
+  self.multiplierContainer.bounceAnimation = ANIMATION_MANAGER:CreateTimelineFromVirtual("BGandAvAOverlayMultiplierBounce", self.multiplierContainer)
 
   -- Initialize bar states and animations
-  self.meterBarControl.easeAnimation = ANIMATION_MANAGER:CreateTimelineFromVirtual("HUDTelvarMeterEasing")
+  self.meterBarControl.easeAnimation = ANIMATION_MANAGER:CreateTimelineFromVirtual("BGandAvAOverlayEasing")
   self.meterBarControl.startPercent = 0
   self.meterBarControl.endPercent = 0
 
@@ -100,25 +100,23 @@ function HUDTelvarMeter:Initialize(control)
 end
 
 
-function HUDTelvarMeter:SetHiddenForReason(reason, hidden)
+function BGandAvAOverlay:SetHiddenForReason(reason, hidden)
   self.hiddenReasons:SetHiddenForReason(reason, hidden)
   self.control:SetHidden(self.hiddenReasons:IsHidden())
 end
 
 
-function HUDTelvarMeter:OnTelvarStonesUpdated()
+function BGandAvAOverlay:OnTelvarStonesUpdated()
   newTelvarStones = 80
   oldTelvarStones = 10
   --reason = CURRENCY_CHANGE_REASON_PVP_KILL_TRANSFER
 
-
   --PlaySound(SOUNDS.TELVAR_GAINED)
-
   self:UpdateMeterBar()
 end
 
 
-function HUDTelvarMeter:UpdateMeterBar()
+function BGandAvAOverlay:UpdateMeterBar()
   -- Update bar values
   --self.meterBarControl.startPercent = 0.01
   --self.meterBarControl.endPercent = 0.99
@@ -127,19 +125,19 @@ function HUDTelvarMeter:UpdateMeterBar()
   self.meterBarControl.easeAnimation:PlayFromStart()
 end
 
-function HUDTelvarMeter:AnimateMeter(progress)
+function BGandAvAOverlay:AnimateMeter(progress)
   local fillPercentage = zo_min((progress * (self.meterBarControl.endPercent - self.meterBarControl.startPercent)) + self.meterBarControl.startPercent, 1)
   self:SetBarValue(fillPercentage)
 end
 
 
-function HUDTelvarMeter:SetBarValue(percentFilled)
+function BGandAvAOverlay:SetBarValue(percentFilled)
   self.meterBarFill:StartFixedCooldown(percentFilled, CD_TYPE_RADIAL, CD_TIME_TYPE_TIME_REMAINING, NO_LEADING_EDGE) -- CD_TIME_TYPE_TIME_REMAINING causes clockwise scroll
   self.meterBarHighlight:StartFixedCooldown(percentFilled, CD_TYPE_RADIAL, CD_TIME_TYPE_TIME_REMAINING, NO_LEADING_EDGE)
 end
 
 
-function HUDTelvarMeter:UpdatePlatformStyle(styleTable)
+function BGandAvAOverlay:UpdatePlatformStyle(styleTable)
   ApplyTemplateToControl(self.control, styleTable.template)
   ZO_CurrencyControl_SetSimpleCurrency(self.telvarDisplayControl, CURT_TELVAR_STONES, GetCarriedCurrencyAmount(CURT_TELVAR_STONES), styleTable.currencyOptions, CURRENCY_SHOW_ALL)
 
@@ -150,7 +148,7 @@ end
 
 
 
-function HUDTelvarMeter:CalculateMeterFillPercentage()
+function BGandAvAOverlay:CalculateMeterFillPercentage()
   if IsMaxTelvarStoneMultiplierThreshold(self.telvarStoneThreshold) then
     return 1
   elseif self.telvarStoneThreshold then -- Protect against self.telvarStoneThreshold being nil.
@@ -164,137 +162,135 @@ function HUDTelvarMeter:CalculateMeterFillPercentage()
 end
 
 
-function HUDTelvarMeter_Initialize(control)
-  TELVAR_METER = HUDTelvarMeter:New(control)
+function BGandAvAOverlay_Initialize(control)
+  BG_AVA_OVERLAY = BGandAvAOverlay:New(control)
 end
 
 
-function HUDTelvarMeter_update(startP,endP)
-  if TELVAR_METER then
-    TELVAR_METER.meterBarControl.startPercent = startP
-    TELVAR_METER.meterBarControl.endPercent = endP
-    TELVAR_METER:OnTelvarStonesUpdated()
+function BGandAvAOverlay_update(startP,endP)
+  if BG_AVA_OVERLAY then
+    BG_AVA_OVERLAY.meterBarControl.startPercent = startP
+    BG_AVA_OVERLAY.meterBarControl.endPercent = endP
+    BG_AVA_OVERLAY:OnTelvarStonesUpdated()
   end
 end
 
 
-function HUDTelvarMeter_color(r,g,b)
-  if TELVAR_METER then
-    TELVAR_METER.meterBarFill:SetFillColor(r,g,b)
-    TELVAR_METER.meterBarHighlight:SetFillColor(r,g,b)
-    TELVAR_METER.meterOverlayControl:SetColor(r,g,b,0)
-    --local truck = HUDTelvarAlertBorder:GetNamedChild("Overlay")
-    --truck:SetEdgeColor(r,g,b)
+function BGandAvAOverlay_color(r,g,b)
+  if BG_AVA_OVERLAY then
+    BG_AVA_OVERLAY.meterBarFill:SetFillColor(r,g,b)
+    BG_AVA_OVERLAY.meterBarHighlight:SetFillColor(r,g,b)
+    BG_AVA_OVERLAY.meterOverlayControl:SetColor(r,g,b,0)
   end
 end
 
 
-function HUDTelvarMeter_moveBar(x,y)
-  if TELVAR_METER then
-    TELVAR_METER.meterBarControl:ClearAnchors()
-    TELVAR_METER.meterOverlayControl:ClearAnchors()
+function BGandAvAOverlay_moveBar(x,y)
+  if BG_AVA_OVERLAY then
+    BG_AVA_OVERLAY.meterBarControl:ClearAnchors()
+    BG_AVA_OVERLAY.meterOverlayControl:ClearAnchors()
 
-    TELVAR_METER.meterBarControl:SetAnchor(RIGHT,HUDTelvarMeter_KeyboardTemplate,RIGHT,18+x,18+y)
-    TELVAR_METER.meterOverlayControl:SetAnchor(RIGHT,HUDTelvarMeter_KeyboardTemplate,RIGHT,24+x,18+y)
+    BG_AVA_OVERLAY.meterBarControl:SetAnchor(RIGHT,BGandAvAOverlay_KeyboardTemplate,RIGHT,18+x,18+y)
+    BG_AVA_OVERLAY.meterOverlayControl:SetAnchor(RIGHT,BGandAvAOverlay_KeyboardTemplate,RIGHT,24+x,18+y)
   end
 
 end
 
 
-function HUDTelvarMeter_colorAlert(r,g,b)
-  if TELVAR_METER then
+function BGandAvAOverlay_colorAlert(r,g,b)
+  if BG_AVA_OVERLAY then
     local truck = HUDTelvarAlertBorder:GetNamedChild("Overlay")
     truck:SetEdgeColor(r,g,b)
   end
 end
 
 
-function HUDTelvarMeter_restore(top,left)
-  if TELVAR_METER then
-    TELVAR_METER.control:ClearAnchors()
-    TELVAR_METER.control:SetAnchor(TOPLEFT, GuiRoot,TOPLEFT, left, top)
+function BGandAvAOverlay_restore(top,left)
+  if BG_AVA_OVERLAY then
+    BG_AVA_OVERLAY.control:ClearAnchors()
+    BG_AVA_OVERLAY.control:SetAnchor(TOPLEFT, GuiRoot,TOPLEFT, left, top)
   end
 end
 
 
-function HUDTelvarMeter_show()
-  if(PvpMeter.savedVariables.showBeautifulMeter)then
-    if TELVAR_METER then
-      TELVAR_METER:SetHiddenForReason("disabledInZone", false)
-      --TELVAR_METER.meterBarHighlight:SetHidden()
+function BGandAvAOverlay_show()
+  if (PvpMeter.savedVariables.showBeautifulMeter) then
+    if BG_AVA_OVERLAY then
+      BG_AVA_OVERLAY:SetHiddenForReason("disabledInZone", false)
+      --BG_AVA_OVERLAY.meterBarHighlight:SetHidden()
     end
   end
 end
 
 
-function HUDTelvarMeter_hide()
-  if TELVAR_METER then
-    TELVAR_METER:SetHiddenForReason("disabledInZone", true)
-    --TELVAR_METER.meterBarHighlight:SetFillColor(r,g,b)
+function BGandAvAOverlay_hide()
+  if BG_AVA_OVERLAY then
+    BG_AVA_OVERLAY:SetHiddenForReason("disabledInZone", true)
+    --BG_AVA_OVERLAY.meterBarHighlight:SetFillColor(r,g,b)
   end
 end
 
 
-function HUDTelvarMeter_alpha(alpha)
-  if TELVAR_METER then
-    TELVAR_METER.meterBarControl:SetAlpha(alpha)
+function BGandAvAOverlay_alpha(alpha)
+  if BG_AVA_OVERLAY then
+    BG_AVA_OVERLAY.meterBarControl:SetAlpha(alpha)
   end
 end
 
 
-function HUDTelvarMeter_first()
-  if TELVAR_METER then
-    TELVAR_METER.meterBarControl:SetAnchor(RIGHT,HUDTelvarMeter_KeyboardTemplate,RIGHT,TELVAR_METER_KEYBOARD_BAR_OFFSET_X,18)
+function BGandAvAOverlay_first()
+  if BG_AVA_OVERLAY then
+    BG_AVA_OVERLAY.meterBarControl:SetAnchor(RIGHT,BGandAvAOverlay_KeyboardTemplate,RIGHT,BG_AVA_OVERLAY_KEYBOARD_BAR_OFFSET_X,18)
   end
 end
 
 
-function HUDTelvarMeter_sec()
-  if TELVAR_METER then
-    TELVAR_METER.meterBarControl:SetAnchor(RIGHT,HUDTelvarMeter_KeyboardTemplate,RIGHT,TELVAR_METER_KEYBOARD_BAR_OFFSET_X,-72)
+function BGandAvAOverlay_sec()
+  if BG_AVA_OVERLAY then
+    BG_AVA_OVERLAY.meterBarControl:SetAnchor(RIGHT,BGandAvAOverlay_KeyboardTemplate,RIGHT,BG_AVA_OVERLAY_KEYBOARD_BAR_OFFSET_X,-72)
   end
 end
 
 
-function HUDTelvarMeter_getLeft()
-  if TELVAR_METER then
-    return TELVAR_METER.control:GetLeft()
+function BGandAvAOverlay_getLeft()
+  if BG_AVA_OVERLAY then
+    return BG_AVA_OVERLAY.control:GetLeft()
   end
 end
 
 
-function HUDTelvarMeter_getTop()
-  if TELVAR_METER then
-    return TELVAR_METER.control:GetTop()
+function BGandAvAOverlay_getTop()
+  if BG_AVA_OVERLAY then
+    return BG_AVA_OVERLAY.control:GetTop()
   end
 end
 
 
-function HUDTelvarMeter_UpdateMeterToAnimationProgress(progress)
-  if TELVAR_METER then
-    TELVAR_METER:AnimateMeter(progress)
+function BGandAvAOverlay_UpdateMeterToAnimationProgress(progress)
+  if BG_AVA_OVERLAY then
+    BG_AVA_OVERLAY:AnimateMeter(progress)
   end
 end
 
 
-function HUDTelvarMeter_gamepad(option,left)
-  if TELVAR_METER then
-    if(option) then
-      TELVAR_METER.meterBarControl:SetAnchor(RIGHT,HUDTelvarMeter_KeyboardTemplate,RIGHT,80,18)
+function BGandAvAOverlay_gamepad(option,left)
+  if BG_AVA_OVERLAY then
+    if (option) then
+      BG_AVA_OVERLAY.meterBarControl:SetAnchor(RIGHT,BGandAvAOverlay_KeyboardTemplate,RIGHT,80,18)
     else
-      TELVAR_METER.meterBarControl:SetAnchor(RIGHT,HUDTelvarMeter_KeyboardTemplate,RIGHT,18,18)
+      BG_AVA_OVERLAY.meterBarControl:SetAnchor(RIGHT,BGandAvAOverlay_KeyboardTemplate,RIGHT,18,18)
     end
   end
 end
 
 
-function HUDTelvarMeter_Anim()
-  if TELVAR_METER then
-    if(PvpMeter.savedVariables.showBeautifulMeter)then
-      TELVAR_METER.meterOverlayControl.fadeAnimation:PlayFromStart()
+function BGandAvAOverlay_Anim()
+  if BG_AVA_OVERLAY then
+    if (PvpMeter.savedVariables.showBeautifulMeter) then
+      BG_AVA_OVERLAY.meterOverlayControl.fadeAnimation:PlayFromStart()
     end
-    if(PvpMeter.savedVariables.alertBorder)then
-      TELVAR_METER.alertBorder.pulseAnimation:PlayFromStart()
+    if (PvpMeter.savedVariables.alertBorder) then
+      BG_AVA_OVERLAY.alertBorder.pulseAnimation:PlayFromStart()
     end
   end
 end

@@ -92,7 +92,7 @@ function UnitList:SetupUnitRow(control, data)
   control.heal = GetControl(control, "Heal")
   control.damt = GetControl(control, "Damt")
 
-  if(SCENE_MANAGER:IsShowing("PvpmeterBGScene") == true)then
+  if (SCENE_MANAGER:IsShowing("PvpmeterBGScene") == true) then
 
     ScrollListBG:SetDimensions(680,450)
     control.name:SetDimensions(40,32)
@@ -107,7 +107,7 @@ function UnitList:SetupUnitRow(control, data)
     control.heal:SetDimensions(60,32)
 
   end
-  if(SCENE_MANAGER:IsShowing("PvpmeterduelScene") == true)then
+  if (SCENE_MANAGER:IsShowing("PvpmeterduelScene") == true) then
 
     ScrollListBG:SetDimensions(920,450)
     control.name:SetDimensions(50,32)
@@ -129,8 +129,8 @@ function UnitList:SetupUnitRow(control, data)
   control.texture1 = GetControl(control, "iconClassControl")
   control.icon1 = GetControl(control.texture1,"iconClassDuel")
 
-  if(SCENE_MANAGER:IsShowing("PvpmeterBGScene") == true)then
-    if(data.race ~= 0)then
+  if (SCENE_MANAGER:IsShowing("PvpmeterBGScene") == true) then
+    if (data.race ~= 0) then
       control.icon:SetHidden(false)
       control.icon:SetTexture(GetBattlegroundTeamIcon(data.race))
     else
@@ -139,7 +139,7 @@ function UnitList:SetupUnitRow(control, data)
 
     control.icon1:SetHidden(true)
 
-    if(data.class >= 1000)then
+    if (data.class >= 1000) then
       control.class:SetText(data.class/10)
     else
       control.class:SetText(data.class)
@@ -150,12 +150,12 @@ function UnitList:SetupUnitRow(control, data)
   else
     control.icon:SetHidden(true)
 
-    if(data.class ~= 0)then
+    if (data.class ~= 0) then
       control.icon1:SetHidden(false)
 
       local id = data.class
-      if(data.class == 4)then id = 5 end
-      if(data.class == 6)then id = 4 end
+      if (data.class == 4) then id = 5 end
+      if (data.class == 6) then id = 4 end
 
       defId ,lore ,normalIconKeyboard ,pressedIconKeyboard ,mouseoverIconKeyboard ,isSelectable ,ingameIconKeyboard = GetClassInfo(id)
       control.icon1:SetTexture(ingameIconKeyboard)
@@ -168,10 +168,10 @@ function UnitList:SetupUnitRow(control, data)
 
   control.name:SetText(data.name)
 
-  if(SCENE_MANAGER:IsShowing("PvpmeterBGScene") == true)then
+  if (SCENE_MANAGER:IsShowing("PvpmeterBGScene") == true) then
     control.type:SetText(data.type)
   else
-    if(data.type)then
+    if (data.type) then
       control.type:SetText("V")
       control.type.normalColor =SLE.GREEN_TEXT
     else
@@ -191,11 +191,11 @@ function UnitList:SetupUnitRow(control, data)
 
 
   --[[
-  if(endd > 0.49) then
+  if (endd > 0.49) then
     LabelP:SetColor(0.2,0.7,0)
     Perc:SetColor(0.2,0.7,0)
   end
-  if(endd <= 0.49) then
+  if (endd <= 0.49) then
     LabelP:SetColor(0.7,0,0)
     Perc:SetColor(0.7,0,0)
   end
@@ -203,13 +203,13 @@ function UnitList:SetupUnitRow(control, data)
   ]]
 
   control.name.normalColor = SLE.DEFAULT_TEXT
-  if(SCENE_MANAGER:IsShowing("PvpmeterBGScene") == true)then
+  if (SCENE_MANAGER:IsShowing("PvpmeterBGScene") == true) then
     control.type.normalColor = SLE.DEFAULT_TEXT
   end
   control.race.normalColor = SLE.DEFAULT_TEXT
 
-  if(SCENE_MANAGER:IsShowing("PvpmeterBGScene") == true)then
-    if(data.class >= 500)then
+  if (SCENE_MANAGER:IsShowing("PvpmeterBGScene") == true) then
+    if (data.class >= 500) then
       control.class.normalColor = SLE.GREEN_TEXT
     else
       control.class.normalColor = SLE.RED_TEXT
@@ -232,7 +232,7 @@ end
 
 function SLE.alignementDuel()
 
-  if(SCENE_MANAGER:IsShowing("PvpmeterduelScene") == true)then
+  if (SCENE_MANAGER:IsShowing("PvpmeterduelScene") == true) then
 
     --"EsoUI/Art/LFG/LFG_dps_down_over_64.dds"
     --"EsoUI/Art/LFG/LFG_healer_down_over_64.dds"
@@ -302,7 +302,7 @@ end
 
 function SLE.alignementBG()
 
-  if(SCENE_MANAGER:IsShowing("PvpmeterBGScene") == true)then
+  if (SCENE_MANAGER:IsShowing("PvpmeterBGScene") == true) then
 
     local head = ScrollListBG:GetNamedChild("Headers")
     local nn = head:GetNamedChild("Type")
@@ -378,7 +378,7 @@ function SLE.MouseEnter(control)
   -- Verification BG
 
   local r = PvpMeter.savedVariables.BGlist[zo_strformat("<<1>>",cd.name )].mList
-  if(r ~= nil)then
+  if (r ~= nil) then
     --d(r)
 
 
@@ -412,10 +412,10 @@ end
 
 function compareMedalForList(a,b)
 d(a)
-  if(a.mult == nil )then
+  if (a.mult == nil ) then
     a.mult = 3
   end
-  if(b.mult == nil )then
+  if (b.mult == nil ) then
     b.mult = 3
   end
   return (a.mult * a.scoreReward) < (b.mult * b.scoreReward)
@@ -453,10 +453,10 @@ function updateMedalsList(list)
 
     for indi=1,16 do
       local elem1 = list[zo_strformat("<<1>>",indi )]
-      if(elem1 ~=nil and elem1.mult~=nil)then
+      if (elem1 ~=nil and elem1.mult~=nil) then
         local calc = elem1.mult*elem1.scoreReward
-        if(indice == 1)then
-          if(calc > tmp)then
+        if (indice == 1) then
+          if (calc > tmp) then
             tmp=calc
             finnd = indi
           end
@@ -464,7 +464,7 @@ function updateMedalsList(list)
           --local calc2 = prec.mult*prec.scoreReward
           --d(calc)
           --d(items[zo_strformat("<<1>>",precc)])
-          if(calc > tmp and items[zo_strformat("<<1>>",indi)]~=true )then
+          if (calc > tmp and items[zo_strformat("<<1>>",indi)]~=true ) then
             tmp=calc
             finnd = indi
             --d(indi)
@@ -480,12 +480,12 @@ function updateMedalsList(list)
     items[zo_strformat("<<1>>",precc)] = true
     --d(items[zo_strformat("<<1>>",precc)])
 
-    if(elem ~= nil)then
+    if (elem ~= nil) then
       ind = ind+1
-      if(elem.mult == nil )then
+      if (elem.mult == nil ) then
         elem.mult = 3
       end
-      if(ind == 1)then
+      if (ind == 1) then
             Medals1:SetHidden(false)
             local Icon = Medals1:GetNamedChild("Icon")
             local Value = Medals1:GetNamedChild("Value")
@@ -496,7 +496,7 @@ function updateMedalsList(list)
             Value:SetText(elem.mult * elem.scoreReward .. " points")
             Count:SetText(elem.mult)
           end
-      if(ind == 2)then
+      if (ind == 2) then
             Medals2:SetHidden(false)
             local Icon = Medals2:GetNamedChild("Icon")
             local Value = Medals2:GetNamedChild("Value")
@@ -507,7 +507,7 @@ function updateMedalsList(list)
             Value:SetText(elem.mult * elem.scoreReward .. " points")
             Count:SetText(elem.mult)
           end
-      if(ind == 3)then
+      if (ind == 3) then
             Medals3:SetHidden(false)
             local Icon = Medals3:GetNamedChild("Icon")
             local Value = Medals3:GetNamedChild("Value")
@@ -518,7 +518,7 @@ function updateMedalsList(list)
             Value:SetText(elem.mult * elem.scoreReward .. " points")
             Count:SetText(elem.mult)
           end
-      if(ind == 4)then
+      if (ind == 4) then
             Medals4:SetHidden(false)
             local Icon = Medals4:GetNamedChild("Icon")
             local Value = Medals4:GetNamedChild("Value")
@@ -529,7 +529,7 @@ function updateMedalsList(list)
             Value:SetText(elem.mult * elem.scoreReward .. " points")
             Count:SetText(elem.mult)
           end
-      if(ind == 5)then
+      if (ind == 5) then
             Medals5:SetHidden(false)
             local Icon = Medals5:GetNamedChild("Icon")
             local Value = Medals5:GetNamedChild("Value")
@@ -540,7 +540,7 @@ function updateMedalsList(list)
             Value:SetText(elem.mult * elem.scoreReward .. " points")
             Count:SetText(elem.mult)
           end
-      if(ind == 6)then
+      if (ind == 6) then
             Medals6:SetHidden(false)
             local Icon = Medals6:GetNamedChild("Icon")
             local Value = Medals6:GetNamedChild("Value")
@@ -551,7 +551,7 @@ function updateMedalsList(list)
             Value:SetText(elem.mult * elem.scoreReward .. " points")
             Count:SetText(elem.mult)
           end
-      if(ind == 7)then
+      if (ind == 7) then
           Medals7:SetHidden(false)
           local Icon = Medals7:GetNamedChild("Icon")
           local Value = Medals7:GetNamedChild("Value")
@@ -572,13 +572,13 @@ function updateMedalsList(list)
   for indice=1,16 do
 
     local elem = list[zo_strformat("<<1>>",indice )]
-    if(elem ~=nil)then
+    if (elem ~=nil) then
 
       ind = ind+1
-      if(elem.mult == nil )then
+      if (elem.mult == nil ) then
         elem.mult = 3
       end
-      if(ind == 1)then
+      if (ind == 1) then
         Medals1:SetHidden(false)
         local Icon = Medals1:GetNamedChild("Icon")
         local Value = Medals1:GetNamedChild("Value")
@@ -589,7 +589,7 @@ function updateMedalsList(list)
         Value:SetText(elem.mult * elem.scoreReward .. " points")
         Count:SetText(elem.mult)
       end
-      if(ind == 2)then
+      if (ind == 2) then
         Medals2:SetHidden(false)
         local Icon = Medals2:GetNamedChild("Icon")
         local Value = Medals2:GetNamedChild("Value")
@@ -600,7 +600,7 @@ function updateMedalsList(list)
         Value:SetText(elem.mult * elem.scoreReward .. " points")
         Count:SetText(elem.mult)
       end
-      if(ind == 3)then
+      if (ind == 3) then
         Medals3:SetHidden(false)
         local Icon = Medals3:GetNamedChild("Icon")
         local Value = Medals3:GetNamedChild("Value")
@@ -611,7 +611,7 @@ function updateMedalsList(list)
         Value:SetText(elem.mult * elem.scoreReward .. " points")
         Count:SetText(elem.mult)
       end
-      if(ind == 4)then
+      if (ind == 4) then
         Medals4:SetHidden(false)
         local Icon = Medals4:GetNamedChild("Icon")
         local Value = Medals4:GetNamedChild("Value")
@@ -622,7 +622,7 @@ function updateMedalsList(list)
         Value:SetText(elem.mult * elem.scoreReward .. " points")
         Count:SetText(elem.mult)
       end
-      if(ind == 5)then
+      if (ind == 5) then
         Medals5:SetHidden(false)
         local Icon = Medals5:GetNamedChild("Icon")
         local Value = Medals5:GetNamedChild("Value")
@@ -633,7 +633,7 @@ function updateMedalsList(list)
         Value:SetText(elem.mult * elem.scoreReward .. " points")
         Count:SetText(elem.mult)
       end
-      if(ind == 6)then
+      if (ind == 6) then
         Medals6:SetHidden(false)
         local Icon = Medals6:GetNamedChild("Icon")
         local Value = Medals6:GetNamedChild("Value")
@@ -644,7 +644,7 @@ function updateMedalsList(list)
         Value:SetText(elem.mult * elem.scoreReward .. " points")
         Count:SetText(elem.mult)
       end
-      if(ind == 7)then
+      if (ind == 7) then
         Medals7:SetHidden(false)
         local Icon = Medals7:GetNamedChild("Icon")
         local Value = Medals7:GetNamedChild("Value")
@@ -680,34 +680,34 @@ end
 
 function SLE.reset()
   SLE.units = {}
-  if(SCENE_MANAGER:IsShowing("PvpmeterduelScene"))then
+  if (SCENE_MANAGER:IsShowing("PvpmeterduelScene")) then
 
-    if(PvpMeter.duelPlayed%50==0)then
+    if (PvpMeter.duelPlayed%50==0) then
       SLE.UnitList.cpt = ( (PvpMeter.duelPlayed-(PvpMeter.duelPlayed%50))-((PvpMeter.pageD)*50)) + 1
     else
-      if( (PvpMeter.pageD>1 ))then
+      if ( (PvpMeter.pageD>1 )) then
         SLE.UnitList.cpt = ( (PvpMeter.duelPlayed-(PvpMeter.duelPlayed%50))-((PvpMeter.pageD-1)*50)) + 1
       else
         SLE.UnitList.cpt = (PvpMeter.duelPlayed-(PvpMeter.duelPlayed%50)) +1
       end
     end
-    if(PvpMeter.duelPlayed==0)then
+    if (PvpMeter.duelPlayed==0) then
       SLE.UnitList.cpt = 1
     end
 
   end
 
-  if(SCENE_MANAGER:IsShowing("PvpmeterBGScene"))then
-    if(PvpMeter.BGPlayed%50==0)then
+  if (SCENE_MANAGER:IsShowing("PvpmeterBGScene")) then
+    if (PvpMeter.BGPlayed%50==0) then
       SLE.UnitList.cpt = ( (PvpMeter.BGPlayed-(PvpMeter.BGPlayed%50))-((PvpMeter.page)*50)) + 1
     else
-      if( (PvpMeter.page>1 ))then
+      if ( (PvpMeter.page>1 )) then
         SLE.UnitList.cpt = ( (PvpMeter.BGPlayed-(PvpMeter.BGPlayed%50))-((PvpMeter.page-1)*50)) + 1
       else
         SLE.UnitList.cpt = (PvpMeter.BGPlayed-(PvpMeter.BGPlayed%50)) +1
       end
     end
-    if(PvpMeter.BGPlayed==0)then
+    if (PvpMeter.BGPlayed==0) then
       SLE.UnitList.cpt = 1
     end
   end

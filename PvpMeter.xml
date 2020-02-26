@@ -117,11 +117,11 @@
             </Animations>
         </AnimationTimeline>
         
-        <AnimationTimeline name="HUDTelvarMeterEasing">
+        <AnimationTimeline name="BGandAvAOverlayEasing">
             <Animations>
                 <CustomAnimation duration="700">
                     <UpdateFunction>
-                        HUDTelvarMeter_UpdateMeterToAnimationProgress(progress)
+                        BGandAvAOverlay_UpdateMeterToAnimationProgress(progress)
                     </UpdateFunction>
                     <EasingFunction>
                         return ZO_EaseOutQuadratic(progress)
@@ -132,14 +132,14 @@
             </Animations>
         </AnimationTimeline>
         
-        <AnimationTimeline name="HUDTelvarMeterMultiplierBounce">
+        <AnimationTimeline name="BGandAvAOverlayMultiplierBounce">
             <Animations>
                 <AlphaAnimation duration="200" startAlpha="0"   endAlpha="1"/>
                 <ScaleAnimation duration="300" startScale="2.5" endScale="1"/>
             </Animations>
         </AnimationTimeline>
 
-        <AnimationTimeline name="HUDTelvarMeterOverlayFade">
+        <AnimationTimeline name="BGandAvAOverlayOverlayFade">
             <Animations>
                 <AlphaAnimation duration="1500" startAlpha="1"   endAlpha="0"/>
             </Animations>
@@ -147,7 +147,7 @@
     </Animations>
 
     <Controls>
-        <Control name="HUDTelvarMeter_KeyboardTemplate" virtual="true" clampedToScreen="true" mouseEnabled="true" movable="true">
+        <Control name="BGandAvAOverlay_KeyboardTemplate" virtual="true" clampedToScreen="true" mouseEnabled="true" movable="true">
             <!--<Anchor point="BOTTOMRIGHT" offsetY="-90" />-->
 			
 			<OnMoveStop>
@@ -273,7 +273,7 @@
             </Controls>
         </Control>
 
-        <Control  name="HUDTelvarMeter_GamepadTemplate" virtual="true" >
+        <Control  name="BGandAvAOverlay_GamepadTemplate" virtual="true" >
             <Anchor point="BOTTOMLEFT" offsetX="5" offsetY="-5" />
             <Controls>
                 <Texture name="$(parent)Frame" hidden="true" textureFile="EsoUI/Art/HUD/Gamepad/gp_Telvar_Meter_Frame.dds">
@@ -320,9 +320,9 @@
 		
 		
         
-        <TopLevelControl name="HUDTelvarMeter" hidden="true">
+        <TopLevelControl name="BGandAvAOverlay" hidden="true">
             <OnInitialized>
-                HUDTelvarMeter_Initialize(self)
+                BGandAvAOverlay_Initialize(self)
             </OnInitialized>
             <Dimensions x="TELVAR_METER_WIDTH" y="TELVAR_METER_HEIGHT" />
             <Controls>
@@ -381,11 +381,11 @@
 	
 	
 	<Animations>
-        <AnimationTimeline name="HUDInfamyMeterEasing">
+        <AnimationTimeline name="DuelOverlayEasing">
             <Animations>
                 <CustomAnimation duration="700">
                     <UpdateFunction>
-                        HUDInfamyMeter_AnimateMeter(progress)
+                        DuelOverlay_AnimateMeter(progress)
                     </UpdateFunction>
                     <EasingFunction>
                         return ZO_EaseOutQuadratic(progress)
@@ -394,7 +394,7 @@
             </Animations>
         </AnimationTimeline>
 
-        <AnimationTimeline name="HUDInfamyMeterCenterIconCutoutIn">
+        <AnimationTimeline name="DuelOverlayCenterIconCutoutIn">
             <Animations>
                 <!-- These animations apply to the cutout that comes in and then fades away -->
                 <AlphaAnimation duration="300" startAlpha="0"   endAlpha=".75" />
@@ -405,7 +405,7 @@
             </Animations>
         </AnimationTimeline>
 
-        <AnimationTimeline name="HUDInfamyMeterCenterIconScaleOut">
+        <AnimationTimeline name="DuelOverlayCenterIconScaleOut">
             <Animations>
                 <!-- These animations apply to the icon that scales and alphas out -->
                 <AlphaAnimation duration="300" startAlpha="1" endAlpha="0" />
@@ -417,7 +417,7 @@
     </Animations>
 
     <Controls>
-        <Control name="HUDInfamyMeter_KeyboardTemplate" virtual="true" clampedToScreen="true" mouseEnabled="true" movable="true">
+        <Control name="DuelOverlay_KeyboardTemplate" virtual="true" clampedToScreen="true" mouseEnabled="true" movable="true">
 		
 			<OnMoveStop>
 				PvpMeter.OnDuelMoveStop()
@@ -489,7 +489,7 @@
             </Controls>
         </Control>
 
-        <Control name="HUDInfamyMeter_GamepadTemplate" virtual="true" hidden="true">
+        <Control name="DuelOverlay_GamepadTemplate" virtual="true" hidden="true">
             <Dimensions x="INFAMY_METER_WIDTH" y="INFAMY_METER_HEIGHT" />
             <Anchor point="BOTTOMLEFT" offsetX="5" offsetY="-5" />
             <Controls>
@@ -526,9 +526,9 @@
             </Controls>
         </Control>
 
-        <TopLevelControl name="HUDInfamyMeter" hidden="true" >
+        <TopLevelControl name="DuelOverlay" hidden="true" >
             <OnInitialized>
-                HUDInfamyMeter_Initialize(self)
+                DuelOverlay_Initialize(self)
             </OnInitialized>
         </TopLevelControl>
         

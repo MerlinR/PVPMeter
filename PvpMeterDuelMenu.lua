@@ -56,32 +56,32 @@ end
 
 
 function DuelPvpMeter.init()
-  if(PvpMeter.statLoaded==false)then
+  if (PvpMeter.statLoaded==false) then
     for i=1,PvpMeter.duelPlayed do
 
-      if(PvpMeter.duelList[zo_strformat("<<1>>", i)].done ~=nil)then
+      if (PvpMeter.duelList[zo_strformat("<<1>>", i)].done ~=nil) then
         PvpMeter.DnbrDone = PvpMeter.DnbrDone + math.ceil(PvpMeter.duelList[zo_strformat("<<1>>", i)].done/1000)
       end
 
-      if(PvpMeter.duelList[zo_strformat("<<1>>", i)].taken ~=nil)then
+      if (PvpMeter.duelList[zo_strformat("<<1>>", i)].taken ~=nil) then
         PvpMeter.DnbrTaken = PvpMeter.DnbrTaken + math.ceil(PvpMeter.duelList[zo_strformat("<<1>>", i)].taken/1000)
       end
 
-      if(PvpMeter.duelList[zo_strformat("<<1>>", i)].heal ~=nil)then
+      if (PvpMeter.duelList[zo_strformat("<<1>>", i)].heal ~=nil) then
         PvpMeter.DnbrHeal = PvpMeter.DnbrHeal  + math.ceil(PvpMeter.duelList[zo_strformat("<<1>>", i)].heal/1000)
       end
 
 
-      if(PvpMeter.duelList[zo_strformat("<<1>>", i)].block ~=nil)then
+      if (PvpMeter.duelList[zo_strformat("<<1>>", i)].block ~=nil) then
         PvpMeter.DnbrBlock = PvpMeter.DnbrBlock + math.ceil(PvpMeter.duelList[zo_strformat("<<1>>", i)].block/1000)
       end
 
-      if(PvpMeter.duelList[zo_strformat("<<1>>", i)].shield ~=nil)then
+      if (PvpMeter.duelList[zo_strformat("<<1>>", i)].shield ~=nil) then
         PvpMeter.DnbrShield = PvpMeter.DnbrShield + math.ceil(PvpMeter.duelList[zo_strformat("<<1>>", i)].shield/1000)
       end
 
 
-      if(PvpMeter.duelList[zo_strformat("<<1>>", i)].dodge ~=nil)then
+      if (PvpMeter.duelList[zo_strformat("<<1>>", i)].dodge ~=nil) then
         PvpMeter.DnbrDodge = PvpMeter.DnbrDodge + PvpMeter.duelList[zo_strformat("<<1>>", i)].dodge
       end
 
@@ -93,29 +93,29 @@ end
 function DuelPvpMeter.updateStat()
     for i=PvpMeter.duelPlayed,PvpMeter.duelPlayed do
 
-      if(PvpMeter.duelList[zo_strformat("<<1>>", i)].done ~=nil)then
+      if (PvpMeter.duelList[zo_strformat("<<1>>", i)].done ~=nil) then
         PvpMeter.DnbrDone = PvpMeter.DnbrDone + math.ceil(PvpMeter.duelList[zo_strformat("<<1>>", i)].done/1000)
       end
 
-      if(PvpMeter.duelList[zo_strformat("<<1>>", i)].taken ~=nil)then
+      if (PvpMeter.duelList[zo_strformat("<<1>>", i)].taken ~=nil) then
         PvpMeter.DnbrTaken = PvpMeter.DnbrTaken + math.ceil(PvpMeter.duelList[zo_strformat("<<1>>", i)].taken/1000)
       end
 
-      if(PvpMeter.duelList[zo_strformat("<<1>>", i)].heal ~=nil)then
+      if (PvpMeter.duelList[zo_strformat("<<1>>", i)].heal ~=nil) then
         PvpMeter.DnbrHeal = PvpMeter.DnbrHeal  + math.ceil(PvpMeter.duelList[zo_strformat("<<1>>", i)].heal/1000)
       end
 
 
-      if(PvpMeter.duelList[zo_strformat("<<1>>", i)].block ~=nil)then
+      if (PvpMeter.duelList[zo_strformat("<<1>>", i)].block ~=nil) then
         PvpMeter.DnbrBlock = PvpMeter.DnbrBlock + math.ceil(PvpMeter.duelList[zo_strformat("<<1>>", i)].block/1000)
       end
 
-      if(PvpMeter.duelList[zo_strformat("<<1>>", i)].shield ~=nil)then
+      if (PvpMeter.duelList[zo_strformat("<<1>>", i)].shield ~=nil) then
         PvpMeter.DnbrShield = PvpMeter.DnbrShield + math.ceil(PvpMeter.duelList[zo_strformat("<<1>>", i)].shield/1000)
       end
 
 
-      if(PvpMeter.duelList[zo_strformat("<<1>>", i)].dodge ~=nil)then
+      if (PvpMeter.duelList[zo_strformat("<<1>>", i)].dodge ~=nil) then
         PvpMeter.DnbrDodge = PvpMeter.DnbrDodge + PvpMeter.duelList[zo_strformat("<<1>>", i)].dodge
       end
 
@@ -128,11 +128,11 @@ function DuelPvpMeter.showStatDuel()
   HUDMenuMeter_restore(10,-95)
 
   local endd = 0
-  if(PvpMeter.savedVariables.duelWin== nil)then
+  if (PvpMeter.savedVariables.duelWin== nil) then
     PvpMeter.savedVariables.duelWin = 0
   end
 
-  if(PvpMeter.savedVariables.duelPlayed == nil or PvpMeter.savedVariables.duelPlayed == 0)then
+  if (PvpMeter.savedVariables.duelPlayed == nil or PvpMeter.savedVariables.duelPlayed == 0) then
     PvpMeter.savedVariables.duelPlayed = 0
     endd = 1
   else
@@ -148,7 +148,7 @@ function DuelPvpMeter.showStatDuel()
   LabelTotalKillValueDuel:SetText(0)
   LabelTotalDeathValueDuel:SetText(0)
 
-  if(PvpMeter.savedVariables.bgDeath==0)then
+  if (PvpMeter.savedVariables.bgDeath==0) then
     LabelRatioValueDuel:SetText(0)
   else
     LabelRatioValueDuel:SetText(0)
@@ -157,7 +157,7 @@ function DuelPvpMeter.showStatDuel()
   ScrollListBG:SetHidden(false)
 
 
-  if(PvpMeter.duelPlayed == 0)then
+  if (PvpMeter.duelPlayed == 0) then
     LabeTotalKillValue:SetText(      0 .. "k"  )
     LabeTotalDeathValue:SetText(          0  .. "k"  )
     LabeRatioValue:SetText(       0 .. "k"  )
@@ -176,7 +176,7 @@ function DuelPvpMeter.showStatDuel()
     LabeDamTakenValue:SetText(       math.ceil(PvpMeter.DnbrDodge/PvpMeter.duelPlayed)  )
   end
 
-  if(PvpMeter.duelPlayed>0)then
+  if (PvpMeter.duelPlayed>0) then
     DuelPvpMeter.DoStatKill((PvpMeter.DnbrTaken/PvpMeter.duelPlayed),(PvpMeter.DnbrDone/PvpMeter.duelPlayed))
     DuelPvpMeter.DoStatHeal((PvpMeter.DnbrHeal/PvpMeter.duelPlayed),(PvpMeter.DnbrTaken/PvpMeter.duelPlayed))
     DuelPvpMeter.DoStatTank((PvpMeter.DnbrShield/PvpMeter.duelPlayed),(PvpMeter.DnbrTaken/PvpMeter.duelPlayed),(PvpMeter.DnbrBlock/PvpMeter.duelPlayed))
@@ -193,11 +193,11 @@ function DuelPvpMeter.show2()
   HUDMenuMeter_restore(10,-95)
 
   local endd = 0
-  if(PvpMeter.savedVariables.duelWin== nil)then
+  if (PvpMeter.savedVariables.duelWin== nil) then
     PvpMeter.savedVariables.duelWin = 0
   end
 
-  if(PvpMeter.savedVariables.duelPlayed == nil or PvpMeter.savedVariables.duelPlayed == 0)then
+  if (PvpMeter.savedVariables.duelPlayed == nil or PvpMeter.savedVariables.duelPlayed == 0) then
     PvpMeter.savedVariables.duelPlayed = 0
     endd = 1
   else
@@ -214,7 +214,7 @@ function DuelPvpMeter.show2()
   LabelTotalKillValueDuel:SetText(0)
   LabelTotalDeathValueDuel:SetText(0)
 
-  if(PvpMeter.savedVariables.bgDeath==0)then
+  if (PvpMeter.savedVariables.bgDeath==0) then
     LabelRatioValueDuel:SetText(0)
   else
     LabelRatioValueDuel:SetText(0)
@@ -228,11 +228,11 @@ function DuelPvpMeter.show2()
   local deb = 0
     local fin = 0
 
-    if(PvpMeter.duelPlayed%50==0)then
+    if (PvpMeter.duelPlayed%50==0) then
       deb = ( (PvpMeter.duelPlayed-(PvpMeter.duelPlayed%50))-((PvpMeter.pageD)*50)) + 1
       fin = ( (PvpMeter.duelPlayed-(PvpMeter.duelPlayed%50))-((PvpMeter.pageD)*50))+50
     else
-      if( (PvpMeter.pageD>1 ))then
+      if ( (PvpMeter.pageD>1 )) then
         deb = ( (PvpMeter.duelPlayed-(PvpMeter.duelPlayed%50))-((PvpMeter.pageD-1)*50)) + 1
         fin = ( (PvpMeter.duelPlayed-(PvpMeter.duelPlayed%50))-((PvpMeter.pageD-1)*50))+50
       else
@@ -241,27 +241,27 @@ function DuelPvpMeter.show2()
       end
     end
 
-    if(PvpMeter.duelPlayed==0)then
+    if (PvpMeter.duelPlayed==0) then
       return
     end
 
   -- scroll list
-  --if(PvpMeter.displayDuelList <= PvpMeter.duelPlayed)then
+  --if (PvpMeter.displayDuelList <= PvpMeter.duelPlayed) then
     for i=deb,fin do
 
-      --if(PvpMeter.duelList[zo_strformat("<<1>>", i)] == nil )then return end
+      --if (PvpMeter.duelList[zo_strformat("<<1>>", i)] == nil ) then return end
 
       PvpMeter.displayDuelList = PvpMeter.displayDuelList + 1
 
       local targetRace = 0
 
-      if( PvpMeter.duelList[zo_strformat("<<1>>", i)].win ~= nil)then
+      if ( PvpMeter.duelList[zo_strformat("<<1>>", i)].win ~= nil) then
         targetRace = PvpMeter.duelList[zo_strformat("<<1>>", i)].win
       else
         targetRace = math.random(3)
       end
 
-      --[[if( tonumber(PvpMeter.duelList[zo_strformat("<<1>>", i)].score) >= 500) then
+      --[[if ( tonumber(PvpMeter.duelList[zo_strformat("<<1>>", i)].score) >= 500) then
         targetRace = "Win"
       else
         targetRace = "Loose"
@@ -270,7 +270,7 @@ function DuelPvpMeter.show2()
       local targetType = zo_strformat("<<!aC:1>>",PvpMeter.duelList[zo_strformat("<<1>>", i)].name)
 
       local gender = 1
-      if(PvpMeter.duelList[zo_strformat("<<1>>", i)].gender ~=nil)then
+      if (PvpMeter.duelList[zo_strformat("<<1>>", i)].gender ~=nil) then
         gender = PvpMeter.duelList[zo_strformat("<<1>>", i)].gender
       end
 
@@ -281,42 +281,42 @@ function DuelPvpMeter.show2()
       local targetZone = zo_strformat("<<!aC:1>>",GetRaceName(gender,PvpMeter.duelList[zo_strformat("<<1>>", i)].race))
 
       local targetKill = ""
-      if(PvpMeter.duelList[zo_strformat("<<1>>", i)].done ~=nil)then
+      if (PvpMeter.duelList[zo_strformat("<<1>>", i)].done ~=nil) then
         targetKill = math.ceil(PvpMeter.duelList[zo_strformat("<<1>>", i)].done/1000) .. "k"
         --nbrDone = nbrDone + math.ceil(PvpMeter.duelList[zo_strformat("<<1>>", i)].done/1000)
 
       end
 
       local targetDeath = ""
-      if(PvpMeter.duelList[zo_strformat("<<1>>", i)].taken ~=nil)then
+      if (PvpMeter.duelList[zo_strformat("<<1>>", i)].taken ~=nil) then
         targetDeath = math.ceil(PvpMeter.duelList[zo_strformat("<<1>>", i)].taken/1000) .. "k"
         --nbrTaken = nbrTaken + math.ceil(PvpMeter.duelList[zo_strformat("<<1>>", i)].taken/1000)
 
       end
 
       local targetAssist = ""
-      if(PvpMeter.duelList[zo_strformat("<<1>>", i)].heal ~=nil)then
+      if (PvpMeter.duelList[zo_strformat("<<1>>", i)].heal ~=nil) then
         targetAssist = math.ceil(PvpMeter.duelList[zo_strformat("<<1>>", i)].heal/1000) .. "k"
         --nbrHeal = nbrHeal  + math.ceil(PvpMeter.duelList[zo_strformat("<<1>>", i)].heal/1000)
 
       end
 
       local targetDamd = ""
-      if(PvpMeter.duelList[zo_strformat("<<1>>", i)].block ~=nil)then
+      if (PvpMeter.duelList[zo_strformat("<<1>>", i)].block ~=nil) then
         targetDamd = math.ceil(PvpMeter.duelList[zo_strformat("<<1>>", i)].block/1000) .. "k"
         --nbrBlock = nbrBlock + math.ceil(PvpMeter.duelList[zo_strformat("<<1>>", i)].block/1000)
 
       end
 
       local targetHeal = ""
-      if(PvpMeter.duelList[zo_strformat("<<1>>", i)].shield ~=nil)then
+      if (PvpMeter.duelList[zo_strformat("<<1>>", i)].shield ~=nil) then
         targetHeal = math.ceil(PvpMeter.duelList[zo_strformat("<<1>>", i)].shield/1000) .. "k"
         --nbrShield = nbrShield + math.ceil(PvpMeter.duelList[zo_strformat("<<1>>", i)].shield/1000)
 
       end
 
       local targetDamt = ""
-      if(PvpMeter.duelList[zo_strformat("<<1>>", i)].dodge ~=nil)then
+      if (PvpMeter.duelList[zo_strformat("<<1>>", i)].dodge ~=nil) then
         targetDamt = PvpMeter.duelList[zo_strformat("<<1>>", i)].dodge
         --nbrDodge = nbrDodge + PvpMeter.duelList[zo_strformat("<<1>>", i)].dodge
       end
@@ -331,11 +331,11 @@ end
 
 
 function DuelPvpMeter.DoStatKill(statTaken,statDone)
-  if(statDone > statTaken)then
+  if (statDone > statTaken) then
     iconDpsBG1:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full_gold.dds")
     iconDpsBG2:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full_gold.dds")
     iconDpsBG3:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full_gold.dds")
-  elseif(statDone > (statTaken/2))then
+  elseif (statDone > (statTaken/2)) then
     iconDpsBG1:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full.dds")
     iconDpsBG2:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full.dds")
     iconDpsBG3:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full.dds")
@@ -347,11 +347,11 @@ function DuelPvpMeter.DoStatKill(statTaken,statDone)
 end
 
 function DuelPvpMeter.DoStatHeal(statHeal,statTaken)
-  if(statHeal> (statTaken/1.5))then
+  if (statHeal> (statTaken/1.5)) then
     iconHealBG1:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full_gold.dds")
     iconHealBG2:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full_gold.dds")
     iconHealBG3:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full_gold.dds")
-  elseif(statHeal> (statTaken/2))then
+  elseif (statHeal> (statTaken/2)) then
     iconHealBG1:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full.dds")
     iconHealBG2:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full.dds")
     iconHealBG3:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full.dds")
@@ -366,11 +366,11 @@ end
 function DuelPvpMeter.DoStatTank(statShield,statTaken,statBlock)
   local res = statBlock + statShield
 
-  if(res > (statTaken*0.6))then
+  if (res > (statTaken*0.6)) then
     iconTankBG1:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full_gold.dds")
     iconTankBG2:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full_gold.dds")
     iconTankBG3:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full_gold.dds")
-  elseif(res > (statTaken*0.4))then
+  elseif (res > (statTaken*0.4)) then
     iconTankBG1:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full.dds")
     iconTankBG2:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full.dds")
     iconTankBG3:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full.dds")
@@ -383,7 +383,7 @@ end
 
 
 function DuelPvpMeter.hide()
-  if(SCENE_MANAGER:IsShowing("PvpmeterBGScene") == false)then
+  if (SCENE_MANAGER:IsShowing("PvpmeterBGScene") == false) then
     HUDMenuMeter_hide()
     ScrollListBG:SetHidden(true)
   end

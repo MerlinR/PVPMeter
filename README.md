@@ -1,6 +1,6 @@
 # PVPMeter
-PVP meter and tracking developed by Xmarig63
-Altered here to change Win/Lose to 1st/2nd/3rd and include KDA stats
+PVP meter and tracking originally developed by Xmarig63
+Altered by HoboNavity and Thalothean to fix bugs and bring it up to date with latest changes.
 
 
 Original Download location
@@ -16,7 +16,7 @@ https://www.esoui.com/downloads/info1760-PvpMeter.html
 
 #### GUI
  - [ ] Update BG to display pos in table
- - [ ] Add stat to display KDA raio (Total and Per game)
+ - [ ] Add stat to display KDA ratio (Total and Per game)
  - [ ] Update display from win/lose -> 1st,2nd,3rd
  - [ ] Update Graph to correctly display %
  - [ ] Add stat for win % based from 1st,2nd,3rd

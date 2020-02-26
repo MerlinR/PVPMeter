@@ -61,7 +61,7 @@ end
 function MenuPvpMeter:Toggle(viaButton)
   --d("test")
 
-  if(PvpMeter.savedVariables.hideMenu==false) then return end
+  if (PvpMeter.savedVariables.hideMenu==false) then return end
 
   LMM:ToggleCategory(self.BASE_MENU)
   if not viaButton then

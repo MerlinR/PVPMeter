@@ -57,11 +57,11 @@ end
 function BGPvpMeter.init()
 
   -- Stat
-  if(PvpMeter.statLoaded==false)then
+  if (PvpMeter.statLoaded==false) then
     for i=1,PvpMeter.BGPlayed do
 
       local winn = false
-      if( tonumber(PvpMeter.BGlist[zo_strformat("<<1>>", i)].score) >= 500) then
+      if ( tonumber(PvpMeter.BGlist[zo_strformat("<<1>>", i)].score) >= 500) then
         winn = true
       else
         winn = false
@@ -69,35 +69,35 @@ function BGPvpMeter.init()
 
       local targetType = PvpMeter.BGlist[zo_strformat("<<1>>", i)].typeOfBG
 
-      if(targetType == 1)then targetType="CTR"
+      if (targetType == 1) then targetType="CTR"
         PvpMeter.nbrCTR = PvpMeter.nbrCTR + 1
-        if(winn)then
+        if (winn) then
           PvpMeter.nbrCTRWin =PvpMeter.nbrCTRWin + 1
         end
 
       end
-      if(targetType == 2)then targetType="DM"
+      if (targetType == 2) then targetType="DM"
         PvpMeter.nbrDM = PvpMeter.nbrDM + 1
-        if(winn)then
+        if (winn) then
           PvpMeter.nbrDMWin = PvpMeter.nbrDMWin + 1
         end
       end
-      if(targetType == 3)then targetType="KOH" end
-      if(targetType == 4)then targetType="DOM"
+      if (targetType == 3) then targetType="KOH" end
+      if (targetType == 4) then targetType="DOM"
         PvpMeter.nbrDOM = PvpMeter.nbrDOM + 1
-        if(winn)then
+        if (winn) then
           PvpMeter.nbrDOMWin = PvpMeter.nbrDOMWin + 1
         end
       end
-      if(targetType == 5)then targetType="CRZ"
+      if (targetType == 5) then targetType="CRZ"
         PvpMeter.nbrCRZ = PvpMeter.nbrCRZ + 1
-        if(winn)then
+        if (winn) then
           PvpMeter.nbrCRZWin = PvpMeter.nbrCRZWin + 1
         end
       end
-      if(targetType == 6)then targetType="BAL"
+      if (targetType == 6) then targetType="BAL"
         PvpMeter.nbrMUR = PvpMeter.nbrMUR + 1
-        if(winn)then
+        if (winn) then
           PvpMeter.nbrMURWin = PvpMeter.nbrMURWin + 1
         end
       end
@@ -120,7 +120,7 @@ function BGPvpMeter.updateStat()
     for i=PvpMeter.BGPlayed,PvpMeter.BGPlayed do
 
       local winn = false
-      if( tonumber(PvpMeter.BGlist[zo_strformat("<<1>>", i)].score) >= 500) then
+      if ( tonumber(PvpMeter.BGlist[zo_strformat("<<1>>", i)].score) >= 500) then
         winn = true
       else
         winn = false
@@ -128,38 +128,38 @@ function BGPvpMeter.updateStat()
 
       local targetType = PvpMeter.BGlist[zo_strformat("<<1>>", i)].typeOfBG
 
-      if(targetType == 1)then targetType="CTR"
+      if (targetType == 1) then targetType="CTR"
         PvpMeter.nbrCTR = PvpMeter.nbrCTR + 1
-        if(winn)then
+        if (winn) then
           PvpMeter.nbrCTRWin =PvpMeter.nbrCTRWin + 1
         end
       end
 
-      if(targetType == 2)then targetType="DM"
+      if (targetType == 2) then targetType="DM"
         PvpMeter.nbrDM = PvpMeter.nbrDM + 1
-        if(winn)then
+        if (winn) then
           PvpMeter.nbrDMWin = PvpMeter.nbrDMWin + 1
         end
       end
 
-      if(targetType == 5)then targetType="CRZ"
+      if (targetType == 5) then targetType="CRZ"
         PvpMeter.nbrCRZ = PvpMeter.nbrCRZ + 1
-        if(winn)then
+        if (winn) then
           PvpMeter.nbrCRZWin = PvpMeter.nbrCRZWin + 1
         end
       end
 
-      if(targetType == 4)then targetType="DOM"
+      if (targetType == 4) then targetType="DOM"
         PvpMeter.nbrDOM = PvpMeter.nbrDOM + 1
-        if(winn)then
+        if (winn) then
           PvpMeter.nbrDOMWin = PvpMeter.nbrDOMWin + 1
         end
       end
 
-      if(targetType == 3)then targetType="KOH" end
-      if(targetType == 6)then targetType="BAL"
+      if (targetType == 3) then targetType="KOH" end
+      if (targetType == 6) then targetType="BAL"
         PvpMeter.nbrMUR = PvpMeter.nbrMUR + 1
-        if(winn)then
+        if (winn) then
           PvpMeter.nbrMURWin = PvpMeter.nbrMURWin + 1
         end
       end
@@ -182,7 +182,7 @@ function BGPvpMeter.showStatBG()
 
   local endd = 0
 
-  if(PvpMeter.savedVariables.BGPlayed == 0)then
+  if (PvpMeter.savedVariables.BGPlayed == 0) then
     endd = 1
   else
     endd = PvpMeter.savedVariables.BGWin / PvpMeter.savedVariables.BGPlayed
@@ -197,7 +197,7 @@ function BGPvpMeter.showStatBG()
 
   ScrollListBG:SetHidden(false)
 
-  if(PvpMeter.BGPlayed == 0)then
+  if (PvpMeter.BGPlayed == 0) then
     LabelTotalKillValue:SetText(      0      )
     LabelTotalDeathValue:SetText(        0    )
     LabelRatioValue:SetText(0  )
@@ -220,7 +220,7 @@ function BGPvpMeter.showStatBG()
   LabelMURValue:SetText(PvpMeter.nbrMUR)
   LabelCRZValue:SetText(PvpMeter.nbrCRZ)
 
-  if(PvpMeter.BGPlayed > 0)then
+  if (PvpMeter.BGPlayed > 0) then
     BGPvpMeter.DoStatKill((PvpMeter.nbrKill/PvpMeter.BGPlayed),(PvpMeter.nbrAssist/PvpMeter.BGPlayed),(PvpMeter.nbrDone/PvpMeter.BGPlayed))
     BGPvpMeter.DoStatHeal(PvpMeter.nbrHeal/PvpMeter.BGPlayed)
     BGPvpMeter.DoStatTank((PvpMeter.nbrDeath/PvpMeter.BGPlayed),(PvpMeter.nbrTaken/PvpMeter.BGPlayed))
@@ -236,7 +236,7 @@ function BGPvpMeter.show2()
 
   local endd = 0
 
-  if(PvpMeter.savedVariables.BGPlayed == 0)then
+  if (PvpMeter.savedVariables.BGPlayed == 0) then
     endd = 1
   else
     endd = PvpMeter.savedVariables.BGWin / PvpMeter.savedVariables.BGPlayed
@@ -270,11 +270,11 @@ function BGPvpMeter.show2()
     local deb = 0
     local fin = 0
 
-    if(PvpMeter.BGPlayed%50==0)then
+    if (PvpMeter.BGPlayed%50==0) then
       deb = ( (PvpMeter.BGPlayed-(PvpMeter.BGPlayed%50))-((PvpMeter.page)*50)) + 1
       fin = ( (PvpMeter.BGPlayed-(PvpMeter.BGPlayed%50))-((PvpMeter.page)*50))+50
     else
-      if( (PvpMeter.page>1 ))then
+      if ( (PvpMeter.page>1 )) then
         deb = ( (PvpMeter.BGPlayed-(PvpMeter.BGPlayed%50))-((PvpMeter.page-1)*50)) + 1
         fin = ( (PvpMeter.BGPlayed-(PvpMeter.BGPlayed%50))-((PvpMeter.page-1)*50))+50
       else
@@ -283,19 +283,19 @@ function BGPvpMeter.show2()
       end
     end
 
-    if(PvpMeter.BGPlayed==0)then
+    if (PvpMeter.BGPlayed==0) then
       return
     end
 
     for i=deb,fin do
 
-      --if(PvpMeter.BGlist[zo_strformat("<<1>>", i)] == nil )then return end
+      --if (PvpMeter.BGlist[zo_strformat("<<1>>", i)] == nil ) then return end
 
       PvpMeter.displayBGList = PvpMeter.displayBGList + 1
 
       local targetRace = 0
 
-      if( PvpMeter.BGlist[zo_strformat("<<1>>", i)].alliance ~= nil)then
+      if ( PvpMeter.BGlist[zo_strformat("<<1>>", i)].alliance ~= nil) then
         targetRace = PvpMeter.BGlist[zo_strformat("<<1>>", i)].alliance
       else
         targetRace = math.random(3)
@@ -305,7 +305,7 @@ function BGPvpMeter.show2()
       end
 
       local winn = false
-      if( tonumber(PvpMeter.BGlist[zo_strformat("<<1>>", i)].score) >= 500) then
+      if ( tonumber(PvpMeter.BGlist[zo_strformat("<<1>>", i)].score) >= 500) then
         winn = true
       else
         winn = false
@@ -313,30 +313,30 @@ function BGPvpMeter.show2()
 
       local targetType = PvpMeter.BGlist[zo_strformat("<<1>>", i)].typeOfBG
 
-      if(targetType == 1)then targetType="CTR"
+      if (targetType == 1) then targetType="CTR"
         nbrCTR = nbrCTR + 1
-        if(winn)then
+        if (winn) then
           nbrCTRWin = nbrCTRWin + 1
         end
 
       end
-      if(targetType == 2)then targetType="DM"
+      if (targetType == 2) then targetType="DM"
         nbrDM = nbrDM + 1
-        if(winn)then
+        if (winn) then
           nbrDMWin = nbrDMWin + 1
         end
       end
-      if(targetType == 3)then targetType="KNG" end
-      if(targetType == 4)then targetType="DOM"
+      if (targetType == 3) then targetType="KNG" end
+      if (targetType == 4) then targetType="DOM"
         nbrDOM = nbrDOM + 1
-        if(winn)then
+        if (winn) then
           nbrDOMWin = nbrDOMWin + 1
         end
       end
-      if(targetType == 5)then targetType="CRZ" end
-      if(targetType == 6)then targetType="BAL"
+      if (targetType == 5) then targetType="CRZ" end
+      if (targetType == 6) then targetType="BAL"
         nbrMUR = nbrMUR + 1
-        if(winn)then
+        if (winn) then
           nbrMURWin = nbrMURWin + 1
         end
       end
@@ -362,19 +362,19 @@ end
 function BGPvpMeter.DoStatKill(statKill,statAssist,statDone)
   local res = 0
 
-  if(statKill>8)then res = res +1 end
-  if(statKill>5)then res = res +1 end
-  if(statAssist>8)then res = res +1 end
-  if(statAssist>5)then res = res +1 end
-  if(statDone>400)then res = res +1 end
+  if (statKill>8) then res = res +1 end
+  if (statKill>5) then res = res +1 end
+  if (statAssist>8) then res = res +1 end
+  if (statAssist>5) then res = res +1 end
+  if (statDone>400) then res = res +1 end
 
   --d(res .. "Dps")
 
-  if(res == 5)then
+  if (res == 5) then
     iconDpsB1:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full_gold.dds")
     iconDpsB2:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full_gold.dds")
     iconDpsB3:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full_gold.dds")
-  elseif(res > 2)then
+  elseif (res > 2) then
     iconDpsB1:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full.dds")
     iconDpsB2:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full.dds")
     iconDpsB3:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full.dds")
@@ -392,11 +392,11 @@ function BGPvpMeter.DoStatHeal(statHeal)
   local res = statHeal/100
   --d(res .. "heal")
 
-  if(res>2)then
+  if (res>2) then
     iconHealB1:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full_gold.dds")
     iconHealB2:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full_gold.dds")
     iconHealB3:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full_gold.dds")
-  elseif(res>1)then
+  elseif (res>1) then
     iconHealB1:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full.dds")
     iconHealB2:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full.dds")
     iconHealB3:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full.dds")
@@ -412,11 +412,11 @@ function BGPvpMeter.DoStatTank(statDeath,statTaken)
   local res = statDeath / (statTaken/100)
   --d(res .. "tank")
 
-  if(res<0.5)then
+  if (res<0.5) then
     iconTankB1:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full_gold.dds")
     iconTankB2:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full_gold.dds")
     iconTankB3:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full_gold.dds")
-  elseif(res<1.0)then
+  elseif (res<1.0) then
     iconTankB1:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full.dds")
     iconTankB2:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full.dds")
     iconTankB3:SetTexture("EsoUI/Art/CharacterWindow/equipmentBonusIcon_full.dds")
@@ -429,7 +429,7 @@ end
 
 
 function BGPvpMeter.hide()
-  if(SCENE_MANAGER:IsShowing("PvpmeterduelScene") == false)then
+  if (SCENE_MANAGER:IsShowing("PvpmeterduelScene") == false) then
     HUDMenuMeter_hide()
     ScrollListBG:SetHidden(true)
   end

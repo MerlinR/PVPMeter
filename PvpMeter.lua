@@ -20,80 +20,80 @@ function PvpMeter:Initialize(PvpMeterLabelKill)
 
   -- TODO Change these, functions should handle nil variables rather then
   -- checking them everytime and resettig them
-  if(self.savedVariables.hideMenu == nil)then
+  if (self.savedVariables.hideMenu == nil) then
     self.savedVariables.hideMenu = true
   end
 
-  if(self.savedVariables.rotation == nil)then
+  if (self.savedVariables.rotation == nil) then
     self.savedVariables.rotation = 1
   end
 
-  if(self.savedVariables.quickButton == nil)then
+  if (self.savedVariables.quickButton == nil) then
     self.savedVariables.quickButton = true
   end
 
-  if(self.savedVariables.autoqueue == nil)then
+  if (self.savedVariables.autoqueue == nil) then
     self.savedVariables.autoqueue = false
   end
 
-  if(self.savedVariables.duelMeter == nil)then
+  if (self.savedVariables.duelMeter == nil) then
     self.savedVariables.duelMeter = false
   end
 
-  if(self.savedVariables.playSound == nil)then
+  if (self.savedVariables.playSound == nil) then
     self.savedVariables.playSound = true
   end
 
-  if(self.savedVariables.alertBorder == nil)then
+  if (self.savedVariables.alertBorder == nil) then
     self.savedVariables.alertBorder = true
   end
 
-  if(self.savedVariables.nbrSound == nil)then
+  if (self.savedVariables.nbrSound == nil) then
     self.savedVariables.nbrSound = 0
   end
 
-  if(self.savedVariables.v3 == nil)then
+  if (self.savedVariables.v3 == nil) then
     self.savedVariables.v3 = true
     self.savedVariables.nbrCyro = 2
   end
 
-  if(self.savedVariables.nbrCyro == nil)then
+  if (self.savedVariables.nbrCyro == nil) then
     self.savedVariables.nbrCyro = 2
   end
 
-  if(self.savedVariables.showBeautifulMeter == nil)then
+  if (self.savedVariables.showBeautifulMeter == nil) then
     self.savedVariables.showBeautifulMeter = true
   end
 
-  if(self.savedVariables.BGAssist == nil)then
+  if (self.savedVariables.BGAssist == nil) then
     self.savedVariables.BGAssist = false
   end
 
-  if(self.savedVariables.top == nil)then
+  if (self.savedVariables.top == nil) then
     self.savedVariables.top = 952
   end
 
-  if(self.savedVariables.left == nil)then
+  if (self.savedVariables.left == nil) then
     self.savedVariables.left = 1664
   end
 
-  if(self.savedVariables.cyroKill == nil)then
+  if (self.savedVariables.cyroKill == nil) then
     self.savedVariables.cyroKill = 0
   end
 
-  if(self.savedVariables.cyroDeath == nil)then
+  if (self.savedVariables.cyroDeath == nil) then
     self.savedVariables.cyroDeath = 0
   end
 
-  if(self.savedVariables.bgKill == nil)then
+  if (self.savedVariables.bgKill == nil) then
     self.savedVariables.bgKill = 0
   end
 
-  if(self.savedVariables.bgDeath == nil)then
+  if (self.savedVariables.bgDeath == nil) then
     self.savedVariables.bgDeath = 0
   end
 
-  if(self.savedVariables.verbg == nil)then
+  if (self.savedVariables.verbg == nil) then
     self.savedVariables.BGlist = {}
     self.savedVariables.bgKill = 0
     self.savedVariables.bgDeath = 0
@@ -102,7 +102,7 @@ function PvpMeter:Initialize(PvpMeterLabelKill)
     self.savedVariables.verbg = true
   end
 
-  if(self.savedVariables.verduel == nil)then
+  if (self.savedVariables.verduel == nil) then
     self.savedVariables.duellist = {}
     self.savedVariables.duelMeter = false
     self.savedVariables.duelWin = 0
@@ -110,7 +110,7 @@ function PvpMeter:Initialize(PvpMeterLabelKill)
     self.savedVariables.verduel = true
   end
 
-  if(self.savedVariables.currAP == nil)then
+  if (self.savedVariables.currAP == nil) then
     self.savedVariables.currAP = false
   end
 
@@ -197,7 +197,7 @@ function PvpMeter:Initialize(PvpMeterLabelKill)
 
   CreateControl("ControlName",LabelKill,CT_LABEL)
 
-  if(self.savedVariables.hideMenu) then
+  if (self.savedVariables.hideMenu) then
     MenuPvpMeter:Initialize()
     BGPvpMeter:Initialize()
     DuelPvpMeter:Initialize()
@@ -205,7 +205,6 @@ function PvpMeter:Initialize(PvpMeterLabelKill)
   end
 
   -- Creates the event variables used to run actions on game changes
-
   EVENT_MANAGER:UnregisterForEvent(self.name, EVENT_ADD_ON_LOADED)
 
   --EVENT_MANAGER:RegisterForEvent(self.name, EVENT_GAME_FOCUS_CHANGED, self.focus)
@@ -220,7 +219,6 @@ function PvpMeter:Initialize(PvpMeterLabelKill)
   EVENT_MANAGER:RegisterForEvent(self.name, EVENT_OPEN_TRADING_HOUSE, self.openBank)
   EVENT_MANAGER:RegisterForEvent(self.name, EVENT_OPEN_GUILD_BANK, self.openBank)
   EVENT_MANAGER:RegisterForEvent(self.name, EVENT_CHATTER_BEGIN, self.openBank)
-
 
   EVENT_MANAGER:RegisterForEvent(self.name, EVENT_MEDAL_AWARDED, self.onPointUpdate)
   EVENT_MANAGER:RegisterForEvent(self.name, EVENT_BATTLEGROUND_SCOREBOARD_UPDATED , self.onScoreUpdate)
@@ -240,6 +238,32 @@ function PvpMeter:Initialize(PvpMeterLabelKill)
   EVENT_MANAGER:RegisterForEvent(self.name, EVENT_ACTIVITY_FINDER_STATUS_UPDATE, self.onActivityFinderStatusUpdate)
 end
 
+EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_ADD_ON_LOADED, PvpMeter.OnAddOnLoaded)
+
+-- ANCHOR Main function which runs on addon load
+function PvpMeter.OnAddOnLoaded(event, addonName)
+  if addonName == PvpMeter.name then
+
+    PvpMeter:Initialize()
+
+    PvpMeter.updateAP()
+    PvpMeter.updateKills()
+    PvpMeter.updateDeath()
+    PvpMeter.hideCyro()
+    PvpMeter.updateKillsBG()
+    PvpMeter.updateDeathBG()
+    PvpMeter.updateMedal()
+    PvpMeter.updateMeter()
+    PvpMeter.prepareQuickButton()
+    PvpMeter.updateButtonQuick()
+
+    --SLEDUEL.Init()
+    SLE.Init()
+
+  end
+end
+
+-- ANCHOR Reset Functions
 
 function PvpMeter.resetDataBG()
   PvpMeter.savedVariables.BGlist = {}
@@ -268,43 +292,15 @@ function PvpMeter.gamepad(event, opt)
   PvpMeter.updateAP()
   PvpMeter.updateKills()
   PvpMeter.updateDeath()
-  --PvpMeter.hideCyro()
   PvpMeter.updateKillsBG()
   PvpMeter.updateDeathBG()
   PvpMeter.updateMedal()
   PvpMeter.updateMeter()
-  --PvpMeter:initSettings()
-
 end
 
--- NOTE Main function which runs on addon load. Location unknown, LUA function declartion issue?
-function PvpMeter.OnAddOnLoaded(event, addonName)
-  if addonName == PvpMeter.name then
-
-    PvpMeter:Initialize()
-
-    PvpMeter.updateAP()
-    PvpMeter.updateKills()
-    PvpMeter.updateDeath()
-    PvpMeter.hideCyro()
-    PvpMeter.updateKillsBG()
-    PvpMeter.updateDeathBG()
-    PvpMeter.updateMedal()
-    PvpMeter.updateMeter()
-    PvpMeter.prepareQuickButton()
-    PvpMeter.updateButtonQuick()
-
-    --SLEDUEL.Init()
-    SLE.Init()
-
-  end
-end
-
--- NOTE Why not in the init function? 
-EVENT_MANAGER:RegisterForEvent(PvpMeter.name, EVENT_ADD_ON_LOADED, PvpMeter.OnAddOnLoaded)
 
 function PvpMeter.hideCyro()
-    HUDTelvarMeter_hide()
+    BGandAvAOverlay_hide()
     PvpMeterIndicator:SetHidden(true)
     PvpMeterIndicr:SetHidden(true)
     myAtor:SetHidden(true)
@@ -315,15 +311,14 @@ function PvpMeter.hideCyro()
     APicon:SetHidden(true)
     LabelKill:SetHidden(true)
     LabelDeath:SetHidden(true)
-
-    --HUDTelvarMeter_alpha(0.0)
 end
 
+
 function PvpMeter.showCyro()
-  if(PvpMeter.savedVariables.showBeautifulMeter)then
-    if(PvpMeter.inAvA) then
-      HUDTelvarMeter_color(0,0.78,0.09)--HUDTelvarMeter_color(0.2,0.31,0.12)
-      HUDTelvarMeter_colorAlert(0.15,0.93,0.12)
+  if (PvpMeter.savedVariables.showBeautifulMeter) then
+    if (PvpMeter.inAvA) then
+      BGandAvAOverlay_color(0,0.78,0.09)--BGandAvAOverlay_color(0.2,0.31,0.12)
+      BGandAvAOverlay_colorAlert(0.15,0.93,0.12)
       PvpMeterIndicator:SetHidden(false)
       PvpMeterIndicr:SetHidden(false)
       myAtor:SetHidden(false)
@@ -335,21 +330,19 @@ function PvpMeter.showCyro()
       LabelKill:SetHidden(false)
 
       LabelDeath:SetHidden(false)
-      HUDInfamyMeter_hide()
-      --HUDTelvarMeter_alpha(1.0)
-
+      DuelOverlay_hide()
     end
   else
-    HUDTelvarMeter_hide()
+    BGandAvAOverlay_hide()
   end
 end
+
 
 function PvpMeter.hideBG()
   frameBG:SetHidden(true)
   medailBG:SetHidden(true)
   iconBG:SetHidden(true)
   killBG:SetHidden(true)
-  --PvpMeterInd:SetHidden(true)
 
   Gl:SetHidden(true)
   LabelMedal:SetHidden(true)
@@ -360,8 +353,9 @@ function PvpMeter.hideBG()
   LabelDeathBG:SetHidden(true)
 end
 
+
 function PvpMeter.showBG()
-  if(PvpMeter.savedVariables.showBeautifulMeter)then
+  if (PvpMeter.savedVariables.showBeautifulMeter) then
     frameBG:SetHidden(false)
     medailBG:SetHidden(false)
     iconBG:SetHidden(false)
@@ -371,69 +365,73 @@ function PvpMeter.showBG()
     LabelMedal:SetHidden(false)
     scoreIcon:SetHidden(false)
     LabelKillBG:SetHidden(false)
-    if(PvpMeter.savedVariables.BGAssist == true)then
+    if (PvpMeter.savedVariables.BGAssist == true) then
       LabelAssist:SetHidden(false)
     end
     LabelDeathBG:SetHidden(false)
-    HUDInfamyMeter_hide()
+    DuelOverlay_hide()
   else
-    HUDTelvarMeter_hide()
+    BGandAvAOverlay_hide()
   end
 end
+
 
 function PvpMeter.UIchange(eventCode)
 
   PvpMeter.inAvA = IsPlayerInAvAWorld()
-  HUDInfamyMeter_hide()
-  if( PvpMeter.inAvA) then
+  DuelOverlay_hide()
+  
+  if ( PvpMeter.inAvA) then
     PvpMeter.hideCyro()
   end
 
-  if(PvpMeter.inBG) then
+  if (PvpMeter.inBG) then
     PvpMeter.hideBG()
   end
 
-  HUDTelvarMeter_hide()
+  BGandAvAOverlay_hide()
 end
+
 
 function PvpMeter.UIswitch(eventCode)
   PvpMeter.switch = PvpMeter.switch+1
 
-  if(ZO_WorldMap_IsWorldMapShowing() or GetCraftingInteractionType()~=0  or  PvpMeter.dye ) then
+  if (ZO_WorldMap_IsWorldMapShowing() or GetCraftingInteractionType()~=0  or  PvpMeter.dye ) then
     PvpMeter.dye = false
     PvpMeter.inAvA = IsPlayerInAvAWorld()
-    HUDInfamyMeter_hide()
+    DuelOverlay_hide()
 
-    if( PvpMeter.inAvA) then
+    if ( PvpMeter.inAvA) then
       PvpMeter.hideCyro()
     end
 
-    if(PvpMeter.inBG) then
+    if (PvpMeter.inBG) then
       PvpMeter.hideBG()
     end
-    --HUDTelvarMeter_show()
+    --BGandAvAOverlay_show()
   else
     PvpMeter.inAvA = IsPlayerInAvAWorld()
     if (PvpMeter.savedVariables.duelMeter ) then
-      HUDInfamyMeter_show()
+      DuelOverlay_show()
     else
-      HUDInfamyMeter_hide()
+      DuelOverlay_hide()
     end
 
-    if( PvpMeter.inAvA) then
+    if ( PvpMeter.inAvA) then
       PvpMeter.showCyro()
-      HUDInfamyMeter_hide()
+      DuelOverlay_hide()
     end
 
-    if(PvpMeter.inBG) then
+    if (PvpMeter.inBG) then
       PvpMeter.showBG()
-      HUDInfamyMeter_hide()
+      DuelOverlay_hide()
     end
 
-    HUDTelvarMeter_show()
+    BGandAvAOverlay_show()
   end
 
 end
+
 
 function PvpMeter.zoneChange(eventCode,zoneName,subZoneName,newSubzone, zoneId,ubZoneId)
   LabelPMenu:SetHidden(true)
@@ -444,13 +442,13 @@ function PvpMeter.zoneChange(eventCode,zoneName,subZoneName,newSubzone, zoneId,u
   PvpMeter.inIC = IsInImperialCity()
   PvpMeter.inBG = IsActiveWorldBattleground()
 
-  if(PvpMeter.inAvA) then
+  if (PvpMeter.inAvA) then
     PvpMeter.showCyro()
   else
     PvpMeter.hideCyro()
   end
 
-  if(PvpMeter.inBG) then
+  if (PvpMeter.inBG) then
     PvpMeter.alliance = GetUnitBattlegroundAlliance("player")
     --d(GetBattlegroundAllianceName(GetUnitBattlegroundAlliance("player")))
     PvpMeter.changeColor()
@@ -471,23 +469,20 @@ function PvpMeter.zoneChange(eventCode,zoneName,subZoneName,newSubzone, zoneId,u
   end
 
   if (PvpMeter.savedVariables.duelMeter ) then
-    HUDInfamyMeter_show()
+    DuelOverlay_show()
   else
-    HUDInfamyMeter_hide()
+    DuelOverlay_hide()
   end
 
-  if(PvpMeter.inAvA or PvpMeter.inBG) then
+  if (PvpMeter.inAvA or PvpMeter.inBG) then
     --d("hide")
-    HUDTelvarMeter_show()
-    HUDInfamyMeter_hide()
+    BGandAvAOverlay_show()
+    DuelOverlay_hide()
   else
     --d("show")
-    HUDTelvarMeter_hide()
+    BGandAvAOverlay_hide()
   end
 
-  --
-  --PvpMeter.changeColor()
-  --
   PvpMeter.restore()
 
   PvpMeter.updateMeter()
@@ -498,23 +493,18 @@ function PvpMeter.zoneChange(eventCode,zoneName,subZoneName,newSubzone, zoneId,u
   PvpMeter.statLoaded = true
   PvpMeterNumPageDuel:SetText("1/"..math.ceil(PvpMeter.duelPlayed /50))
   PvpMeterNumPageBG:SetText("1/"..math.ceil(PvpMeter.BGPlayed/50))
-  --
-
 end
 
 
 function PvpMeter.OnAPUpdate(event, nbAP, playSound, difference)
   PvpMeter.AP = nbAP
   PvpMeter.currAP = PvpMeter.currAP + difference
-  --PlaySound(SOUNDS.ALLIANCE_POINT_TRANSACT)
 
-  --d(PvpMeter.AP)
   PvpMeter.updateAP()
   PvpMeter.updateMeter()
 end
 
 
---function PvpMeter.OnKill(eventCode , result , isError , abilityName, abilityGraphic, abilityActionSlotType, sourceName, sourceType, targetName, targetType, hitValue, powerType, damageType, log )
 function PvpMeter.OnKill(eventCode, result, isError, abilityName, abilityGraphic, abilityActionSlotType, sourceName, sourceType, targetName, targetType, hitValue, powerType, damageType, log, sourceUnitId, targetUnitId, abilityId)
 
   if ( isError ) then
@@ -523,48 +513,29 @@ function PvpMeter.OnKill(eventCode, result, isError, abilityName, abilityGraphic
 
   if result == ACTION_RESULT_KILLING_BLOW and sourceType == COMBAT_UNIT_TYPE_PLAYER and GetUnitName("player") == zo_strformat("<<1>>", sourceName) and abilityName ~= "" then
 
-    if( PvpMeter.inAvA) then
+    if ( PvpMeter.inAvA ) then
 
-      --d(sourceName)
-      --d(targetName)
-      if( sourceName == targetName)then return end
-
-      --d(-sourceName)
-      --d(targetName)
-      --d(GetKillingAttackInfo())
-      --d(GetKillingAttackerInfo())
-
-      --d(targetUnitId)
-      --d(abilityName)
-      --d(GetUnitAlliance(targetUnitId))
-      --d(GetUnitAvARankPoints(targetUnitId))
-      --d(GetUnitRace(targetUnitId))
-      --d(GetUnitClass(targetUnitId))
+      if ( sourceName == targetName ) then return end
 
       PvpMeter.kills = PvpMeter.kills + 1
       PvpMeter.savedVariables.cyroKill = PvpMeter.savedVariables.cyroKill + 1
       -- PlaySound
       --PlaySound(SOUNDS.EMPEROR_CORONATED_EBONHEART)
-      if(PvpMeter.savedVariables.playSound == true)then
+      if (PvpMeter.savedVariables.playSound == true) then
 
-        if(PvpMeter.savedVariables.nbrSound == 0)then
+        if (PvpMeter.savedVariables.nbrSound == 0) then
           PlaySound(SOUNDS.LOCKPICKING_SUCCESS_CELEBRATION)
         end
-        if(PvpMeter.savedVariables.nbrSound == 1)then
+        if (PvpMeter.savedVariables.nbrSound == 1) then
           PlaySound(SOUNDS.EMPEROR_CORONATED_EBONHEART)
         end
       end
       PvpMeter.updateKills()
     end
 
-  --elseif(sourceType == COMBAT_UNIT_TYPE_PLAYER and GetUnitName("player") == zo_strformat("<<1>>", sourceName) and
-  -- GetUnitName("player") ~= zo_strformat("<<1>>", targetName) and hitValue > 0 and result ~= ACTION_RESULT_KILLING_BLOW) then
-    --PvpMeter.assistCyro = PvpMeter.assistCyro + 1
-    --LabelAssist:SetText(PvpMeter.assistCyro)
-
   end
 
-  if(PvpMeter.duelRunning == true)then
+  if (PvpMeter.duelRunning == true) then
     PvpMeter.OnDuelStat( result , abilityName , abilityGraphic , abilityActionSlotType , sourceName , sourceType , targetName , targetType , hitValue , powerType , damageType )
   end
 
@@ -581,7 +552,7 @@ function PvpMeter.OnDuelStat(result , abilityName , abilityGraphic , abilityActi
         --elseif ( target == player ) then incomeDamage = false
         end
 
-    if(GetUnitName("player") == player)then
+    if (GetUnitName("player") == player) then
       me = true
     end
 
@@ -589,9 +560,9 @@ function PvpMeter.OnDuelStat(result , abilityName , abilityGraphic , abilityActi
 
     if ( hitValue > 0 and ( result == ACTION_RESULT_DAMAGE or result == ACTION_RESULT_CRITICAL_DAMAGE or result == ACTION_RESULT_BLOCKED_DAMAGE or result == ACTION_RESULT_DOT_TICK or result == ACTION_RESULT_DOT_TICK_CRITICAL ) ) then
 
-      if(incomeDamage == false)then
+      if (incomeDamage == false) then
         -- damage taken
-        if(abilityName ~= "")then
+        if (abilityName ~= "") then
           --d("income " .. abilityName .. " -- " .. hitValue)
           PvpMeter.totalTaken = PvpMeter.totalTaken + hitValue
         end
@@ -601,7 +572,7 @@ function PvpMeter.OnDuelStat(result , abilityName , abilityGraphic , abilityActi
         PvpMeter.totalDone = PvpMeter.totalDone + hitValue
       end
 
-      if(result == ACTION_RESULT_BLOCKED_DAMAGE and me == true)then
+      if (result == ACTION_RESULT_BLOCKED_DAMAGE and me == true) then
         -- blocked
         --d("blocked " .. abilityName .. " -- " .. hitValue)
         PvpMeter.totalBlock = PvpMeter.totalBlock + hitValue
@@ -613,7 +584,7 @@ function PvpMeter.OnDuelStat(result , abilityName , abilityGraphic , abilityActi
       PvpMeter.totalShield = PvpMeter.totalShield + hitValue
     end
 
-    if((result == ACTION_RESULT_DODGED or result == ACTION_RESULT_MISS) and incomeDamage == false)then
+    if ((result == ACTION_RESULT_DODGED or result == ACTION_RESULT_MISS) and incomeDamage == false) then
       -- dodged
       --d("dodged " .. abilityName .. " -- " .. hitValue)
       PvpMeter.totalDodge = PvpMeter.totalDodge + 1
@@ -629,13 +600,12 @@ end
 
 
 function PvpMeter.OnDeath(eventCode)
-  if( PvpMeter.inAvA) then
+  if ( PvpMeter.inAvA) then
     PvpMeter.death = PvpMeter.death + 1
     PvpMeter.savedVariables.cyroDeath = PvpMeter.savedVariables.cyroDeath + 1
     PvpMeter.updateDeath()
-  end
 
-  if(PvpMeter.inBG) then
+  elseif (PvpMeter.inBG) then
     PvpMeter.allianceDeath = PvpMeter.allianceDeath + 1
     PvpMeter.savedVariables.bgDeath = PvpMeter.savedVariables.bgDeath + 1
     PvpMeter.updateDeathBG()
@@ -645,8 +615,8 @@ end
 
 function PvpMeter.updateKills()
 
-  if(tonumber(LabelKill:GetText()) < PvpMeter.kills)then
-    HUDTelvarMeter_Anim()
+  if (tonumber(LabelKill:GetText()) < PvpMeter.kills) then
+    BGandAvAOverlay_Anim()
   end
 
   LabelKill:SetText(PvpMeter.kills)
@@ -661,24 +631,17 @@ end
 
 
 function PvpMeter.updateAP()
-
-  --local lab = PvpMeterIndicator:GetNamedChild("LabelAP")
-  --lab:SetText(PvpMeter.AP)
-  if(PvpMeter.savedVariables.showBeautifulMeter)then
-    --TELVAR_METER.meterOverlayControl.fadeAnimation:PlayFromStart()
-  end
-  if(PvpMeter.savedVariables.currAP == true)then
+  if (PvpMeter.savedVariables.currAP == true) then
     LabelAP:SetText(PvpMeter.currAP)
   else
     LabelAP:SetText(PvpMeter.AP)
   end
-
 end
 
 
 function PvpMeter.openBank(event)
   PvpMeter.hideCyro()
-  HUDInfamyMeter_hide()
+  DuelOverlay_hide()
 end
 
 
@@ -706,9 +669,9 @@ function PvpMeter.updateBGstats()
         local medalid = GetBattlegroundMedalIdByIndex(GetCurrentBattlegroundId(),indice)
         local nameM, iconTextureM, conditionM, scoreRewardM = GetMedalInfo(medalid)
 
-        if(scoreRewardM~=0)then
+        if (scoreRewardM~=0) then
             --d(medalid)
-            if(GetScoreboardEntryNumEarnedMedalsById(GetScoreboardPlayerEntryIndex(),medalid)>0)then
+            if (GetScoreboardEntryNumEarnedMedalsById(GetScoreboardPlayerEntryIndex(),medalid)>0) then
                 local multM = GetScoreboardEntryNumEarnedMedalsById(GetScoreboardPlayerEntryIndex(),medalid)
                 --d(nameM .. " " .. multM)
                 local unit= {
@@ -721,10 +684,6 @@ function PvpMeter.updateBGstats()
                 Medallist[zo_strformat("<<1>>", indice)] = unit
 
             end
-
-        else
-            --d(GetMedalInfo(medalid))
-            break
         end
     end
 
@@ -735,28 +694,28 @@ function PvpMeter.updateBGstats()
     --d(battlegroundAlliance)
 
     local myScore = GetCurrentBattlegroundScore(PvpMeter.alliance)
-    if(myScore < 500)then
+    if (myScore < 500) then
 
         local pts = 0
 
-        if(myScore >= GetCurrentBattlegroundScore(1))then  pts = pts + 1  end
-        if(myScore >= GetCurrentBattlegroundScore(2))then  pts = pts + 1  end
-        if(myScore >= GetCurrentBattlegroundScore(3))then  pts = pts + 1  end
+        if (myScore >= GetCurrentBattlegroundScore(1)) then  pts = pts + 1  end
+        if (myScore >= GetCurrentBattlegroundScore(2)) then  pts = pts + 1  end
+        if (myScore >= GetCurrentBattlegroundScore(3)) then  pts = pts + 1  end
 
         local diff = 0
 
-        if(myScore == GetCurrentBattlegroundScore(1))then  diff = diff + 1  end
-        if(myScore == GetCurrentBattlegroundScore(2))then  diff = diff + 1  end
-        if(myScore == GetCurrentBattlegroundScore(3))then  diff = diff + 1  end
+        if (myScore == GetCurrentBattlegroundScore(1)) then  diff = diff + 1  end
+        if (myScore == GetCurrentBattlegroundScore(2)) then  diff = diff + 1  end
+        if (myScore == GetCurrentBattlegroundScore(3)) then  diff = diff + 1  end
 
-        if(pts == 3 and diff == 1)then
+        if (pts == 3 and diff == 1) then
             myScore = myScore * 10
         end
 
     end
 
-    if(myScore >= 500)then
-        if(PvpMeter.BGWin ~= nil)then
+    if (myScore >= 500) then
+        if (PvpMeter.BGWin ~= nil) then
             PvpMeter.BGWin = PvpMeter.BGWin+1
         else
             PvpMeter.BGWin = 1
@@ -764,7 +723,7 @@ function PvpMeter.updateBGstats()
         PvpMeter.savedVariables.BGWin = PvpMeter.BGWin
     end
 
-    if(PvpMeter.BGPlayed ~= nil)then
+    if (PvpMeter.BGPlayed ~= nil) then
         PvpMeter.BGPlayed = PvpMeter.BGPlayed+1
     else
         PvpMeter.BGPlayed = 1
@@ -793,7 +752,7 @@ function PvpMeter.updateBGstats()
         alliance = battlegroundAlliance,
         mList = Medallist
     }
-    if(PvpMeter.BGlist == nil)then
+    if (PvpMeter.BGlist == nil) then
         PvpMeter.BGlist = {}
     end
     PvpMeter.BGlist[zo_strformat("<<1>>", PvpMeter.BGPlayed)] = current
@@ -805,57 +764,49 @@ end
 
 
 function PvpMeter.onScoreUpdate(event)
-  --d(GetCurrentBattlegroundScore(PvpMeter.alliance))
-  --d(PvpMeter.allianceMedal)
-
-  if(PvpMeter.allianceScore ~= GetCurrentBattlegroundScore(PvpMeter.alliance)) then
+  if (PvpMeter.allianceScore ~= GetCurrentBattlegroundScore(PvpMeter.alliance)) then
     PvpMeter.updateMedal()
     PvpMeter.updateMeter()
   end
 
   local entryInde = GetScoreboardPlayerEntryIndex()
-  if(PvpMeter.assistBG ~=  GetScoreboardEntryScoreByType(entryInde, SCORE_TRACKER_TYPE_ASSISTS))then
+  if (PvpMeter.assistBG ~=  GetScoreboardEntryScoreByType(entryInde, SCORE_TRACKER_TYPE_ASSISTS)) then
     PvpMeter.assistBG =  GetScoreboardEntryScoreByType(entryInde, SCORE_TRACKER_TYPE_ASSISTS)
     PvpMeter.updateKillsBG()
   end
 
-  if(PvpMeter.inBG) then
-    --PvpMeter.allianceKill = PvpMeter.allianceKill + 1
-    --PvpMeter.updateKillsBG()
-
-    --d(GetBattlegroundGameType(GetCurrentBattlegroundId()))
-
-    if( GetCurrentBattlegroundState() == 4) then --BG finish
-          PvpMeter.updateBGstats()
-    end
+  if (PvpMeter.inBG and GetCurrentBattlegroundState() == BATTLEGROUND_STATE_FINISHED) then
+    PvpMeter.updateBGstats()
   end
 end
 
 function PvpMeter.bgkill (eventCode,killedPlayerCharacterName,killedPlayerDisplayName,killedPlayerBattlegroundAlliance,killingPlayerCharacterName,killingPlayerDisplayName,killingPlayerBattlegroundAlliance,battlegroundKillType)
-  if(battlegroundKillType == BATTLEGROUND_KILL_TYPE_KILLING_BLOW)then
+  if (battlegroundKillType == BATTLEGROUND_KILL_TYPE_KILLING_BLOW) then
       PvpMeter.allianceKill = PvpMeter.allianceKill + 1
       PvpMeter.savedVariables.bgKill = PvpMeter.savedVariables.bgKill + 1
-      HUDTelvarMeter_Anim()
+      BGandAvAOverlay_Anim()
       PvpMeter.updateKillsBG()
-    if(PvpMeter.savedVariables.playSound == true)then
-      if(PvpMeter.savedVariables.nbrSound == 0)then
+
+    if (PvpMeter.savedVariables.playSound == true) then
+      if (PvpMeter.savedVariables.nbrSound == 0) then
         PlaySound(SOUNDS.LOCKPICKING_SUCCESS_CELEBRATION)
       end
-      if(PvpMeter.savedVariables.nbrSound == 1)then
+      if (PvpMeter.savedVariables.nbrSound == 1) then
         PlaySound(SOUNDS.EMPEROR_CORONATED_EBONHEART)
       end
     end
-  end
-  if(battlegroundKillType == BATTLEGROUND_KILL_TYPE_ASSIST)then
-    if(PvpMeter.savedVariables.playSound == true)then
 
+  end
+
+  if (battlegroundKillType == BATTLEGROUND_KILL_TYPE_ASSIST) then
+    if (PvpMeter.savedVariables.playSound == true) then
+      PlaySound(SOUNDS.DUEL_WON)
     end
   end
 end
 
 
 function PvpMeter.onDuelStart (eventCode)
-  --d("duel start")
   PvpMeter.duelRunning = true
 
   PvpMeter.totalDone = 0
@@ -870,23 +821,20 @@ end
 function PvpMeter.onDuelFinish (eventCode,duelResult,wasLocalPlayersResult,opponentCharacterName,opponentDisplayName,opponentAlliance,opponentGender,opponentClassId,opponentRaceId)
     PvpMeter.duelRunning = false
 
-    if(duelResult == 0)then return end
+    if (duelResult == 0) then return end
 
      local winR = wasLocalPlayersResult -- true for win, false for defeat
      local nameR = opponentCharacterName -- character name
-     --d(opponentDisplayName) -- account name
-     --d(opponentAlliance)
-     --d(opponentGender)
      local classR = opponentClassId
      local raceR = opponentRaceId
 
 
-    if(PvpMeter.duelWin ~= nil)then
-      if(winR)then
+    if (PvpMeter.duelWin ~= nil) then
+      if (winR) then
         PvpMeter.duelWin = PvpMeter.duelWin + 1
       end
     else
-      if(winR)then
+      if (winR) then
         PvpMeter.duelWin = 1
       else
         PvpMeter.duelWin = 0
@@ -895,25 +843,18 @@ function PvpMeter.onDuelFinish (eventCode,duelResult,wasLocalPlayersResult,oppon
     PvpMeter.savedVariables.duelWin = PvpMeter.duelWin
 
 
-    if(PvpMeter.duelPlayed ~= nil)then
+    if (PvpMeter.duelPlayed ~= nil) then
       PvpMeter.duelPlayed = PvpMeter.duelPlayed + 1
-      if(PvpMeter.duelPlayed == 1)then
+      if (PvpMeter.duelPlayed == 1) then
         --PvpMeter.savedVariables.duelMeter = true
-        --HUDInfamyMeter_show()
+        --DuelOverlay_show()
       end
     else
       PvpMeter.duelPlayed = 1
       PvpMeter.savedVariables.duelMeter = true
-      HUDInfamyMeter_show()
+      DuelOverlay_show()
     end
     PvpMeter.savedVariables.duelPlayed = PvpMeter.duelPlayed
-
-    --d(PvpMeter.totalDone)
-    --d(PvpMeter.totalTaken)
-    --d(PvpMeter.totalHeal)
-    --d(PvpMeter.totalBlock)
-    --d(PvpMeter.totalShield)
-    --d(PvpMeter.totalDodge)
 
     local current = {
       win = winR,
@@ -929,7 +870,7 @@ function PvpMeter.onDuelFinish (eventCode,duelResult,wasLocalPlayersResult,oppon
       gender = opponentGender
     }
 
-    if(PvpMeter.duelList == nil)then
+    if (PvpMeter.duelList == nil) then
       PvpMeter.duelList = {}
     end
     PvpMeter.duelList[zo_strformat("<<1>>", PvpMeter.duelPlayed)] = current
@@ -937,23 +878,6 @@ function PvpMeter.onDuelFinish (eventCode,duelResult,wasLocalPlayersResult,oppon
 
     PvpMeter.updateMeterDuel()
     DuelPvpMeter.updateStat()
-
-
-  --[[if(currentState == BATTLEGROUND_STATE_FINISHED)then
-
-    local entryIndex = GetScoreboardPlayerEntryIndex()
-        local characterName, displayName, battlegroundAlliance, isLocalPlayer = GetScoreboardEntryInfo(entryIndex)
-        local kills = GetScoreboardEntryScoreByType(entryIndex, SCORE_TRACKER_TYPE_KILL)
-    local death = GetScoreboardEntryScoreByType(entryIndex, SCORE_TRACKER_TYPE_DEATH)
-    local assist = GetScoreboardEntryScoreByType(entryIndex, SCORE_TRACKER_TYPE_ASSISTS)
-
-    d(kills)
-    d(death)
-    d(assist)
-    d(PvpMeter.allianceMedal)
-    d(GetBattlegroundGameType(GetCurrentBattlegroundId()))
-
-  end]]
 end
 
 
@@ -974,44 +898,32 @@ end
 
 
 function PvpMeter.changeColor()
-  if(PvpMeter.alliance == 1) then
+  if (PvpMeter.alliance == BATTLEGROUND_ALLIANCE_FIRE_DRAKES) then
     LabelKillBG:SetColor(0.85,0.4,00)
     LabelAssist:SetColor(0.85,0.4,00)
     LabelDeathBG:SetColor(0.85,0.4,00)
     LabelMedal:SetColor(0.85,0.4,00)
-    --meterBarBG:SetColor(1,0.0,0.0)
     scoreIcon:SetTexture( GetBattlegroundTeamIcon(PvpMeter.alliance))
-    --scoreIcon:SetColor(1,0.1,00)
-    --Fill:SetFillColor(1,0.0,0.0)
-    --Highlig:SetFillColor(1,0.0,0.0)
-    HUDTelvarMeter_color(1,0.15,0.0)
-    HUDTelvarMeter_colorAlert(0.5,0,0.0)
+    BGandAvAOverlay_color(1,0.15,0.0)
+    BGandAvAOverlay_colorAlert(0.5,0,0.0)
 
-  elseif(PvpMeter.alliance == 2) then
+  elseif (PvpMeter.alliance == BATTLEGROUND_ALLIANCE_PIT_DAEMONS) then
     LabelKillBG:SetColor(0.36,0.6,0.0)
     LabelAssist:SetColor(0.36,0.6,0.0)
     LabelDeathBG:SetColor(0.36,0.6,0.0)
     LabelMedal:SetColor(0.36,0.6,0.0)
-    --meterBarBG:SetColor(0.5,0.4,0.00)
     scoreIcon:SetTexture(GetBattlegroundTeamIcon(PvpMeter.alliance))
-    --scoreIcon:SetColor(0.5,0.4,0.00)
-    HUDTelvarMeter_color(0.5,0.4,0.00)
-    HUDTelvarMeter_colorAlert(0.4,0.5,0.00)
-    --Fill:SetFillColor(0.5,0.4,0.00)
-    --Highlig:SetFillColor(0.5,0.4,0.00)
+    BGandAvAOverlay_color(0.5,0.4,0.00)
+    BGandAvAOverlay_colorAlert(0.4,0.5,0.00)
 
-  else
+  else -- BATTLEGROUND_ALLIANCE_STORM_LORDS
     LabelKillBG:SetColor(0.5,0.3,0.6)
     LabelAssist:SetColor(0.5,0.3,0.6)
     LabelDeathBG:SetColor(0.5,0.3,0.6)
     LabelMedal:SetColor(0.5,0.3,0.6)
-    --meterBarBG:SetColor(1.0,0.1,0.7)
     scoreIcon:SetTexture(GetBattlegroundTeamIcon(PvpMeter.alliance))
-    --scoreIcon:SetColor(0.6,0.1,0.7)
-    HUDTelvarMeter_color(1.0,0.1,0.5)
-    HUDTelvarMeter_colorAlert(1.0,0.1,0.7)
-    --Fill:SetFillColor(1.0,0.1,0.7)
-    --Highlig:SetFillColor(1.0,0.1,0.7)
+    BGandAvAOverlay_color(1.0,0.1,0.5)
+    BGandAvAOverlay_colorAlert(1.0,0.1,0.7)
   end
 end
 
@@ -1019,14 +931,10 @@ function PvpMeter.updateMeter()
   local start = 0.0
   local endd = 0.0
 
-  if(PvpMeter.inAvA) then
+  if (PvpMeter.inAvA) then
 
-    if(PvpMeter.savedVariables.nbrCyro==0)then
+    if (PvpMeter.savedVariables.nbrCyro==0) then
       local isAllianceHoldingAllNativeKeeps, numEnemyKeepsThisAllianceHolds, numNativeKeepsThisAllianceHolds, totalNativeKeepsInThisAlliancesArea = GetAvAKeepScore( GetCurrentCampaignId() , GetUnitAlliance("player") )
-      --d(isAllianceHoldingAllNativeKeeps)
-      --d(numEnemyKeepsThisAllianceHolds)
-      --d(numNativeKeepsThisAllianceHolds)
-      --d(totalNativeKeepsInThisAlliancesArea)
 
       local num = (numEnemyKeepsThisAllianceHolds + numNativeKeepsThisAllianceHolds)/18
       start = PvpMeter.lastPercentKeep
@@ -1034,12 +942,12 @@ function PvpMeter.updateMeter()
 
       PvpMeter.lastPercentKeep = num
     end
-    if(PvpMeter.savedVariables.nbrCyro==1)then
-      if(PvpMeter.kills == 0) then
+    if (PvpMeter.savedVariables.nbrCyro==1) then
+      if (PvpMeter.kills == 0) then
         start = 0.0
         endd = 0.0
       else
-      if(PvpMeter.kills%5 == 0) then
+      if (PvpMeter.kills%5 == 0) then
         start = 0.0
         endd = 1.0
       else
@@ -1048,14 +956,14 @@ function PvpMeter.updateMeter()
       end
     end
     end
-    if(PvpMeter.savedVariables.nbrCyro==2)then
+    if (PvpMeter.savedVariables.nbrCyro==2) then
       local Aaa ,Bbb ,rankStartsAt,nextRankAt = GetAvARankProgress(GetUnitAvARankPoints("player"))
       local need  = nextRankAt-rankStartsAt
       local did = GetUnitAvARankPoints("player")-rankStartsAt
 
       endd = did/need
 
-      if(PvpMeter.lastAP == 0)then
+      if (PvpMeter.lastAP == 0) then
         start = 0.0
       else
         start = PvpMeter.lastAP
@@ -1067,12 +975,12 @@ function PvpMeter.updateMeter()
   end
 
 
-  if(PvpMeter.inBG) then
+  if (PvpMeter.inBG) then
 
     PvpMeter.allianceScore = GetCurrentBattlegroundScore(PvpMeter.alliance)
     endd = PvpMeter.allianceScore/500
 
-    if(PvpMeter.allianceLastScore == 0) then
+    if (PvpMeter.allianceLastScore == 0) then
       start = 0.0
     else
       start = PvpMeter.allianceLastScore/500
@@ -1081,7 +989,7 @@ function PvpMeter.updateMeter()
     PvpMeter.allianceLastScore = PvpMeter.allianceScore
   end
 
-  HUDTelvarMeter_update(start,endd)
+  BGandAvAOverlay_update(start,endd)
 end
 
 
@@ -1090,12 +998,12 @@ function PvpMeter.updateMeterDuel()
   local start = 0
   local endd = 0
 
-  if(PvpMeter.duelPlayed == nil)then
+  if (PvpMeter.duelPlayed == nil) then
     PvpMeter.duelPlayed = 0
     PvpMeter.duelWin = 0
   end
 
-  if(PvpMeter.duelPlayed ~= 0) then
+  if (PvpMeter.duelPlayed ~= 0) then
     endd = PvpMeter.duelWin/PvpMeter.duelPlayed
   else
     endd = 1
@@ -1107,50 +1015,50 @@ function PvpMeter.updateMeterDuel()
   local hist4=2
   local hist5=2
 
-  if(PvpMeter.duelPlayed == 1) then
+  if (PvpMeter.duelPlayed == 1) then
     hist1=2
     hist2=2
     hist3=2
     hist4=2
-    if(PvpMeter.duelList["1"].win)then hist5 = 0 else hist5 = 1 end
+    if (PvpMeter.duelList["1"].win) then hist5 = 0 else hist5 = 1 end
   end
-  if(PvpMeter.duelPlayed == 2) then
+  if (PvpMeter.duelPlayed == 2) then
     hist1=2
     hist2=2
     hist3=2
-    if(PvpMeter.duelList["1"].win)then hist4 = 0 else hist4 = 1 end
-    if(PvpMeter.duelList["2"].win)then hist5 = 0 else hist5 = 1 end
+    if (PvpMeter.duelList["1"].win) then hist4 = 0 else hist4 = 1 end
+    if (PvpMeter.duelList["2"].win) then hist5 = 0 else hist5 = 1 end
   end
-  if(PvpMeter.duelPlayed == 3) then
+  if (PvpMeter.duelPlayed == 3) then
     hist1=2
     hist2=2
-    if(PvpMeter.duelList["1"].win)then hist3 = 0 else hist3 = 1 end
-    if(PvpMeter.duelList["2"].win)then hist4 = 0 else hist4 = 1 end
-    if(PvpMeter.duelList["3"].win)then hist5 = 0 else hist5 = 1 end
+    if (PvpMeter.duelList["1"].win) then hist3 = 0 else hist3 = 1 end
+    if (PvpMeter.duelList["2"].win) then hist4 = 0 else hist4 = 1 end
+    if (PvpMeter.duelList["3"].win) then hist5 = 0 else hist5 = 1 end
   end
-  if(PvpMeter.duelPlayed == 4) then
+  if (PvpMeter.duelPlayed == 4) then
     hist1=2
-    if(PvpMeter.duelList["1"].win)then hist2 = 0 else hist2 = 1 end
-    if(PvpMeter.duelList["2"].win)then hist3 = 0 else hist3 = 1 end
-    if(PvpMeter.duelList["3"].win)then hist4 = 0 else hist4 = 1 end
-    if(PvpMeter.duelList["4"].win)then hist5 = 0 else hist5 = 1 end
+    if (PvpMeter.duelList["1"].win) then hist2 = 0 else hist2 = 1 end
+    if (PvpMeter.duelList["2"].win) then hist3 = 0 else hist3 = 1 end
+    if (PvpMeter.duelList["3"].win) then hist4 = 0 else hist4 = 1 end
+    if (PvpMeter.duelList["4"].win) then hist5 = 0 else hist5 = 1 end
   end
-  if(PvpMeter.duelPlayed == 5) then
-    if(PvpMeter.duelList["1"].win)then hist1 = 0 else hist1 = 1 end
-    if(PvpMeter.duelList["2"].win)then hist2 = 0 else hist2 = 1 end
-    if(PvpMeter.duelList["3"].win)then hist3 = 0 else hist3 = 1 end
-    if(PvpMeter.duelList["4"].win)then hist4 = 0 else hist4 = 1 end
-    if(PvpMeter.duelList["5"].win)then hist5 = 0 else hist5 = 1 end
+  if (PvpMeter.duelPlayed == 5) then
+    if (PvpMeter.duelList["1"].win) then hist1 = 0 else hist1 = 1 end
+    if (PvpMeter.duelList["2"].win) then hist2 = 0 else hist2 = 1 end
+    if (PvpMeter.duelList["3"].win) then hist3 = 0 else hist3 = 1 end
+    if (PvpMeter.duelList["4"].win) then hist4 = 0 else hist4 = 1 end
+    if (PvpMeter.duelList["5"].win) then hist5 = 0 else hist5 = 1 end
   end
-  if(PvpMeter.duelPlayed > 5) then
-    if(PvpMeter.duelList[zo_strformat("<<1>>", PvpMeter.duelPlayed-4)].win)then hist1 = 0 else hist1 = 1 end
-    if(PvpMeter.duelList[zo_strformat("<<1>>", PvpMeter.duelPlayed-3)].win)then hist2 = 0 else hist2 = 1 end
-    if(PvpMeter.duelList[zo_strformat("<<1>>", PvpMeter.duelPlayed-2)].win)then hist3 = 0 else hist3 = 1 end
-    if(PvpMeter.duelList[zo_strformat("<<1>>", PvpMeter.duelPlayed-1)].win)then hist4 = 0 else hist4 = 1 end
-    if(PvpMeter.duelList[zo_strformat("<<1>>", PvpMeter.duelPlayed)].win)then hist5 = 0 else hist5 = 1 end
+  if (PvpMeter.duelPlayed > 5) then
+    if (PvpMeter.duelList[zo_strformat("<<1>>", PvpMeter.duelPlayed-4)].win) then hist1 = 0 else hist1 = 1 end
+    if (PvpMeter.duelList[zo_strformat("<<1>>", PvpMeter.duelPlayed-3)].win) then hist2 = 0 else hist2 = 1 end
+    if (PvpMeter.duelList[zo_strformat("<<1>>", PvpMeter.duelPlayed-2)].win) then hist3 = 0 else hist3 = 1 end
+    if (PvpMeter.duelList[zo_strformat("<<1>>", PvpMeter.duelPlayed-1)].win) then hist4 = 0 else hist4 = 1 end
+    if (PvpMeter.duelList[zo_strformat("<<1>>", PvpMeter.duelPlayed)].win) then hist5 = 0 else hist5 = 1 end
   end
 
-  HUDInfamyMeter_Update(start ,endd, hist1,hist2,hist3,hist4,hist5)
+  DuelOverlay_Update(start ,endd, hist1,hist2,hist3,hist4,hist5)
 end
 
 
@@ -1158,7 +1066,7 @@ function PvpMeter.restore()
   local left = PvpMeter.savedVariables.left
   local top = PvpMeter.savedVariables.top
 
-  HUDTelvarMeter_restore(top,left)
+  BGandAvAOverlay_restore(top,left)
 
   PvpMeter.BGPlayed = PvpMeter.savedVariables.BGPlayed
   PvpMeter.BGWin = PvpMeter.savedVariables.BGWin
@@ -1167,163 +1075,163 @@ function PvpMeter.restore()
   PvpMeter.duelPlayed = PvpMeter.savedVariables.duelPlayed
   PvpMeter.duelWin = PvpMeter.savedVariables.duelWin
   PvpMeter.duelList = PvpMeter.savedVariables.duelList
-  HUDInfamyMeter_restore(top,left)
+  DuelOverlay_restore(top,left)
 end
 
 
 function PvpMeter.OnMeterMoveStop()
-  PvpMeter.savedVariables.left = HUDTelvarMeter_getLeft()
-  PvpMeter.savedVariables.top = HUDTelvarMeter_getTop()
+  PvpMeter.savedVariables.left = BGandAvAOverlay_getLeft()
+  PvpMeter.savedVariables.top = BGandAvAOverlay_getTop()
 end
 
 
 function PvpMeter.OnDuelMoveStop()
-  PvpMeter.savedVariables.left = HUDInfamyMeter_getLeft()
-  PvpMeter.savedVariables.top = HUDInfamyMeter_getTop()
+  PvpMeter.savedVariables.left = DuelOverlay_getLeft()
+  PvpMeter.savedVariables.top = DuelOverlay_getTop()
 end
 
 
 function PvpMeter.rotateMeter(param)
-  if(param == 1)then
+  if (param == 1) then
     Glow:SetTextureCoords(0,1,0,1)
     Gl:SetTextureCoords(0,1,0,1)
 
     LabelAP:ClearAnchors()
-    LabelAP:SetAnchor(RIGHT,HUDTelvarMeter_KeyboardTemplate,RIGHT,-118,42)
+    LabelAP:SetAnchor(RIGHT,BGandAvAOverlay_KeyboardTemplate,RIGHT,-118,42)
     LabelMedal:ClearAnchors()
-    LabelMedal:SetAnchor(RIGHT,HUDTelvarMeter_KeyboardTemplate,RIGHT,-118,42)
+    LabelMedal:SetAnchor(RIGHT,BGandAvAOverlay_KeyboardTemplate,RIGHT,-118,42)
 
     -- texture
     teamiconAP:ClearAnchors()
-    teamiconAP:SetAnchor(BOTTOM,HUDTelvarMeter_KeyboardTemplate,BOTTOMRIGHT,-103,-14)
+    teamiconAP:SetAnchor(BOTTOM,BGandAvAOverlay_KeyboardTemplate,BOTTOMRIGHT,-103,-14)
 
     teamiconBG:ClearAnchors()
-    teamiconBG:SetAnchor(BOTTOM,HUDTelvarMeter_KeyboardTemplate,BOTTOMRIGHT,-103,-4)
+    teamiconBG:SetAnchor(BOTTOM,BGandAvAOverlay_KeyboardTemplate,BOTTOMRIGHT,-103,-4)
 
     LabelKill:ClearAnchors()
-    LabelKill:SetAnchor(TOP,HUDTelvarMeter_KeyboardTemplate,TOP,80,58)
+    LabelKill:SetAnchor(TOP,BGandAvAOverlay_KeyboardTemplate,TOP,80,58)
     LabelDeath:ClearAnchors()
-    LabelDeath:SetAnchor(TOP,HUDTelvarMeter_KeyboardTemplate,TOP,80,92)
+    LabelDeath:SetAnchor(TOP,BGandAvAOverlay_KeyboardTemplate,TOP,80,92)
 
     LabelKillBG:ClearAnchors()
-    LabelKillBG:SetAnchor(TOP,HUDTelvarMeter_KeyboardTemplate,TOP,80,58)
+    LabelKillBG:SetAnchor(TOP,BGandAvAOverlay_KeyboardTemplate,TOP,80,58)
     LabelDeathBG:ClearAnchors()
-    LabelDeathBG:SetAnchor(TOP,HUDTelvarMeter_KeyboardTemplate,TOP,80,92)
+    LabelDeathBG:SetAnchor(TOP,BGandAvAOverlay_KeyboardTemplate,TOP,80,92)
     LabelAssist:ClearAnchors()
-    LabelAssist:SetAnchor(TOP,HUDTelvarMeter_KeyboardTemplate,TOP,89,50)
+    LabelAssist:SetAnchor(TOP,BGandAvAOverlay_KeyboardTemplate,TOP,89,50)
 
     --Anim
-    HUDTelvarMeter_moveBar(0,0)
+    BGandAvAOverlay_moveBar(0,0)
   end
 
-  if(param == 2)then
+  if (param == 2) then
     Glow:SetTextureCoords(1,0,0,1)
     Gl:SetTextureCoords(1,0,0,1)
 
     LabelAP:ClearAnchors()
-    LabelAP:SetAnchor(LEFT,HUDTelvarMeter_KeyboardTemplate,LEFT,115,42)
+    LabelAP:SetAnchor(LEFT,BGandAvAOverlay_KeyboardTemplate,LEFT,115,42)
     LabelMedal:ClearAnchors()
-    LabelMedal:SetAnchor(LEFT,HUDTelvarMeter_KeyboardTemplate,LEFT,115,42)
+    LabelMedal:SetAnchor(LEFT,BGandAvAOverlay_KeyboardTemplate,LEFT,115,42)
 
     -- texture
     teamiconAP:ClearAnchors()
-    teamiconAP:SetAnchor(BOTTOM,HUDTelvarMeter_KeyboardTemplate,BOTTOMRIGHT,-153,-14)
+    teamiconAP:SetAnchor(BOTTOM,BGandAvAOverlay_KeyboardTemplate,BOTTOMRIGHT,-153,-14)
 
 
     teamiconBG:ClearAnchors()
-    teamiconBG:SetAnchor(BOTTOM,HUDTelvarMeter_KeyboardTemplate,BOTTOMRIGHT,-153,-4)
+    teamiconBG:SetAnchor(BOTTOM,BGandAvAOverlay_KeyboardTemplate,BOTTOMRIGHT,-153,-4)
 
     LabelKill:ClearAnchors()
-    LabelKill:SetAnchor(TOP,HUDTelvarMeter_KeyboardTemplate,TOP,-84,58)
+    LabelKill:SetAnchor(TOP,BGandAvAOverlay_KeyboardTemplate,TOP,-84,58)
     LabelDeath:ClearAnchors()
-    LabelDeath:SetAnchor(TOP,HUDTelvarMeter_KeyboardTemplate,TOP,-84,92)
+    LabelDeath:SetAnchor(TOP,BGandAvAOverlay_KeyboardTemplate,TOP,-84,92)
 
     LabelKillBG:ClearAnchors()
-    LabelKillBG:SetAnchor(TOP,HUDTelvarMeter_KeyboardTemplate,TOP,-84,58)
+    LabelKillBG:SetAnchor(TOP,BGandAvAOverlay_KeyboardTemplate,TOP,-84,58)
     LabelDeathBG:ClearAnchors()
-    LabelDeathBG:SetAnchor(TOP,HUDTelvarMeter_KeyboardTemplate,TOP,-84,92)
+    LabelDeathBG:SetAnchor(TOP,BGandAvAOverlay_KeyboardTemplate,TOP,-84,92)
     LabelAssist:ClearAnchors()
-    LabelAssist:SetAnchor(TOP,HUDTelvarMeter_KeyboardTemplate,TOP,-93,50)
+    LabelAssist:SetAnchor(TOP,BGandAvAOverlay_KeyboardTemplate,TOP,-93,50)
 
 
     --Anim
-    HUDTelvarMeter_moveBar(-164,0)
+    BGandAvAOverlay_moveBar(-164,0)
 
   end
 
-  if(param == 3)then
+  if (param == 3) then
     Glow:SetTextureCoords(1,0,1,0)
     Gl:SetTextureCoords(1,0,1,0)
 
 
     LabelAP:ClearAnchors()
-    LabelAP:SetAnchor(LEFT,HUDTelvarMeter_KeyboardTemplate,LEFT,115,-42)
+    LabelAP:SetAnchor(LEFT,BGandAvAOverlay_KeyboardTemplate,LEFT,115,-42)
     LabelMedal:ClearAnchors()
-    LabelMedal:SetAnchor(LEFT,HUDTelvarMeter_KeyboardTemplate,LEFT,115,-42)
+    LabelMedal:SetAnchor(LEFT,BGandAvAOverlay_KeyboardTemplate,LEFT,115,-42)
 
     -- texture
     teamiconAP:ClearAnchors()
-    teamiconAP:SetAnchor(BOTTOM,HUDTelvarMeter_KeyboardTemplate,BOTTOMRIGHT,-153,-98)
+    teamiconAP:SetAnchor(BOTTOM,BGandAvAOverlay_KeyboardTemplate,BOTTOMRIGHT,-153,-98)
 
 
     teamiconBG:ClearAnchors()
-    teamiconBG:SetAnchor(BOTTOM,HUDTelvarMeter_KeyboardTemplate,BOTTOMRIGHT,-153,-88)
+    teamiconBG:SetAnchor(BOTTOM,BGandAvAOverlay_KeyboardTemplate,BOTTOMRIGHT,-153,-88)
 
     LabelKill:ClearAnchors()
-    LabelKill:SetAnchor(TOP,HUDTelvarMeter_KeyboardTemplate,TOP,-84,22)
+    LabelKill:SetAnchor(TOP,BGandAvAOverlay_KeyboardTemplate,TOP,-84,22)
     LabelDeath:ClearAnchors()
-    LabelDeath:SetAnchor(TOP,HUDTelvarMeter_KeyboardTemplate,TOP,-84,56)
+    LabelDeath:SetAnchor(TOP,BGandAvAOverlay_KeyboardTemplate,TOP,-84,56)
 
     LabelKillBG:ClearAnchors()
-    LabelKillBG:SetAnchor(TOP,HUDTelvarMeter_KeyboardTemplate,TOP,-84,22)
+    LabelKillBG:SetAnchor(TOP,BGandAvAOverlay_KeyboardTemplate,TOP,-84,22)
     LabelDeathBG:ClearAnchors()
-    LabelDeathBG:SetAnchor(TOP,HUDTelvarMeter_KeyboardTemplate,TOP,-84,56)
+    LabelDeathBG:SetAnchor(TOP,BGandAvAOverlay_KeyboardTemplate,TOP,-84,56)
     LabelAssist:ClearAnchors()
-    LabelAssist:SetAnchor(TOP,HUDTelvarMeter_KeyboardTemplate,TOP,-93,14)
+    LabelAssist:SetAnchor(TOP,BGandAvAOverlay_KeyboardTemplate,TOP,-93,14)
 
 
     --Anim
-    HUDTelvarMeter_moveBar(-164,-36)
+    BGandAvAOverlay_moveBar(-164,-36)
 
   end
 
-  if(param == 4)then
+  if (param == 4) then
     Glow:SetTextureCoords(0,1,1,0)
     Gl:SetTextureCoords(0,1,1,0)
 
     LabelAP:ClearAnchors()
-    LabelAP:SetAnchor(RIGHT,HUDTelvarMeter_KeyboardTemplate,RIGHT,-118,-42)
+    LabelAP:SetAnchor(RIGHT,BGandAvAOverlay_KeyboardTemplate,RIGHT,-118,-42)
     LabelMedal:ClearAnchors()
-    LabelMedal:SetAnchor(RIGHT,HUDTelvarMeter_KeyboardTemplate,RIGHT,-118,-42)
+    LabelMedal:SetAnchor(RIGHT,BGandAvAOverlay_KeyboardTemplate,RIGHT,-118,-42)
 
     -- texture
     teamiconAP:ClearAnchors()
-    teamiconAP:SetAnchor(BOTTOM,HUDTelvarMeter_KeyboardTemplate,BOTTOMRIGHT,-103,-98)
+    teamiconAP:SetAnchor(BOTTOM,BGandAvAOverlay_KeyboardTemplate,BOTTOMRIGHT,-103,-98)
 
 
     teamiconBG:ClearAnchors()
-    teamiconBG:SetAnchor(BOTTOM,HUDTelvarMeter_KeyboardTemplate,BOTTOMRIGHT,-103,-88)
+    teamiconBG:SetAnchor(BOTTOM,BGandAvAOverlay_KeyboardTemplate,BOTTOMRIGHT,-103,-88)
 
     LabelKill:ClearAnchors()
-    LabelKill:SetAnchor(TOP,HUDTelvarMeter_KeyboardTemplate,TOP,80,22)
+    LabelKill:SetAnchor(TOP,BGandAvAOverlay_KeyboardTemplate,TOP,80,22)
     LabelDeath:ClearAnchors()
-    LabelDeath:SetAnchor(TOP,HUDTelvarMeter_KeyboardTemplate,TOP,80,56)
+    LabelDeath:SetAnchor(TOP,BGandAvAOverlay_KeyboardTemplate,TOP,80,56)
 
     LabelKillBG:ClearAnchors()
-    LabelKillBG:SetAnchor(TOP,HUDTelvarMeter_KeyboardTemplate,TOP,80,22)
+    LabelKillBG:SetAnchor(TOP,BGandAvAOverlay_KeyboardTemplate,TOP,80,22)
     LabelDeathBG:ClearAnchors()
-    LabelDeathBG:SetAnchor(TOP,HUDTelvarMeter_KeyboardTemplate,TOP,80,56)
+    LabelDeathBG:SetAnchor(TOP,BGandAvAOverlay_KeyboardTemplate,TOP,80,56)
     LabelAssist:ClearAnchors()
-    LabelAssist:SetAnchor(TOP,HUDTelvarMeter_KeyboardTemplate,TOP,89,14)
+    LabelAssist:SetAnchor(TOP,BGandAvAOverlay_KeyboardTemplate,TOP,89,14)
 
     --Anim
-    HUDTelvarMeter_moveBar(0,-36)
+    BGandAvAOverlay_moveBar(0,-36)
   end
 end
 
 
 function PvpMeter.pageplusBG()
-  if(PvpMeter.page > 1) then
+  if (PvpMeter.page > 1) then
     PvpMeter.page = PvpMeter.page -1
     PvpMeterNumPageBG:SetText(PvpMeter.page.."/"..math.ceil(PvpMeter.BGPlayed/50))
 
@@ -1333,7 +1241,7 @@ end
 
 
 function PvpMeter.pagemoinBG()
-  if(PvpMeter.page<math.ceil(PvpMeter.BGPlayed/50))then
+  if (PvpMeter.page<math.ceil(PvpMeter.BGPlayed/50)) then
     PvpMeter.page = PvpMeter.page +1
     PvpMeterNumPageBG:SetText(PvpMeter.page.."/"..math.ceil(PvpMeter.BGPlayed/50))
 
@@ -1343,7 +1251,7 @@ end
 
 
 function PvpMeter.pageplusDuel()
-  if(PvpMeter.pageD > 1) then
+  if (PvpMeter.pageD > 1) then
     PvpMeter.pageD = PvpMeter.pageD -1
     PvpMeterNumPageDuel:SetText(PvpMeter.pageD.."/"..math.ceil(PvpMeter.duelPlayed /50))
 
@@ -1354,7 +1262,7 @@ end
 
 function PvpMeter.pagemoinDuel()
 
-  if(PvpMeter.pageD<math.ceil(PvpMeter.duelPlayed /50))then
+  if (PvpMeter.pageD<math.ceil(PvpMeter.duelPlayed /50)) then
     PvpMeter.pageD = PvpMeter.pageD +1
     PvpMeterNumPageDuel:SetText(PvpMeter.pageD.."/"..math.ceil(PvpMeter.duelPlayed /50))
 
@@ -1364,9 +1272,6 @@ end
 
 
 function PvpMeter.prepareQuickButton()
-
-  --esoui/art/campaign/campaignbrowser_homecampaign.dds
-
   local taba = 25
 
   PvpMeter.button =  WINDOW_MANAGER:CreateControl("PvpMeter_home_button", ZO_ChatWindow, CT_BUTTON)
@@ -1434,7 +1339,7 @@ function PvpMeter.prepareQuickButton()
     if CHAT_SYSTEM:IsMinimized() then
       --d("je maximize")
 
-      if(PvpMeter.savedVariables.quickButton)then
+      if (PvpMeter.savedVariables.quickButton) then
 
         PvpMeter.button:SetHidden(false)
         PvpMeter.button2:SetHidden(false)
@@ -1444,7 +1349,7 @@ function PvpMeter.prepareQuickButton()
 
     else
       --d("je minimize")
-      --if(PvpMeter.savedVariables.quickButton)then
+      --if (PvpMeter.savedVariables.quickButton) then
         PvpMeter.button:SetHidden(true)
         PvpMeter.button2:SetHidden(true)
         PvpMeter.label_home:SetHidden(true)
@@ -1458,7 +1363,7 @@ function PvpMeter.prepareQuickButton()
   ZO_PreHook(CHAT_SYSTEM, "Minimize",
   function(self)
     --d("je minimize")
-      --if(PvpMeter.savedVariables.quickButton)then
+      --if (PvpMeter.savedVariables.quickButton) then
         PvpMeter.button:SetHidden(true)
         PvpMeter.button2:SetHidden(true)
         PvpMeter.label_home:SetHidden(true)
@@ -1470,7 +1375,7 @@ function PvpMeter.prepareQuickButton()
   ZO_PreHook(CHAT_SYSTEM, "Maximize",
   function(self)
 
-    if(PvpMeter.savedVariables.quickButton)then
+    if (PvpMeter.savedVariables.quickButton) then
 
         PvpMeter.button:SetHidden(false)
         PvpMeter.button2:SetHidden(false)
@@ -1483,7 +1388,7 @@ function PvpMeter.prepareQuickButton()
 
   ZO_PreHook(SharedChatSystem, "StartTextEntry",
   function(self)
-    if(PvpMeter.savedVariables.quickButton)then
+    if (PvpMeter.savedVariables.quickButton) then
       PvpMeter.button:SetHidden(false)
       PvpMeter.button2:SetHidden(false)
       PvpMeter.label_home:SetHidden(false)
@@ -1495,27 +1400,26 @@ end
 
 
 function PvpMeter.updateButtonQuick()
-  if(PvpMeter.savedVariables.quickButton == false)then
+  if (PvpMeter.savedVariables.quickButton) then
+    PvpMeter.button:SetHidden(false)
+    PvpMeter.button2:SetHidden(false)
+    PvpMeter.label_home:SetHidden(false)
+    PvpMeter.label_guest:SetHidden(false)
+  else
     PvpMeter.button:SetHidden(true)
     PvpMeter.button2:SetHidden(true)
     PvpMeter.label_home:SetHidden(true)
     PvpMeter.label_guest:SetHidden(true)
   end
-
-  if(PvpMeter.savedVariables.quickButton)then
-    PvpMeter.button:SetHidden(false)
-    PvpMeter.button2:SetHidden(false)
-    PvpMeter.label_home:SetHidden(false)
-    PvpMeter.label_guest:SetHidden(false)
-    end
 end
+
 
 function PvpMeter.queue_joined (eventCode, campaignId, isGroup)
   --d("queue")
-  if(campaignId==GetAssignedCampaignId())then
+  if (campaignId==GetAssignedCampaignId()) then
     PvpMeter.label_home:SetText("...")
   end
-  if(campaignId==GetGuestCampaignId())then
+  if (campaignId==GetGuestCampaignId()) then
     PvpMeter.label_guest:SetText("...")
   end
 
@@ -1524,10 +1428,10 @@ end
 
 function PvpMeter.queue_left (eventCode, campaignId, isGroup)
   --d("left")
-  if(campaignId==GetAssignedCampaignId())then
+  if (campaignId==GetAssignedCampaignId()) then
     PvpMeter.label_home:SetText("0")
   end
-  if(campaignId==GetGuestCampaignId())then
+  if (campaignId==GetGuestCampaignId()) then
     PvpMeter.label_guest:SetText("0")
   end
 end
@@ -1535,10 +1439,10 @@ end
 
 function PvpMeter.queue_position (eventCode, campaignId, isGroup, position)
   --d(position)
-  if(campaignId==GetAssignedCampaignId())then
+  if (campaignId==GetAssignedCampaignId()) then
     PvpMeter.label_home:SetText(position)
   end
-  if(campaignId==GetGuestCampaignId())then
+  if (campaignId==GetGuestCampaignId()) then
     PvpMeter.label_guest:SetText(position)
   end
 end
@@ -1547,16 +1451,16 @@ end
 function PvpMeter.queue_state(eventCode, campaignId, isGroup, state)
 
   --d(state)
-  if(state == 2)then
+  if (state == 2) then
 
-    if(PvpMeter.savedVariables.autoqueue)then
+    if (PvpMeter.savedVariables.autoqueue) then
       ConfirmCampaignEntry(campaignId, isGroup, true)
     end
 
-    if(campaignId==GetAssignedCampaignId())then
+    if (campaignId==GetAssignedCampaignId()) then
       PvpMeter.label_home:SetText("...")
     end
-    if(campaignId==GetGuestCampaignId())then
+    if (campaignId==GetGuestCampaignId()) then
       PvpMeter.label_guest:SetText("...")
     end
 
@@ -1566,7 +1470,7 @@ end
 
 function PvpMeter.onActivityFinderStatusUpdate(eventCode, status)
   if status == ACTIVITY_FINDER_STATUS_READY_CHECK then
-    if(PvpMeter.savedVariables.autoqueue) then
+    if (PvpMeter.savedVariables.autoqueue) then
       AcceptLFGReadyCheckNotification()
     end
   end

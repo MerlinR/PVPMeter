@@ -86,10 +86,10 @@ local optionsDuel = {
     tooltip = "",
     width = "full",
     func = function()
-        if(PvpMeter.savedVariables.nbrSound == 0)then
+        if (PvpMeter.savedVariables.nbrSound == 0) then
         PlaySound(SOUNDS.LOCKPICKING_SUCCESS_CELEBRATION)
       end
-      if(PvpMeter.savedVariables.nbrSound == 1)then
+      if (PvpMeter.savedVariables.nbrSound == 1) then
         PlaySound(SOUNDS.EMPEROR_CORONATED_EBONHEART)
       end
     end,
@@ -101,7 +101,7 @@ local optionsDuel = {
     default = true,
     getFunc = function() return PvpMeter.savedVariables.BGAssist end,
     setFunc = function(val) PvpMeter.savedVariables.BGAssist = val
-      if(val and PvpMeter.inBG)then
+      if (val and PvpMeter.inBG) then
         LabelAssist:SetHidden(false)
       else
         LabelAssist:SetHidden(true)

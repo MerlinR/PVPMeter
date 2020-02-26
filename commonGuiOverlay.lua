@@ -121,11 +121,11 @@ end
 
 
 function HUDMenuMeter:changeColor(endd)
-  if(endd > 0.49) then
+  if (endd > 0.49) then
     LabelPMenu:SetColor(0.2,0.7,0)
     PercMenu:SetColor(0.2,0.7,0)
   end
-  if(endd <= 0.49) then
+  if (endd <= 0.49) then
     LabelPMenu:SetColor(0.7,0,0)
     PercMenu:SetColor(0.7,0,0)
   end
@@ -135,7 +135,7 @@ function HUDMenuMeter:changeColor(endd)
   LabelPMenu:SetText(txt)
   PercMenu:SetText("%")
 
-  if(txt<100) then
+  if (txt<100) then
     PercMenu:SetAnchor(BOTTOMRIGHT,LabelPMenu,BOTTOMLEFT,42,-3) -- -103
   else
     PercMenu:SetAnchor(BOTTOMRIGHT,LabelPMenu,BOTTOMLEFT,54,-3) -- -103
@@ -150,7 +150,7 @@ end
 
 function HUDMenuMeter_Update(start ,endd)
   if HUD_MENU_METER then
-    if(endd<0.01)then endd = 0 end
+    if (endd<0.01) then endd = 0 end
     HUD_MENU_METER:UpdateBar(HUD_MENU_METER.MenuBar, 0, 1)
     HUD_MENU_METER:UpdateBar(HUD_MENU_METER.bountyBar, start, endd)
     HUD_MENU_METER:changeColor(endd)

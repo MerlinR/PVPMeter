@@ -89,7 +89,7 @@ function UnitListDuel:SetupUnitRow(control, data)
   control.texture = GetControl(control, "iconTeamControl")
   control.icon = GetControl(control.texture,"iconTeamBG")
 
-  if(data.race ~= 0)then
+  if (data.race ~= 0) then
     control.icon:SetHidden(false)
     control.icon:SetTexture(GetBattlegroundTeamIcon(data.race))
   else
@@ -111,11 +111,11 @@ function UnitListDuel:SetupUnitRow(control, data)
 
 
   --[[
-  if(endd > 0.49) then
+  if (endd > 0.49) then
     LabelP:SetColor(0.2,0.7,0)
     Perc:SetColor(0.2,0.7,0)
   end
-  if(endd <= 0.49) then
+  if (endd <= 0.49) then
     LabelP:SetColor(0.7,0,0)
     Perc:SetColor(0.7,0,0)
   end
@@ -127,8 +127,8 @@ function UnitListDuel:SetupUnitRow(control, data)
   control.race.normalColor = SLEDUEL.DEFAULT_TEXT
 
 
-  if(SCENE_MANAGER:IsShowing("PvpmeterduelScene") == true)then
-    if(data.class >= 500)then
+  if (SCENE_MANAGER:IsShowing("PvpmeterduelScene") == true) then
+    if (data.class >= 500) then
       control.class.normalColor = SLEDUEL.GREEN_TEXT
     else
       control.class.normalColor = SLEDUEL.RED_TEXT
