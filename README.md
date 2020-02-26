@@ -10,8 +10,9 @@ https://www.esoui.com/downloads/info1760-PvpMeter.html
 ### Version 3.9
 #### Overhaul
  - [ ] Refactor code (make readable)
- - [ ] Update storage method
+ - [ ] Update storage format
  - [ ] Convert old data into new format storage
+   - [ ] Convert win/lose into 1st, 2nd and 3rd
 
 #### GUI
  - [ ] Update BG to display pos in table
