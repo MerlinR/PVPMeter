@@ -1,0 +1,9 @@
+## Title: PvP Metrics
+## Version: 0.1
+## SavedVariables: PVPMetricsData
+## APIVersion: 100030
+## Author: HoboNavity & Thalothean
+## OptionalDependsOn: LibAddonMenu-2.0 LibMainMenu
+
+
+PVPMetrics.lua
