@@ -1,9 +1,12 @@
 ## Title: PvP Metrics
-## Version: 0.1
-## SavedVariables: PVPMetricsData
-## APIVersion: 100030
+## Description: PVP Metric tracker, BGs, Duels and Cryodrill
 ## Author: HoboNavity & Thalothean
-## OptionalDependsOn: LibAddonMenu-2.0 LibMainMenu
+## Version: 0.1
+## APIVersion: 100030
+## DependsOn: LibAddonMenu-2.0  
+## SavedVariables: pvpmetricsdata
 
 
 PVPMetrics.lua
+
+bgOverlay.xml

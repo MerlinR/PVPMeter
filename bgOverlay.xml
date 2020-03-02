@@ -1,0 +1,55 @@
+<GuiXml>
+
+  <Controls>
+
+	<!-- BG Overlay -->
+    <TopLevelControl name="PVPMetricsBGOverlay" clampedToScreen="true" mouseEnabled="true" movable="true">
+		<Dimensions x="256" y="128" />
+      	<Anchor point="BOTTOM" relativeTo="GuiRoot" relativePoint="CENTER" offsetY="-25" />
+
+		<OnMoveStop>
+			PVPMetrics.OnBGOverlayMoveStop()
+		</OnMoveStop>
+
+	  	<Controls>
+			<Texture name="BGOverlayBackground" textureFile="esoui/art/hud/telvar_meter_frame.dds" level="1">
+				<Dimensions x="256" y="128" />
+				<Anchor point="LEFT" relativeTo="$(parent)MinSlider" relativePoint="LEFT" offsetX="-6" />
+				<Anchor point="RIGHT" relativeTo="$(parent)MaxSlider" relativePoint="RIGHT" offsetX="6" />
+			</Texture>
+	  	
+			<Label name="LabelMedal" width="10" height="25" font="ZoFontWinH4"  color="39EE31"
+				horizontalAlignment="LEFT" text="1212" >
+				<Anchor point="RIGHT" relativeTo="$(parent)" relativePoint="RIGHT" offsetX="-118" offsetY="42"/>
+			</Label>
+					
+			<Control name="teamiconBG">
+				<Dimensions x="12" y="36" />
+				<Anchor point="BOTTOM" relativePoint="BOTTOMRIGHT" offsetX="-103" offsetY="-4"/>
+				<Controls>
+					<Texture name="scoreIcon" textureFile="esoui/art/currency/alliancepoints_32.dds" level="1">
+						<Dimensions x="10" y="22" />
+						<Anchor point="LEFT"  relativePoint="LEFT" offsetX="-6" />
+						<Anchor point="RIGHT" relativePoint="RIGHT" offsetX="6" />
+					</Texture>
+				</Controls>
+			</Control>
+					
+			<Label name="LabelKillBG" width="12" height="15" font="ZoFontWinH1" inheritAlpha="true" color="39EE31"
+				wrapMode="TRUNCATE" verticalAlignment="CENTER" horizontalAlignment="BOTTOMRIGHT" text="12">
+				<Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetY="59" offsetX="80"/>
+			</Label>
+			
+			<Label name="LabelDeathBG" width="12" height="15" font="ZoFontWinH5" inheritAlpha="true" color="39EE31"
+				wrapMode="TRUNCATE" verticalAlignment="CENTER" horizontalAlignment="BOTTOMRIGHT" text="12">
+				<Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetY="92" offsetX="80"/>
+			</Label>
+		</Controls>
+
+    </TopLevelControl>
+
+
+
+  </Controls>
+
+</GuiXml>
