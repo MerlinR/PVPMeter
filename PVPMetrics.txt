@@ -6,7 +6,7 @@
 ## DependsOn: LibAddonMenu-2.0  
 ## SavedVariables: pvpmetricsdata
 
-defines.lua
+common.lua
 
 PVPMetrics.lua
 
