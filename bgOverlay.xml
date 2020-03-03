@@ -5,7 +5,7 @@
 	<!-- BG Overlay -->
     <TopLevelControl name="PVPMetricsBGOverlay" clampedToScreen="true" mouseEnabled="true" movable="true">
 		<Dimensions x="256" y="128" />
-      	<Anchor point="BOTTOM" relativeTo="GuiRoot" relativePoint="CENTER" offsetY="-25" />
+      	<Anchor point="BOTTOM" relativeTo="GuiRoot" relativePoint="CENTER" offsetY="-20" />
 
 		<OnMoveStop>
 			PVPMetrics.OnBGOverlayMoveStop()
