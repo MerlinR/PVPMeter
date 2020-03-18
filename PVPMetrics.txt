@@ -13,4 +13,5 @@ PVPMetrics.lua
 PVPMetricsMenuSettings.lua
 
 bgOverlay.xml
+cyroOverlay.xml
 testgui.xml
