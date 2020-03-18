@@ -10,4 +10,7 @@ common.lua
 
 PVPMetrics.lua
 
+PVPMetricsMenuSettings.lua
+
 bgOverlay.xml
+testgui.xml
