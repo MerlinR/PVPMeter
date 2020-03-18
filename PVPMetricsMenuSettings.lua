@@ -1,6 +1,6 @@
 local panelHeader = {
   type = "panel",
-  name = "PvP Merics",
+  name = "PvP Metrics",
   displayName = "PvP Metrics",
   author = "HoboNavity, Thalothean",
   version = "1.1",
@@ -24,8 +24,8 @@ local panelOptions = {
   },
   [3] = {
 		type    = "checkbox",
-		name    = "Show Cryodiil Metrics",
-		tooltip = "Show Cryodiil Metrics",
+		name    = "Show Cyrodiil Metrics",
+		tooltip = "Show Cyrodiil Metrics",
 		default = true,
 		getFunc = function() return PVPMetrics.pvpmetricsdata.settings.CryoOverlayEnabled end,
 		setFunc = function(val) PVPMetrics.pvpmetricsdata.settings.CryoOverlayEnabled = val end,
@@ -50,8 +50,8 @@ local panelOptions = {
 	},
 	[5] = {
 		type    = "checkbox",
-		name    = "Killing blow messags",
-		tooltip = "Pops message on screen when got killing blow",
+		name    = "Killing blow messages",
+		tooltip = "Pops message on screen when getting a killing blow",
 		default = false,
 		getFunc = function() return PVPMetrics.pvpmetricsdata.settings.killingblowMsgEnabled end,
 		setFunc = function(val) PVPMetrics.pvpmetricsdata.settings.killingblowMsgEnabled = val end,
