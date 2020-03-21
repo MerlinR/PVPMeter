@@ -56,3 +56,7 @@ https://www.esoui.com/downloads/info1760-PvpMeter.html
     - [ ] Cryodrill color options
  - [ ] GamePad support
  - [ ] Import of PVPMeter data
+
+
+### Resources
+https://github.com/esoui/esoui

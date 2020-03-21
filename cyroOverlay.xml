@@ -27,7 +27,7 @@
 				<Dimensions x="12" y="36" />
 				<Anchor point="BOTTOM" relativePoint="BOTTOMRIGHT" offsetX="-103" offsetY="-4"/>
 				<Controls>
-					<Texture name="scoreIcon" textureFile="esoui/art/currency/alliancepoints_32.dds" level="1">
+					<Texture name="AlliancePoints" textureFile="esoui/art/currency/alliancepoints_32.dds" level="1">
 						<Dimensions x="10" y="22" />
 						<Anchor point="LEFT"  relativePoint="LEFT" offsetX="-6" />
 						<Anchor point="RIGHT" relativePoint="RIGHT" offsetX="6" />

@@ -15,35 +15,35 @@ end
 -- Restore BG Overlay, bottom right is default
 function PVPMetrics.restoreBgOverlayPosition()
   if PVPMetrics.pvpmetricsdata.settings.bgOverlayLeft ~= nil then
-    PVPMetricsBGOverlay:ClearAnchors()
-    PVPMetricsBGOverlay:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, PVPMetrics.pvpmetricsdata.settings.bgOverlayLeft, PVPMetrics.pvpmetricsdata.settings.bgOverlayTop)
+    PVPBGOverlay:ClearAnchors()
+    PVPBGOverlay:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, PVPMetrics.pvpmetricsdata.settings.bgOverlayLeft, PVPMetrics.pvpmetricsdata.settings.bgOverlayTop)
   else
-    PVPMetricsBGOverlay:ClearAnchors()
-    PVPMetricsBGOverlay:SetAnchor(BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, 0)
+    PVPBGOverlay:ClearAnchors()
+    PVPBGOverlay:SetAnchor(BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, 0)
   end
 end
 
 -- Save Position of BG Overlay when moved
 function PVPMetrics.OnBGOverlayMoveStop()
-  PVPMetrics.pvpmetricsdata.settings.bgOverlayLeft = PVPMetricsBGOverlay:GetLeft()
-  PVPMetrics.pvpmetricsdata.settings.bgOverlayTop = PVPMetricsBGOverlay:GetTop()
+  PVPMetrics.pvpmetricsdata.settings.bgOverlayLeft = PVPBGOverlay:GetLeft()
+  PVPMetrics.pvpmetricsdata.settings.bgOverlayTop = PVPBGOverlay:GetTop()
 end
 
 -- Hide or Show BG GUI Overlay
 function PVPMetrics.displayBGOverlay(show)
   if ( show and PVPMetrics.pvpmetricsdata.settings.bgOverlayEnabled )then
-    PVPMetricsBGOverlay:SetHidden(false)
+    PVPBGOverlay:SetHidden(false)
   else
-    PVPMetricsBGOverlay:SetHidden(true)
+    PVPBGOverlay:SetHidden(true)
   end
 end
 
 -- Update BG GUI text
 function PVPMetrics.updateBGOverlayText()
-  LabelKillBG:SetText(PVPMetrics.live.kills)
-  LabelAssistBG:SetText(PVPMetrics.live.assists)
-  LabelDeathBG:SetText(PVPMetrics.live.deaths)
-  LabelMedal:SetText(PVPMetrics.live.bgScore)
+  PVPBGOverlayKill:SetText(PVPMetrics.live.kills)
+  PVPBGOverlayAssist:SetText(PVPMetrics.live.assists)
+  PVPBGOverlayDeath:SetText(PVPMetrics.live.deaths)
+  PVPBGOverlayScore:SetText(PVPMetrics.live.bgScore)
 end
 
 -- Set BG GUI Colors
@@ -52,14 +52,14 @@ function PVPMetrics.updateBgColors()
 
   -- setColor(R,G,B)
   if ( alliance == BATTLEGROUND_ALLIANCE_FIRE_DRAKES ) then
-		LabelMedal:SetColor(0.85,0.4,00)
+		PVPBGOverlayIconControlIcon:SetColor(0.85,0.4,00)
   elseif ( alliance == BATTLEGROUND_ALLIANCE_PIT_DAEMONS ) then
-		LabelMedal:SetColor(0.36,0.6,0.0)
+		PVPBGOverlayIconControlIcon:SetColor(0.36,0.6,0.0)
   elseif ( alliance == BATTLEGROUND_ALLIANCE_STORM_LORDS ) then
-		LabelMedal:SetColor(0.5,0.3,0.6)
+		PVPBGOverlayIconControlIcon:SetColor(0.5,0.3,0.6)
   end
 
-  scoreIcon:SetTexture( GetBattlegroundTeamIcon(alliance))
+  PVPBGOverlayIconControlIcon:SetTexture( GetBattlegroundTeamIcon(alliance))
 end
 
 
@@ -96,7 +96,10 @@ end
 
 -- Kills or assists(not always correct assists)
 -- Could pop up the name of killer so we know what bastard to chase after "NoobKilla69 killed ya bitch"
-function PVPMetrics.onBgKill(eventCode, killedPlayerCharacterName, killedPlayerDisplayName, killedPlayerBattlegroundAlliance, killingPlayerCharacterName, killingPlayerDisplayName, killingPlayerBattlegroundAlliance, battlegroundKillType)
+function PVPMetrics.onBgKill(eventCode, killedPlayerCharacterName, killedPlayerDisplayName,
+                            killedPlayerBattlegroundAlliance, killingPlayerCharacterName, killingPlayerDisplayName,
+                            killingPlayerBattlegroundAlliance, battlegroundKillType)
+
 
 end
 
@@ -115,9 +118,40 @@ end
 
 -- SECTION Common Functions
 
-function PVPMetrics.OnDeath()
+function PVPMetrics.onDeath()
 
 end
+
+function PVPMetrics.interp(s, tab)
+  return (s:gsub('($%b{})', function(w) return tab[w:sub(3, -2)] or w end))
+end
+
+function PVPMetrics.onKill(source, killed)
+  if (PVPMetrics.pvpmetricsdata.settings.killSound > 1) then
+    PlaySound(killSounds[PVPMetrics.pvpmetricsdata.settings.killSound])
+  end
+  if PVPMetrics.pvpmetricsdata.settings.killingblowMsgEnabled then
+    local params = CENTER_SCREEN_ANNOUNCE:CreateMessageParams(CSA_CATEGORY_MAJOR_TEXT, SOUNDS.ABILITY_NOT_READY)
+    params:SetCSAType(CENTER_SCREEN_ANNOUNCE_TYPE_POI_DISCOVERED)
+    params:SetText(PVPMetrics.interp(PVPMetrics.pvpmetricsdata.settings.killingblowMsg, {player = source, target = killed}))
+    --params:SetIconData("art/icons/ability_warden_018_c.dds", "art/icons/ability_warden_018_c.dds")
+    -- Icons, Background
+    params:MarkShowImmediately()
+    CENTER_SCREEN_ANNOUNCE:AddMessageWithParams(params)
+    -- https://www.esoui.com/forums/showthread.php?t=7038
+  end
+end
+
+
+function PVPMetrics.combatEvent(eventCode, actionResult, isError, abilityName, abilityGraphic,
+                                abilityActionSlotType, sourceName, sourceType, targetName, targetType,
+                                hitValue, powerType, damageType, log, sourceUnitId, targetUnitId, abilityId, overflow)
+  if targetType == COMBAT_UNIT_TYPE_OTHER  and actionResult == ACTION_RESULT_KILLING_BLOW and
+    sourceType == COMBAT_UNIT_TYPE_PLAYER  then
+    PVPMetrics.onKill(GetUnitName("player"), SplitString("^", targetName))
+  end
+end
+
 
 function PVPMetrics.resetLiveStats()
   PVPMetrics.live = nil
@@ -128,15 +162,12 @@ function PVPMetrics.onZoneChange()
   -- TODO Finish up instances, remove debugging prints
   if PVPMetrics.live.zone ~= "BG" and IsActiveWorldBattleground() then
     PVPMetrics.live.zone = "BG"
-    d("BG")
     PVPMetrics.enteredBG()
   elseif PVPMetrics.live.zone ~= "CRYO" and (IsPlayerInAvAWorld() or IsInImperialCity()) then
     PVPMetrics.live.zone = "CRYO"
-    d("CRYO")
   elseif IsActiveWorldBattleground() == false and IsPlayerInAvAWorld() == false and IsInImperialCity() == false then
     PVPMetrics.noPVPZone()
     PVPMetrics.live.zone = "NORM"
-    d("NORM")
   end
 end
 
@@ -175,13 +206,19 @@ SLASH_COMMANDS["/playsound"] = DEBUGSOUNDTEST
 
 -- Print all live data
 function DEBUGREIMG(arg)
-  FooAddonIndicator:SetHidden(false)
+  killingBlowOverlay:SetHidden(false)
   if arg == "hide" then
-    FooAddonIndicator:SetHidden(true)
+    killingBlowOverlay:SetHidden(true)
   end
-  TestIcon:SetTexture(arg) 
+  killingBlowOverlayIcon:SetTexture(arg) 
 end
 SLASH_COMMANDS["/metricsimg"] = DEBUGREIMG
+
+-- Print all live data
+function DEBUGKB(arg)
+  PVPMetrics.onKill("Hobo", "Thalo")
+end
+SLASH_COMMANDS["/metrickb"] = DEBUGKB
 
 -- SECTION CORE functionality
 
@@ -200,7 +237,8 @@ function PVPMetrics:Initialize()
 
   -- NOTE events require function to be linked to, E.G commented out till required.
   -- Common Events
-  EVENT_MANAGER:RegisterForEvent(PVPMetrics.name, EVENT_PLAYER_DEAD, self.OnDeath)
+  EVENT_MANAGER:RegisterForEvent(PVPMetrics.name, EVENT_PLAYER_DEAD, self.onDeath)
+  EVENT_MANAGER:RegisterForEvent(PVPMetrics.name, EVENT_COMBAT_EVENT, self.combatEvent)
 
   -- UI Change events
   EVENT_MANAGER:RegisterForEvent(PVPMetrics.name, EVENT_PLAYER_ACTIVATED, self.onZoneChange)

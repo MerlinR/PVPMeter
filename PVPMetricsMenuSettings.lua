@@ -59,7 +59,7 @@ local panelOptions = {
 	[6] = {
 		type = "editbox",
     name = "Killing blow message",
-    tooltip = "Message to display on killing blow, %t is targets name.",
+    tooltip = "Message to display on killing blow, useable variables: ${target} ${player}",
     getFunc = function() return PVPMetrics.pvpmetricsdata.settings.killingblowMsg end,
   	setFunc = function(text) PVPMetrics.pvpmetricsdata.settings.killingblowMsg = text end,
     isMultiline = false,	--boolean

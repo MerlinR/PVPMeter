@@ -9,9 +9,9 @@
 common.lua
 
 PVPMetrics.lua
-
+fadeControl.lua
 PVPMetricsMenuSettings.lua
 
 bgOverlay.xml
 cyroOverlay.xml
-testgui.xml
+killingBlowOverlay.xml

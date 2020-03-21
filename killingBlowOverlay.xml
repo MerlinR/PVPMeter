@@ -1,0 +1,20 @@
+<GuiXml>
+  <Controls>
+    <TopLevelControl name="killingBlowOverlay" mouseEnabled="true" movable="true" clampedToScreen="true" hidden="true">
+      <Anchor point="BOTTOM" relativeTo="GuiRoot" relativePoint="CENTER" offsetY="-20" />
+
+      <Controls>
+        <Texture name="$(parent)Icon" textureFile="esoui/art/stats/justice_bounty_icon-red.dds" level="1">
+				<Dimensions x="150" y="150" />
+        <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" />
+			  </Texture>
+
+        <Label name="$(parent)Label" width="200" height="25" font="ZoFontWinH1" inheritAlpha="true" color="FF0000"
+            wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="CENTER" text="Boobies">
+          <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" />
+        </Label>
+      </Controls>
+
+    </TopLevelControl>
+  </Controls>
+</GuiXml>

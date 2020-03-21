@@ -1,3 +1,4 @@
+-- Live information while running, lost on reloadUI
 liveDefaults = {
   kills = 0,
   assists = 0,
@@ -6,18 +7,19 @@ liveDefaults = {
   zone = 0
 }
 
+-- Default Saved settings
 settingsDefault ={
-  bgOverlayEnabled = 0,
+  bgOverlayEnabled = true,
   bgOverlayLeft = 0,
   bgOverlayRight = 0,
 
-  CryoOverlayEnabled = 0,
+  CryoOverlayEnabled = true,
   CryoOverlayLeft = 0,
   CryoOverlayRight = 0,
 
-  KillSound = 0,
-  killingblowMsgEnabled = 0,
-  killingblowMsg = "Killed %t",
+  KillSound = 0, -- ID to soundOptions
+  killingblowMsgEnabled = true,
+  killingblowMsg = "Killed ${target}",
 }
 
 -- The option names for sound
