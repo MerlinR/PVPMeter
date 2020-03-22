@@ -31,7 +31,7 @@ end
 
 -- Hide or Show BG GUI Overlay
 function PVPMetrics.displayBGOverlay(show)
-  if ( show and PVPMetrics.pvpmetricsdata.settings.bgOverlayEnabled )then
+  if ( show )then
     PVPBGOverlay:SetHidden(false)
   else
     PVPBGOverlay:SetHidden(true)
@@ -110,6 +110,17 @@ function PVPMetrics.onBGMedal(eventCode, medalId, name, iconFilename, value)
 end
 
 
+-- SECTION CYRO Functions
+
+-- When entering a Cyro
+function PVPMetrics.enteredCyro()
+  --PVPMetrics.resetLiveStats()
+  --PVPMetrics.restoreCyroOverlayPosition()
+  --PVPMetrics.updateCyroOverlayText()
+  --PVPMetrics.displayCyroOverlay(true)
+end
+
+
 -- SECTION Normal world Functions
 
 function PVPMetrics.noPVPZone()
@@ -147,7 +158,7 @@ function PVPMetrics.combatEvent(eventCode, actionResult, isError, abilityName, a
                                 abilityActionSlotType, sourceName, sourceType, targetName, targetType,
                                 hitValue, powerType, damageType, log, sourceUnitId, targetUnitId, abilityId, overflow)
   if targetType == COMBAT_UNIT_TYPE_OTHER  and actionResult == ACTION_RESULT_KILLING_BLOW and
-    sourceType == COMBAT_UNIT_TYPE_PLAYER  then
+    sourceType == COMBAT_UNIT_TYPE_PLAYER  and SplitString("^", sourceName) == GetUnitName("player") then
     PVPMetrics.onKill(GetUnitName("player"), SplitString("^", targetName))
   end
 end
@@ -162,9 +173,14 @@ function PVPMetrics.onZoneChange()
   -- TODO Finish up instances, remove debugging prints
   if PVPMetrics.live.zone ~= "BG" and IsActiveWorldBattleground() then
     PVPMetrics.live.zone = "BG"
-    PVPMetrics.enteredBG()
-  elseif PVPMetrics.live.zone ~= "CRYO" and (IsPlayerInAvAWorld() or IsInImperialCity()) then
-    PVPMetrics.live.zone = "CRYO"
+    if ( PVPMetrics.pvpmetricsdata.settings.bgOverlayEnabled ) then
+      PVPMetrics.enteredBG()
+    end
+  elseif PVPMetrics.live.zone ~= "CYRO" and (IsPlayerInAvAWorld() or IsInImperialCity()) then
+    PVPMetrics.live.zone = "CYRO"
+    if ( PVPMetrics.pvpmetricsdata.settings.bgOverlayEnabled ) then
+      PVPMetrics.enteredCyro()
+    end
   elseif IsActiveWorldBattleground() == false and IsPlayerInAvAWorld() == false and IsInImperialCity() == false then
     PVPMetrics.noPVPZone()
     PVPMetrics.live.zone = "NORM"
