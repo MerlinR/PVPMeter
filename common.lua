@@ -13,9 +13,9 @@ settingsDefault ={
   bgOverlayLeft = 0,
   bgOverlayRight = 0,
 
-  CryoOverlayEnabled = true,
-  CryoOverlayLeft = 0,
-  CryoOverlayRight = 0,
+  CyroOverlayEnabled = true,
+  CyroOverlayLeft = 0,
+  CyroOverlayRight = 0,
 
   KillSound = 0, -- ID to soundOptions
   killingblowMsgEnabled = true,
