@@ -35,8 +35,8 @@ https://www.esoui.com/downloads/info1760-PvpMeter.html
         - [ ] Indvidual game mode win stats
         - [ ] Total K/D/A and Ratio ((K+(A / 2)) / D)
         - [ ] Avg's (K/D/A DmgDone, DmgTaken, Healed, Blocked, etc)
- - [ ] Cryodrill Metrics
-    - [ ] personal Campaign metrics
+ - [ ] Cyrodiil Metrics
+    - [ ] Personal Campaign metrics
         - [ ] K/D/A
         - [ ] Capture metrics
     - [ ] Session metrics
