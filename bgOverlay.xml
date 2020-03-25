@@ -2,54 +2,54 @@
 
   <Controls>
 
-	<!-- BG Overlay -->
+  <!-- BG Overlay -->
     <TopLevelControl name="PVPBGOverlay" clampedToScreen="true" mouseEnabled="true" movable="true" hidden="true">
-		<Dimensions x="256" y="128" />
-      	<Anchor point="BOTTOM" relativeTo="GuiRoot" relativePoint="CENTER" offsetY="-20" />
+    <Dimensions x="256" y="128" />
+        <Anchor point="BOTTOM" relativeTo="GuiRoot" relativePoint="CENTER" offsetY="-20" />
 
-		<OnMoveStop>
-			PVPMetrics.OnBGOverlayMoveStop()
-		</OnMoveStop>
+    <OnMoveStop>
+      PVPMetrics.OnBGOverlayMoveStop()
+    </OnMoveStop>
 
-	  	<Controls>
-			<Texture name="$(parent)Background" textureFile="esoui/art/hud/telvar_meter_frame.dds" level="1">
-				<Dimensions x="256" y="128" />
-				<Anchor point="LEFT" relativeTo="$(parent)MinSlider" relativePoint="LEFT" offsetX="-6" />
-				<Anchor point="RIGHT" relativeTo="$(parent)MaxSlider" relativePoint="RIGHT" offsetX="6" />
-			</Texture>
-	  	
-			<Label name="$(parent)Score" width="10" height="25" font="ZoFontWinH4"  color="FFFFFF"
-				horizontalAlignment="LEFT" text="0" >
-				<Anchor point="RIGHT" relativeTo="$(parent)" relativePoint="RIGHT" offsetX="-118" offsetY="42"/>
-			</Label>
-					
-			<Control name="$(parent)IconControl">
-				<Dimensions x="12" y="36" />
-				<Anchor point="BOTTOM" relativePoint="BOTTOMRIGHT" offsetX="-103" offsetY="-4"/>
-				<Controls>
-					<Texture name="$(parent)Icon" textureFile="esoui/art/currency/alliancepoints_32.dds" level="1">
-						<Dimensions x="10" y="22" />
-						<Anchor point="LEFT"  relativePoint="LEFT" offsetX="-6" />
-						<Anchor point="RIGHT" relativePoint="RIGHT" offsetX="6" />
-					</Texture>
-				</Controls>
-			</Control>
-					
-			<Label name="$(parent)Kill" width="12" height="15" font="ZoFontWinH2" inheritAlpha="true" color="4CA64C"
-				wrapMode="TRUNCATE" verticalAlignment="CENTER" horizontalAlignment="BOTTOMRIGHT" text="0">
-				<Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetY="66" offsetX="70"/>
-			</Label>
+      <Controls>
+      <Texture name="$(parent)Background" textureFile="esoui/art/hud/telvar_meter_frame.dds" level="1">
+        <Dimensions x="256" y="128" />
+        <Anchor point="LEFT" relativeTo="$(parent)MinSlider" relativePoint="LEFT" offsetX="-6" />
+        <Anchor point="RIGHT" relativeTo="$(parent)MaxSlider" relativePoint="RIGHT" offsetX="6" />
+      </Texture>
+      
+      <Label name="$(parent)Score" width="10" height="25" font="ZoFontWinH4"  color="FFFFFF"
+        horizontalAlignment="LEFT" text="0" >
+        <Anchor point="RIGHT" relativeTo="$(parent)" relativePoint="RIGHT" offsetX="-118" offsetY="42"/>
+      </Label>
+          
+      <Control name="$(parent)IconControl">
+        <Dimensions x="12" y="36" />
+        <Anchor point="BOTTOM" relativePoint="BOTTOMRIGHT" offsetX="-103" offsetY="-4"/>
+        <Controls>
+          <Texture name="$(parent)Icon" textureFile="esoui/art/currency/alliancepoints_32.dds" level="1">
+            <Dimensions x="10" y="22" />
+            <Anchor point="LEFT"  relativePoint="LEFT" offsetX="-6" />
+            <Anchor point="RIGHT" relativePoint="RIGHT" offsetX="6" />
+          </Texture>
+        </Controls>
+      </Control>
+          
+      <Label name="$(parent)Kill" width="12" height="15" font="ZoFontWinH2" inheritAlpha="true" color="4CA64C"
+        wrapMode="TRUNCATE" verticalAlignment="CENTER" horizontalAlignment="BOTTOMRIGHT" text="0">
+        <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetY="66" offsetX="70"/>
+      </Label>
 
-			<Label name="$(parent)Assist" width="12" height="15" font="ZoFontWinH2" inheritAlpha="true" color="FFFFFF"
-				wrapMode="TRUNCATE" verticalAlignment="CENTER" horizontalAlignment="BOTTOMRIGHT" text="0">
-				<Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetY="66" offsetX="94"/>
-			</Label>
-			
-			<Label name="$(parent)Death" width="12" height="15" font="ZoFontWinH4" inheritAlpha="true" color="990000"
-				wrapMode="TRUNCATE" verticalAlignment="CENTER" horizontalAlignment="BOTTOMRIGHT" text="0">
-				<Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetY="90" offsetX="82"/>
-			</Label>
-		</Controls>
+      <Label name="$(parent)Assist" width="12" height="15" font="ZoFontWinH2" inheritAlpha="true" color="FFFFFF"
+        wrapMode="TRUNCATE" verticalAlignment="CENTER" horizontalAlignment="BOTTOMRIGHT" text="0">
+        <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetY="66" offsetX="94"/>
+      </Label>
+      
+      <Label name="$(parent)Death" width="12" height="15" font="ZoFontWinH4" inheritAlpha="true" color="990000"
+        wrapMode="TRUNCATE" verticalAlignment="CENTER" horizontalAlignment="BOTTOMRIGHT" text="0">
+        <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetY="90" offsetX="82"/>
+      </Label>
+    </Controls>
 
     </TopLevelControl>
 

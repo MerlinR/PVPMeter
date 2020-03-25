@@ -7,11 +7,11 @@
 ## SavedVariables: pvpmetricsdata
 
 common.lua
+Meter.lua
 
 PVPMetrics.lua
-fadeControl.lua
 PVPMetricsMenuSettings.lua
 
+Meter.xml
 bgOverlay.xml
 cyroOverlay.xml
-killingBlowOverlay.xml

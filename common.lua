@@ -4,11 +4,11 @@ liveDefaults = {
   assists = 0,
   deaths = 0,
   bgScore = 0,
-  zone = 0
+  zone = 0,
 }
 
 -- Default Saved settings
-settingsDefault ={
+settingsDefault = {
   bgOverlayEnabled = true,
   bgOverlayLeft = 0,
   bgOverlayRight = 0,
@@ -17,10 +17,23 @@ settingsDefault ={
   CyroOverlayLeft = 0,
   CyroOverlayRight = 0,
 
-  KillSound = 0, -- ID to soundOptions
+  KillSound = 1, -- ID to soundOptions
   killingblowMsgEnabled = true,
   killingblowMsg = "Killed ${target}",
+
+  equipTabardEnabled = false, -- ID to soundOptions
+  equipTabard = "None",
 }
+
+tabardOptions = {
+  [1] = "None",
+}
+
+-- SECTION Below are Static Values
+
+--Defines
+DEFINES = {}
+DEFINES.NOSOUND = 1
 
 -- The option names for sound
 soundOptions = {

@@ -1,6 +1,9 @@
 PVPMetrics = {}
 PVPMetrics.name = "PVPMetrics"
 
+-- TODO
+-- LiveSetting saved? No No
+-- PVPMetrics.pvpmetricsdata = liveDefaults ?????????
 
 function PVPMetrics.InitializeProfile()
   if PVPMetrics.pvpmetricsdata.settings == nil then
@@ -9,8 +12,43 @@ function PVPMetrics.InitializeProfile()
   end
 end
 
+-- SECTION Misc --------------------------------------------------------------------------------------
 
--- SECTION BG GUI's
+
+-- Gathers list of tabards and guilds in backpack and worn
+function PVPMetrics.getTabardList()
+  for i=0,GetBagSize(BAG_BACKPACK) do
+    -- 55262 = GuildTabard ID https://esoitem.uesp.net/itemLink.php?itemid=55262&summary
+    if GetItemId(BAG_BACKPACK, i) == 55262 then
+      table.insert( tabardOptions, GetItemCreatorName(BAG_BACKPACK, i))
+    end
+  end
+  for i=0,GetBagSize(BAG_WORN) do
+    if GetItemId(BAG_WORN, i) == 55262 then
+      table.insert( tabardOptions, GetItemCreatorName(BAG_WORN, i))
+    end
+  end
+end
+
+-- Wear tabard or removes tabard, removes any tabard
+function PVPMetrics.wearTabard(wear)
+  if wear then
+    for i=0,GetBagSize(BAG_BACKPACK) do
+      if GetItemId(BAG_BACKPACK, i) == 55262 and GetItemCreatorName(BAG_BACKPACK, i) == PVPMetrics.pvpmetricsdata.settings.equipTabard then
+        EquipItem(BAG_BACKPACK, i, EQUIP_SLOT_COSTUME)
+      end
+    end
+  else
+    for i=0,GetBagSize(BAG_WORN) do
+      if GetItemId(BAG_WORN, i) == 55262 then
+        UnequipItem(EQUIP_SLOT_COSTUME)
+      end
+    end
+  end
+end
+
+
+-- SECTION BG GUI's --------------------------------------------------------------------------------------
 
 -- Restore BG Overlay, bottom right is default
 function PVPMetrics.restoreBgOverlayPosition()
@@ -32,7 +70,10 @@ end
 -- Hide or Show BG GUI Overlay
 function PVPMetrics.displayBGOverlay(show)
   if ( show )then
+    PVPMetrics.restoreBgOverlayPosition()
     PVPBGOverlay:SetHidden(false)
+    --MeterBar_show()
+    -- TODO New bar here
   else
     PVPBGOverlay:SetHidden(true)
   end
@@ -72,15 +113,18 @@ function PVPMetrics.onBgStateChange(eventCode, previousState, currentState)
   end
 end
 
--- SECTION BG Functions
+-- SECTION BG Functions --------------------------------------------------------------------------------------
 
 -- When entering a BG
 function PVPMetrics.enteredBG()
   PVPMetrics.resetLiveStats()
-  PVPMetrics.restoreBgOverlayPosition()
   PVPMetrics.updateBGOverlayText()
   PVPMetrics.updateBgColors()
   PVPMetrics.displayBGOverlay(true)
+
+  if PVPMetrics.pvpmetricsdata.settings.equipTabardEnabled then
+    PVPMetrics.wearTabard(true)
+  end
 end
 
 -- BG scoreboard update
@@ -110,7 +154,7 @@ function PVPMetrics.onBGMedal(eventCode, medalId, name, iconFilename, value)
 end
 
 
--- SECTION CYRO Functions
+-- SECTION CYRO Functions --------------------------------------------------------------------------------------
 
 -- When entering a Cyro
 function PVPMetrics.enteredCyro()
@@ -118,16 +162,22 @@ function PVPMetrics.enteredCyro()
   --PVPMetrics.restoreCyroOverlayPosition()
   --PVPMetrics.updateCyroOverlayText()
   --PVPMetrics.displayCyroOverlay(true)
+  if PVPMetrics.pvpmetricsdata.settings.equipTabardEnabled then
+    PVPMetrics.wearTabard(true)
+  end
 end
 
 
--- SECTION Normal world Functions
+-- SECTION Normal world Functions --------------------------------------------------------------------------------------
 
 function PVPMetrics.noPVPZone()
   PVPMetrics.displayBGOverlay(false)
+  if PVPMetrics.pvpmetricsdata.settings.equipTabardEnabled then
+    PVPMetrics.wearTabard(false)
+  end
 end
 
--- SECTION Common Functions
+-- SECTION Common Functions --------------------------------------------------------------------------------------
 
 function PVPMetrics.onDeath()
 
@@ -138,7 +188,7 @@ function PVPMetrics.interp(s, tab)
 end
 
 function PVPMetrics.onKill(source, killed)
-  if (PVPMetrics.pvpmetricsdata.settings.killSound > 1) then
+  if (PVPMetrics.pvpmetricsdata.settings.killSound > DEFINES.NOSOUND) then
     PlaySound(killSounds[PVPMetrics.pvpmetricsdata.settings.killSound])
   end
   if PVPMetrics.pvpmetricsdata.settings.killingblowMsgEnabled then
@@ -189,13 +239,19 @@ end
 
 
 
--- SECTION DEBUGGING Commands
+-- SECTION DEBUGGING Commands --------------------------------------------------------------------------------------
 
--- Debugging function, /metricsbgov 1 (show bg GUI) /metricsbgov 2 (hide bg GUI)
+-- /metricsbgov 1 (show bg GUI) /metricsbgov 2 (hide bg GUI)
 function DEBUGdisplayBGOverlay(arg)
   if arg == "1" then PVPMetrics.displayBGOverlay(true) else PVPMetrics.displayBGOverlay(false) end
 end
 SLASH_COMMANDS["/metricsbgov"] = DEBUGdisplayBGOverlay
+
+-- Updates score of BG overlay value
+function DEBUGdisplayBGVal(arg)
+  MeterBar_update(0,tonumber(arg))
+end
+SLASH_COMMANDS["/metricsbgval"] = DEBUGdisplayBGVal
 
 -- Debugging function, /metricsreset (Reset all settings)
 function DEBUGRESET(arg)
@@ -220,7 +276,7 @@ function DEBUGSOUNDTEST(arg)
 end
 SLASH_COMMANDS["/playsound"] = DEBUGSOUNDTEST
 
--- Print all live data
+-- Test KB overlay, deprecated
 function DEBUGREIMG(arg)
   killingBlowOverlay:SetHidden(false)
   if arg == "hide" then
@@ -230,18 +286,37 @@ function DEBUGREIMG(arg)
 end
 SLASH_COMMANDS["/metricsimg"] = DEBUGREIMG
 
--- Print all live data
+-- Test KB function
 function DEBUGKB(arg)
   PVPMetrics.onKill("Hobo", "Thalo")
 end
 SLASH_COMMANDS["/metrickb"] = DEBUGKB
 
--- SECTION CORE functionality
+-- Test Guild Listing of tabards
+function DEBUGTABARDLIST(arg)
+  PVPMetrics.getTabardList()
+  d(tabardOptions)
+end
+SLASH_COMMANDS["/metricltab"] = DEBUGTABARDLIST
+
+-- toggle tabard
+function DEBUGTABARDTOG(arg)
+  PVPMetrics.wearTabard(tonumber(arg))
+end
+SLASH_COMMANDS["/metrictabtog"] = DEBUGTABARDTOG
+
+
+
+-- SECTION CORE functionality --------------------------------------------------------------------------------------
 
 -- PVP Metrics class
 function PVPMetrics:Initialize()
   self.pvpmetricsdata = ZO_SavedVars:NewCharacterIdSettings("pvpmetricsdata", 1, nil, {})
   
+  -- Live variables
+  self.live = liveDefaults
+  PVPMetrics.getTabardList()
+
   -- Generate menu options
   PVPMetrics.menuSettings()
   
@@ -269,20 +344,14 @@ function PVPMetrics:Initialize()
   --EVENT_MANAGER:RegisterForEvent(PVPMetrics.name, EVENT_DUEL_FINISHED, self.onDuelFinish)
   --EVENT_MANAGER:RegisterForEvent(PVPMetrics.name, EVENT_DUEL_STARTED, self.onDuelStart)
 
-  -- Live variables
-  self.live = liveDefaults
-
   PVPMetrics.onZoneChange()
 end
-
 
 function PVPMetrics.OnAddOnLoaded(event, addonName)
   if addonName == PVPMetrics.name then
     PVPMetrics:Initialize()
   end
 end
-
-
 
 -- SECTION MAIN - The initial event to load the Addon
 do
