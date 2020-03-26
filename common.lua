@@ -9,13 +9,10 @@ liveDefaults = {
 
 -- Default Saved settings
 settingsDefault = {
-  bgOverlayEnabled = true,
-  bgOverlayLeft = 0,
-  bgOverlayRight = 0,
-
-  CyroOverlayEnabled = true,
-  CyroOverlayLeft = 0,
-  CyroOverlayRight = 0,
+  OverlayEnabledBG = true,
+  OverlayEnabledCryo = false,
+  OverlayLeft = 0,
+  OverlayTop = 0,
 
   KillSound = 1, -- ID to soundOptions
   killingblowMsgEnabled = true,
@@ -34,6 +31,10 @@ tabardOptions = {
 --Defines
 DEFINES = {}
 DEFINES.NOSOUND = 1
+DEFINES.TABARDID = 55262
+DEFINES.BG = 69
+DEFINES.CYRO = 420
+DEFINES.NORM = 42
 
 -- The option names for sound
 soundOptions = {

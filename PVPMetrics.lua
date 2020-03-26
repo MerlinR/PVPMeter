@@ -3,7 +3,8 @@ PVPMetrics.name = "PVPMetrics"
 
 -- TODO
 -- LiveSetting saved? No No
--- PVPMetrics.pvpmetricsdata = liveDefaults ?????????
+-- Split into 'classes'
+-- Auto accept BGs?
 
 function PVPMetrics.InitializeProfile()
   if PVPMetrics.pvpmetricsdata.settings == nil then
@@ -12,35 +13,35 @@ function PVPMetrics.InitializeProfile()
   end
 end
 
--- SECTION Misc --------------------------------------------------------------------------------------
 
+-- SECTION Misc --------------------------------------------------------------------------------------
 
 -- Gathers list of tabards and guilds in backpack and worn
 function PVPMetrics.getTabardList()
   for i=0,GetBagSize(BAG_BACKPACK) do
     -- 55262 = GuildTabard ID https://esoitem.uesp.net/itemLink.php?itemid=55262&summary
-    if GetItemId(BAG_BACKPACK, i) == 55262 then
+    if GetItemId(BAG_BACKPACK, i) == DEFINES.TABARDID then
       table.insert( tabardOptions, GetItemCreatorName(BAG_BACKPACK, i))
     end
   end
   for i=0,GetBagSize(BAG_WORN) do
-    if GetItemId(BAG_WORN, i) == 55262 then
+    if GetItemId(BAG_WORN, i) == DEFINES.TABARDID then
       table.insert( tabardOptions, GetItemCreatorName(BAG_WORN, i))
     end
   end
 end
 
--- Wear tabard or removes tabard, removes any tabard
+-- Wear tabard or removes tabard, removes only selected tabard
 function PVPMetrics.wearTabard(wear)
   if wear then
     for i=0,GetBagSize(BAG_BACKPACK) do
-      if GetItemId(BAG_BACKPACK, i) == 55262 and GetItemCreatorName(BAG_BACKPACK, i) == PVPMetrics.pvpmetricsdata.settings.equipTabard then
+      if GetItemId(BAG_BACKPACK, i) == DEFINES.TABARDID and GetItemCreatorName(BAG_BACKPACK, i) == PVPMetrics.pvpmetricsdata.settings.equipTabard then
         EquipItem(BAG_BACKPACK, i, EQUIP_SLOT_COSTUME)
       end
     end
   else
     for i=0,GetBagSize(BAG_WORN) do
-      if GetItemId(BAG_WORN, i) == 55262 then
+      if GetItemId(BAG_WORN, i) == DEFINES.TABARDID and GetItemCreatorName(BAG_WORN, i) == PVPMetrics.pvpmetricsdata.settings.equipTabard then
         UnequipItem(EQUIP_SLOT_COSTUME)
       end
     end
@@ -48,95 +49,58 @@ function PVPMetrics.wearTabard(wear)
 end
 
 
--- SECTION BG GUI's --------------------------------------------------------------------------------------
-
--- Restore BG Overlay, bottom right is default
-function PVPMetrics.restoreBgOverlayPosition()
-  if PVPMetrics.pvpmetricsdata.settings.bgOverlayLeft ~= nil then
-    PVPBGOverlay:ClearAnchors()
-    PVPBGOverlay:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, PVPMetrics.pvpmetricsdata.settings.bgOverlayLeft, PVPMetrics.pvpmetricsdata.settings.bgOverlayTop)
-  else
-    PVPBGOverlay:ClearAnchors()
-    PVPBGOverlay:SetAnchor(BOTTOMRIGHT, GuiRoot, BOTTOMRIGHT, 0, 0)
-  end
-end
+-- SECTION GUI --------------------------------------------------------------------------------------
 
 -- Save Position of BG Overlay when moved
-function PVPMetrics.OnBGOverlayMoveStop()
-  PVPMetrics.pvpmetricsdata.settings.bgOverlayLeft = PVPBGOverlay:GetLeft()
-  PVPMetrics.pvpmetricsdata.settings.bgOverlayTop = PVPBGOverlay:GetTop()
+function PVPMetrics.OnOverlayMoveStop()
+  PVPMetrics.pvpmetricsdata.settings.OverlayLeft = MeterBar_getLeft()
+  PVPMetrics.pvpmetricsdata.settings.OverlayTop = MeterBar_getTop()
 end
+
 
 -- Hide or Show BG GUI Overlay
-function PVPMetrics.displayBGOverlay(show)
-  if ( show )then
-    PVPMetrics.restoreBgOverlayPosition()
-    PVPBGOverlay:SetHidden(false)
-    --MeterBar_show()
-    -- TODO New bar here
+function PVPMetrics.displayOverlay(display)
+  if ( display )then
+    MeterBar_restore(PVPMetrics.pvpmetricsdata.settings.OverlayLeft, PVPMetrics.pvpmetricsdata.settings.OverlayTop)
+    MeterBar_display(true)
   else
-    PVPBGOverlay:SetHidden(true)
+    MeterBar_display(false)
   end
 end
 
--- Update BG GUI text
-function PVPMetrics.updateBGOverlayText()
-  PVPBGOverlayKill:SetText(PVPMetrics.live.kills)
-  PVPBGOverlayAssist:SetText(PVPMetrics.live.assists)
-  PVPBGOverlayDeath:SetText(PVPMetrics.live.deaths)
-  PVPBGOverlayScore:SetText(PVPMetrics.live.bgScore)
-end
-
--- Set BG GUI Colors
-function PVPMetrics.updateBgColors()
-  local alliance = GetUnitBattlegroundAlliance("player")
-
-  -- setColor(R,G,B)
-  if ( alliance == BATTLEGROUND_ALLIANCE_FIRE_DRAKES ) then
-		PVPBGOverlayIconControlIcon:SetColor(0.85,0.4,00)
-  elseif ( alliance == BATTLEGROUND_ALLIANCE_PIT_DAEMONS ) then
-		PVPBGOverlayIconControlIcon:SetColor(0.36,0.6,0.0)
-  elseif ( alliance == BATTLEGROUND_ALLIANCE_STORM_LORDS ) then
-		PVPBGOverlayIconControlIcon:SetColor(0.5,0.3,0.6)
-  end
-
-  PVPBGOverlayIconControlIcon:SetTexture( GetBattlegroundTeamIcon(alliance))
-end
-
-
--- When state changes to end or postgame, hide
--- TODO Store results for review after
-function PVPMetrics.onBgStateChange(eventCode, previousState, currentState)
-  -- Hides BG GUI during end of match screen
-  if ( currentState == BATTLEGROUND_STATE_FINISHED or currentState == BATTLEGROUND_STATE_POSTGAME) then
-    PVPMetrics.displayBGOverlay(false)
-  end
-end
 
 -- SECTION BG Functions --------------------------------------------------------------------------------------
 
 -- When entering a BG
 function PVPMetrics.enteredBG()
   PVPMetrics.resetLiveStats()
-  PVPMetrics.updateBGOverlayText()
-  PVPMetrics.updateBgColors()
-  PVPMetrics.displayBGOverlay(true)
+  MeterBar_resetMeter()
+  MeterBar_setColors(DEFINES.BG, GetUnitBattlegroundAlliance("player"))
+  PVPMetrics.displayOverlay(true)
 
   if PVPMetrics.pvpmetricsdata.settings.equipTabardEnabled then
     PVPMetrics.wearTabard(true)
   end
 end
 
+
 -- BG scoreboard update
 function PVPMetrics.onScoreUpdate()
   --GetCurrentBattlegroundScore(GetUnitBattlegroundAlliance("player"))
   local playerIndx = GetScoreboardPlayerEntryIndex()
+  local teamScore = GetCurrentBattlegroundScore(GetUnitBattlegroundAlliance("player"))
+  local scoreToWin = GetScoreToWinBattleground(GetCurrentBattlegroundId())
   PVPMetrics.live.kills =   GetScoreboardEntryScoreByType(playerIndx, SCORE_TRACKER_TYPE_KILL)
   PVPMetrics.live.assists = GetScoreboardEntryScoreByType(playerIndx, SCORE_TRACKER_TYPE_ASSISTS)
   PVPMetrics.live.deaths =  GetScoreboardEntryScoreByType(playerIndx, SCORE_TRACKER_TYPE_DEATH)
   PVPMetrics.live.bgScore = GetScoreboardEntryScoreByType(playerIndx, SCORE_TRACKER_TYPE_SCORE)
-  PVPMetrics.updateBGOverlayText()
+  
+  MeterBar_setLabels(PVPMetrics.live.bgScore,PVPMetrics.live.kills,PVPMetrics.live.assists,
+                     PVPMetrics.live.deaths)
+
+  MeterBar_increment((teamScore/scoreToWin))
 end
+
 
 -- Kills or assists(not always correct assists)
 -- Could pop up the name of killer so we know what bastard to chase after "NoobKilla69 killed ya bitch"
@@ -154,14 +118,20 @@ function PVPMetrics.onBGMedal(eventCode, medalId, name, iconFilename, value)
 end
 
 
+-- When state changes to end or postgame, hide
+-- TODO Store results for review after
+function PVPMetrics.onBgStateChange(eventCode, previousState, currentState)
+  -- Hides BG GUI during end of match screen
+  if ( currentState == BATTLEGROUND_STATE_FINISHED or currentState == BATTLEGROUND_STATE_POSTGAME) then
+    PVPMetrics.displayOverlay(false)
+  end
+end
+
+
 -- SECTION CYRO Functions --------------------------------------------------------------------------------------
 
 -- When entering a Cyro
 function PVPMetrics.enteredCyro()
-  --PVPMetrics.resetLiveStats()
-  --PVPMetrics.restoreCyroOverlayPosition()
-  --PVPMetrics.updateCyroOverlayText()
-  --PVPMetrics.displayCyroOverlay(true)
   if PVPMetrics.pvpmetricsdata.settings.equipTabardEnabled then
     PVPMetrics.wearTabard(true)
   end
@@ -171,13 +141,13 @@ end
 -- SECTION Normal world Functions --------------------------------------------------------------------------------------
 
 function PVPMetrics.noPVPZone()
-  PVPMetrics.displayBGOverlay(false)
+  PVPMetrics.displayOverlay(false)
   if PVPMetrics.pvpmetricsdata.settings.equipTabardEnabled then
     PVPMetrics.wearTabard(false)
   end
 end
 
--- SECTION Common Functions --------------------------------------------------------------------------------------
+-- SECTION Common Combat Functions --------------------------------------------------------------------------------------
 
 function PVPMetrics.onDeath()
 
@@ -195,8 +165,8 @@ function PVPMetrics.onKill(source, killed)
     local params = CENTER_SCREEN_ANNOUNCE:CreateMessageParams(CSA_CATEGORY_MAJOR_TEXT, SOUNDS.ABILITY_NOT_READY)
     params:SetCSAType(CENTER_SCREEN_ANNOUNCE_TYPE_POI_DISCOVERED)
     params:SetText(PVPMetrics.interp(PVPMetrics.pvpmetricsdata.settings.killingblowMsg, {player = source, target = killed}))
-    --params:SetIconData("art/icons/ability_warden_018_c.dds", "art/icons/ability_warden_018_c.dds")
-    -- Icons, Background
+    --params:SetIconData("art/icons/ability_warden_018_c.dds", "art/icons/ability_warden_018_c.dds") -- Icons, Background
+
     params:MarkShowImmediately()
     CENTER_SCREEN_ANNOUNCE:AddMessageWithParams(params)
     -- https://www.esoui.com/forums/showthread.php?t=7038
@@ -214,42 +184,44 @@ function PVPMetrics.combatEvent(eventCode, actionResult, isError, abilityName, a
 end
 
 
+-- SECTION Common Functions --------------------------------------------------------------------------------------
+
 function PVPMetrics.resetLiveStats()
   PVPMetrics.live = nil
   PVPMetrics.live = liveDefaults
 end
 
+
 function PVPMetrics.onZoneChange()
   -- TODO Finish up instances, remove debugging prints
-  if PVPMetrics.live.zone ~= "BG" and IsActiveWorldBattleground() then
-    PVPMetrics.live.zone = "BG"
+  if PVPMetrics.live.zone ~= DEFINES.BG and IsActiveWorldBattleground() then
+    PVPMetrics.live.zone = DEFINES.BG
     if ( PVPMetrics.pvpmetricsdata.settings.bgOverlayEnabled ) then
       PVPMetrics.enteredBG()
     end
-  elseif PVPMetrics.live.zone ~= "CYRO" and (IsPlayerInAvAWorld() or IsInImperialCity()) then
-    PVPMetrics.live.zone = "CYRO"
+  elseif PVPMetrics.live.zone ~= DEFINES.CYRO and (IsPlayerInAvAWorld() or IsInImperialCity()) then
+    PVPMetrics.live.zone = DEFINES.CYRO
     if ( PVPMetrics.pvpmetricsdata.settings.bgOverlayEnabled ) then
       PVPMetrics.enteredCyro()
     end
   elseif IsActiveWorldBattleground() == false and IsPlayerInAvAWorld() == false and IsInImperialCity() == false then
     PVPMetrics.noPVPZone()
-    PVPMetrics.live.zone = "NORM"
+    PVPMetrics.live.zone = DEFINES.NORM
   end
 end
-
 
 
 -- SECTION DEBUGGING Commands --------------------------------------------------------------------------------------
 
 -- /metricsbgov 1 (show bg GUI) /metricsbgov 2 (hide bg GUI)
-function DEBUGdisplayBGOverlay(arg)
-  if arg == "1" then PVPMetrics.displayBGOverlay(true) else PVPMetrics.displayBGOverlay(false) end
+function DEBUGdisplayOverlay(arg)
+  if arg == "1" then MeterBar_display(true) else MeterBar_display(false) end
 end
-SLASH_COMMANDS["/metricsbgov"] = DEBUGdisplayBGOverlay
+SLASH_COMMANDS["/metricsbgov"] = DEBUGdisplayOverlay
 
 -- Updates score of BG overlay value
 function DEBUGdisplayBGVal(arg)
-  MeterBar_update(0,tonumber(arg))
+  MeterBar_increment(tonumber(arg))
 end
 SLASH_COMMANDS["/metricsbgval"] = DEBUGdisplayBGVal
 
@@ -276,35 +248,12 @@ function DEBUGSOUNDTEST(arg)
 end
 SLASH_COMMANDS["/playsound"] = DEBUGSOUNDTEST
 
--- Test KB overlay, deprecated
-function DEBUGREIMG(arg)
-  killingBlowOverlay:SetHidden(false)
-  if arg == "hide" then
-    killingBlowOverlay:SetHidden(true)
-  end
-  killingBlowOverlayIcon:SetTexture(arg) 
-end
-SLASH_COMMANDS["/metricsimg"] = DEBUGREIMG
 
 -- Test KB function
 function DEBUGKB(arg)
   PVPMetrics.onKill("Hobo", "Thalo")
 end
 SLASH_COMMANDS["/metrickb"] = DEBUGKB
-
--- Test Guild Listing of tabards
-function DEBUGTABARDLIST(arg)
-  PVPMetrics.getTabardList()
-  d(tabardOptions)
-end
-SLASH_COMMANDS["/metricltab"] = DEBUGTABARDLIST
-
--- toggle tabard
-function DEBUGTABARDTOG(arg)
-  PVPMetrics.wearTabard(tonumber(arg))
-end
-SLASH_COMMANDS["/metrictabtog"] = DEBUGTABARDTOG
-
 
 
 -- SECTION CORE functionality --------------------------------------------------------------------------------------
